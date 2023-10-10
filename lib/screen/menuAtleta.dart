@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: MenuAtletaApp(),
     );
   }
@@ -49,13 +49,13 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
     return Scaffold(
       body: PageView(
         controller: pc,
-        children: [
+        onPageChanged: setPaginaAtual,
+        children: const [
           CronometroApp(),
           LoginApp(),
           EsqueciSenhaApp(),
           CadastroApp()
         ],
-        onPageChanged: setPaginaAtual,
       ),
       bottomNavigationBar: SizedBox(
           height: 70,
@@ -85,7 +85,7 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
                 setState(() {
                   paginaAtual = index;
                   pc.animateToPage(index,
-                      duration: Duration(milliseconds: 400),
+                      duration: const Duration(milliseconds: 400),
                       curve: Curves.ease);
                 });
               },

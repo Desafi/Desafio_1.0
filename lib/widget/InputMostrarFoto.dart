@@ -10,6 +10,7 @@ class InputMostrarFoto extends StatelessWidget {
     required this.showImageFunction, // Adicione este parâmetro
   });
 
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -27,12 +28,12 @@ class InputMostrarFoto extends StatelessWidget {
           ),
           fillColor: Colors.grey[200],
           filled: true,
-          border: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
           labelText: hintText,
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             color: Colors.black54,
           ),
-          suffixIcon: Icon(
+          suffixIcon: const Icon(
             Icons.image,
             color: Colors.blue,
           ),

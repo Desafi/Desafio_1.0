@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: CadastroPreTreinoApp(),
     );
   }
@@ -31,7 +31,7 @@ class CadastroPreTreinoApp extends StatefulWidget {
 class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
   CadastroPreTreino cadastro = CadastroPreTreino("", "", "", "");
 
-  List<String> _kOptions = <String>[
+  final List<String> _kOptions = <String>[
     'joão',
     'lamarca',
     'caio',
@@ -40,11 +40,11 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
   @override
   Widget build(BuildContext context) {
     List<DropdownMenuItem<String>> menuItems = [
-      DropdownMenuItem(child: Text("Crawl"), value: "Crawl"),
-      DropdownMenuItem(child: Text("Costas"), value: "Costas"),
+      const DropdownMenuItem(value: "Crawl", child: Text("Crawl")),
+      const DropdownMenuItem(value: "Costas", child: Text("Costas")),
     ];
 
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -53,7 +53,7 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
         child: SingleChildScrollView(
           child: SafeArea(
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: Column(
                 children: [
                   const SizedBox(
@@ -68,14 +68,14 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                     'Cadastre pré-treino',
                     style: GoogleFonts.plusJakartaSans(
                       textStyle:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 26),
+                          const TextStyle(fontWeight: FontWeight.w600, fontSize: 26),
                     ),
                   ),
                   Text(
                     'Preencha as informações:',
                     style: GoogleFonts.plusJakartaSans(
                       textStyle:
-                          TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
+                          const TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
                     ),
                   ),
                   const SizedBox(
@@ -84,7 +84,7 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Digite o nome do atleta",
+                      const Text("Digite o nome do atleta",
                           textAlign: TextAlign.start),
                       Autocomplete<String>(
                         optionsBuilder: (TextEditingValue textEditingValue) {
@@ -117,7 +117,7 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                       ),
                       fillColor: Colors.grey[200],
                       filled: true,
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       labelText: 'Frequencia cardíaca',
                     ),
                     validator: (value) {
@@ -143,11 +143,11 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                     },
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey, width: 1),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey),
+                          borderSide: const BorderSide(color: Colors.grey),
                           borderRadius: BorderRadius.circular(5)),
                       filled: true,
                       fillColor: Colors.grey[200],
@@ -155,7 +155,7 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                     onChanged: (String? value) {
                       selectValue = value;
                     },
-                    hint: Text('Selecione uma opção'),
+                    hint: const Text('Selecione uma opção'),
                   ),
                   const SizedBox(
                     height: 20,
@@ -164,7 +164,7 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                     hintText: "Iniciar",
                     cor: Colors.blueAccent,
                     onTap: () {
-                      if (_formKey.currentState!.validate()) {
+                      if (formKey.currentState!.validate()) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Processing Data')),
                         );
@@ -174,7 +174,7 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                   const SizedBox(
                     height: 10,
                   ),
-                  BotaoPrincipal(hintText: "Cancelar", cor: Colors.amber),
+                  const BotaoPrincipal(hintText: "Cancelar", cor: Colors.amber),
                 ],
               ),
             ),

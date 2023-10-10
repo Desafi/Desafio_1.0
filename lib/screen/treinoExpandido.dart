@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: TelaExpandidaApp(),
     );
   }
@@ -29,7 +29,7 @@ class _TelaExpandidaAppState extends State<TelaExpandidaApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFebf5f6),
+      backgroundColor: const Color(0xFFebf5f6),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
@@ -41,19 +41,19 @@ class _TelaExpandidaAppState extends State<TelaExpandidaApp> {
                   height: 75,
                 ),
                 Image.asset('assets/images/logoUnaerp.png', width: 200),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
-                SizedBox(height: 30.0),
-                Text(
+                const SizedBox(height: 30.0),
+                const Text(
                   'Informações da prova',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10.0),
-                Text('Aqui mostra uma descrição detalhada sobre sua prova:',
+                const SizedBox(height: 10.0),
+                const Text('Aqui mostra uma descrição detalhada sobre sua prova:',
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.w300)),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     IconesTreino(
@@ -84,7 +84,7 @@ class _TelaExpandidaAppState extends State<TelaExpandidaApp> {
                     ),
                   ],
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     IconesTreino(
@@ -116,7 +116,7 @@ class _TelaExpandidaAppState extends State<TelaExpandidaApp> {
                     ),
                   ],
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     IconesTreino(
@@ -130,39 +130,39 @@ class _TelaExpandidaAppState extends State<TelaExpandidaApp> {
                     ),
                   ],
                 ),
-                Text(
+                const Text(
                   'Voltas',
                   style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500),
                 ),
-                SizedBox(height: 10.0),
+                const SizedBox(height: 10.0),
                 Container(
                   width: 400.0,
                   height: 400.0,
                   decoration: BoxDecoration(
-                    color: Color(0xFFd3dfe4),
+                    color: const Color(0xFFd3dfe4),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child: Column(
+                  child: const Column(
                     crossAxisAlignment:
                         CrossAxisAlignment.start, // Alinhar à esquerda
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 35.0),
+                        padding: EdgeInsets.symmetric(horizontal: 35.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Volta 1',
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.bold)),
                             Text('01:05.05',
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.bold)),
                             Text('01:05.05',
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.bold)),

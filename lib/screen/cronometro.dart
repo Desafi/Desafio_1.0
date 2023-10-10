@@ -3,22 +3,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: CronometroApp(),
     );
   }
 }
 
 class CronometroApp extends StatefulWidget {
-  const CronometroApp({Key? key});
+  const CronometroApp({super.key});
 
   @override
   State<CronometroApp> createState() => _CronometroAppState();
@@ -48,7 +48,7 @@ class _CronometroAppState extends State<CronometroApp> {
     controlaBtn = !controlaBtn;
     controlaLista = !controlaLista;
 
-    cronometro = Timer.periodic(Duration(milliseconds: 10), (timer) {
+    cronometro = Timer.periodic(const Duration(milliseconds: 10), (timer) {
       if (!pausaCronometro) {
         setState(() {
           milesegundos++;
@@ -63,12 +63,11 @@ class _CronometroAppState extends State<CronometroApp> {
           }
         });
       }
-      ;
     });
   }
 
   void iniciaCronometroVolta() {
-    cronometroVolta = Timer.periodic(Duration(milliseconds: 10), (timer) {
+    cronometroVolta = Timer.periodic(const Duration(milliseconds: 10), (timer) {
       if (!pausaCronometro) {
         setState(() {
           milesegundosVolta++;
@@ -83,7 +82,6 @@ class _CronometroAppState extends State<CronometroApp> {
           }
         });
       }
-      ;
     });
   }
 
@@ -127,219 +125,221 @@ class _CronometroAppState extends State<CronometroApp> {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
-        title: Text('Cronometro'),
+        title: const Text('Cronometro'),
       ),
       body: Center(
         child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "${minutos.toString().padLeft(2, '0')}:${segundos.toString().padLeft(2, '0')}.${milesegundos.toString().padLeft(2, '0')}",
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 50.0,
-                    fontWeight: FontWeight.bold,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "${minutos.toString().padLeft(2, '0')}:${segundos.toString().padLeft(2, '0')}.${milesegundos.toString().padLeft(2, '0')}",
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 50.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                "${minutosVolta.toString().padLeft(2, '0')}:${segundosVolta.toString().padLeft(2, '0')}.${milesegundosVolta.toString().padLeft(2, '0')}",
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.w200,
+                ),
+              ),
+              const SizedBox(height: 25.0),
+              if (clicouVolta)
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Volta',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Tempo das voltas',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Tempo geral',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  "${minutosVolta.toString().padLeft(2, '0')}:${segundosVolta.toString().padLeft(2, '0')}.${milesegundosVolta.toString().padLeft(2, '0')}",
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.w200,
+              const SizedBox(height: 25.0),
+              // Containerlista
+              Visibility(
+                visible: controlaLista,
+                child: Container(
+                  width: 400.0,
+                  height: 400.0,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD3D3D3),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
-                ),
-                SizedBox(height: 25.0),
-                if (clicouVolta)
-                  const Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Volta',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'Tempo das voltas',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'Tempo geral',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                SizedBox(height: 25.0),
-                // Containerlista
-                Visibility(
-                  visible: controlaLista,
-                  child: Container(
-                    width: 400.0,
-                    height: 400.0,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFD3D3D3),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        controller: _scrollController,
-                        itemCount: voltasGeral.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            crossAxisAlignment:
-                                CrossAxisAlignment.start, // Alinhar à esquerda
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 35.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('${index + 1}',
-                                        style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.bold)),
-                                    Text('${voltas[index]}',
-                                        style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.bold)),
-                                    Text('${voltasGeral[index]}',
-                                        style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.bold)),
-                                  ],
-                                ),
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      controller: _scrollController,
+                      itemCount: voltasGeral.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment:
+                              CrossAxisAlignment.start, // Alinhar à esquerda
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 35.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('${index + 1}',
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold)),
+                                  Text('${voltas[index]}',
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold)),
+                                  Text('${voltasGeral[index]}',
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold)),
+                                ],
                               ),
-                              SizedBox(height: 8.0), // Espaço entre os itens da lista
-                            ],
-                          );
-                        }),
-                  ),
-                ),
-                
-                Visibility(
-                  visible: controlaBtnIniciar,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          iniciaCronometro();
-                          iniciaCronometroVolta();
-                          setState(() {
-                            apareceBotoes = true;
-                            controlaBtnIniciar = false;
-                            controlaLista = false;
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                          minimumSize: Size(180.0, 60.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(15.0), // Borda arredondada
-                          ),
-                        ),
-                        child: Text('Iniciar',
-                            style: TextStyle(color: Colors.white, fontSize: 20)),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 25.0),
-                
-                Visibility(
-                  visible: controlaBtn,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          fezVolta();
-                          setState(() {
-                            clicouVolta = true;
-                            controlaLista = true;
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                          minimumSize: Size(180.0, 60.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(15.0), // Borda arredondada
-                          ),
-                        ),
-                        child: Text('Volta',
-                            style: TextStyle(color: Colors.white, fontSize: 20)),
-                      ),
-                      SizedBox(width: 15.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            controlaBtn = false;
-                            pausaCronometro = true;
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 255, 0, 0),
-                          minimumSize: Size(180.0, 60.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(15.0), // Borda arredondada
-                          ),
-                        ),
-                        child: Text('Parar',
-                            style: TextStyle(color: Colors.white, fontSize: 20)),
-                      ),
-                    ],
-                  ),
-                ),
-                
-                Visibility(
-                  visible: pausaCronometro,
-                  child: Column(
-                    children: [
-                       ElevatedButton(
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Enviando relatorio')),
-                          );
-                            resetCronometro();
-                            setState(() {
-                              controlaBtnIniciar = true;
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 69, 214, 33),
-                            minimumSize: Size(180.0, 60.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(15.0), // Borda arredondada
                             ),
-                          ),
-                          child: Text('Enviar',
-                              style: TextStyle(color: Colors.white, fontSize: 20)),
+                            const SizedBox(
+                                height: 8.0), // Espaço entre os itens da lista
+                          ],
+                        );
+                      }),
+                ),
+              ),
+
+              Visibility(
+                visible: controlaBtnIniciar,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        iniciaCronometro();
+                        iniciaCronometroVolta();
+                        setState(() {
+                          apareceBotoes = true;
+                          controlaBtnIniciar = false;
+                          controlaLista = false;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.amber,
+                        minimumSize: const Size(180.0, 60.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(15.0), // Borda arredondada
                         ),
-                SizedBox(height: 25.0),
-      
-                     Row(
+                      ),
+                      child: const Text('Iniciar',
+                          style: TextStyle(color: Colors.white, fontSize: 20)),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 25.0),
+
+              Visibility(
+                visible: controlaBtn,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        fezVolta();
+                        setState(() {
+                          clicouVolta = true;
+                          controlaLista = true;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.amber,
+                        minimumSize: const Size(180.0, 60.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(15.0), // Borda arredondada
+                        ),
+                      ),
+                      child: const Text('Volta',
+                          style: TextStyle(color: Colors.white, fontSize: 20)),
+                    ),
+                    const SizedBox(width: 15.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          controlaBtn = false;
+                          pausaCronometro = true;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+                        minimumSize: const Size(180.0, 60.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(15.0), // Borda arredondada
+                        ),
+                      ),
+                      child: const Text('Parar',
+                          style: TextStyle(color: Colors.white, fontSize: 20)),
+                    ),
+                  ],
+                ),
+              ),
+
+              Visibility(
+                visible: pausaCronometro,
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Enviando relatorio')),
+                        );
+                        resetCronometro();
+                        setState(() {
+                          controlaBtnIniciar = true;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 69, 214, 33),
+                        minimumSize: const Size(180.0, 60.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(15.0), // Borda arredondada
+                        ),
+                      ),
+                      child: const Text('Enviar',
+                          style: TextStyle(color: Colors.white, fontSize: 20)),
+                    ),
+                    const SizedBox(height: 25.0),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
@@ -351,16 +351,17 @@ class _CronometroAppState extends State<CronometroApp> {
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.amber,
-                            minimumSize: Size(180.0, 60.0),
+                            minimumSize: const Size(180.0, 60.0),
                             shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(15.0), // Borda arredondada
+                              borderRadius: BorderRadius.circular(
+                                  15.0), // Borda arredondada
                             ),
                           ),
-                          child: Text('Resetar',
-                              style: TextStyle(color: Colors.white, fontSize: 20)),
+                          child: const Text('Resetar',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20)),
                         ),
-                        SizedBox(width: 16.0),
+                        const SizedBox(width: 16.0),
                         ElevatedButton(
                           onPressed: () {
                             setState(() {
@@ -369,21 +370,23 @@ class _CronometroAppState extends State<CronometroApp> {
                             });
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 0, 140, 255),
-                            minimumSize: Size(180.0, 60.0),
+                            backgroundColor:
+                                const Color.fromARGB(255, 0, 140, 255),
+                            minimumSize: const Size(180.0, 60.0),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0),
                             ),
                           ),
-                          child: Text('Retomar',
-                              style: TextStyle(color: Colors.white, fontSize: 20)),
+                          child: const Text('Retomar',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20)),
                         ),
                       ],
                     ),
-                    ],
-                  ),
+                  ],
                 ),
-              ],
+              ),
+            ],
           ),
         ),
       ),

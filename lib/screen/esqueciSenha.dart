@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(),
-      home: EsqueciSenhaApp(),
+      home: const EsqueciSenhaApp(),
     );
   }
 }
@@ -37,31 +37,31 @@ class _EsqueciSenhaAppState extends State<EsqueciSenhaApp> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 75,
                 ),
                 Image.asset('assets/images/logoUnaerp.png', width: 200),
-                SizedBox(
+                const SizedBox(
                   height: 75,
                 ),
                 Text(
                   'Esqueceu sua senha?',
                   style: GoogleFonts.plusJakartaSans(
                     textStyle:
-                        TextStyle(fontWeight: FontWeight.w600, fontSize: 36),
+                        const TextStyle(fontWeight: FontWeight.w600, fontSize: 36),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
                   'Digite seu e-mail e recupere!',
                   style: GoogleFonts.plusJakartaSans(
                     textStyle:
-                        TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                        const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
                 //Email
@@ -70,7 +70,7 @@ class _EsqueciSenhaAppState extends State<EsqueciSenhaApp> {
                   child: TextField(
                     obscureText: false,
                     decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
+                      enabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                           width: 1,
                           color: Colors.grey,
@@ -78,13 +78,13 @@ class _EsqueciSenhaAppState extends State<EsqueciSenhaApp> {
                       ),
                       fillColor: Colors.grey[100],
                       filled: true,
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       labelText: 'E-mail',
                     ),
                   ),
                 ),
                 //Senha
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Padding(
@@ -96,7 +96,7 @@ class _EsqueciSenhaAppState extends State<EsqueciSenhaApp> {
                         hintText: "Enviar",
                         onTap: () {},
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       BotaoPrincipal(

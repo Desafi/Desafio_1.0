@@ -12,6 +12,7 @@ class IconesTreino extends StatelessWidget {
     required this.informacao,
   });
 
+  @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
@@ -22,17 +23,17 @@ class IconesTreino extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             icone,
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               hintText,
-              style: TextStyle(fontSize: 15),
+              style: const TextStyle(fontSize: 15),
             ),
-            SizedBox(height: 2),
+            const SizedBox(height: 2),
             Text(
               informacao,
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
           ],
         ),

@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: LoginApp(),
     );
   }
@@ -36,7 +36,7 @@ class _LoginAppState extends State<LoginApp> {
               const SizedBox(
                 height: 50,
               ),
-              Center(
+              const Center(
                 child: Text(
                   'Atletas',
                   style: TextStyle(
@@ -62,7 +62,7 @@ class _LoginAppState extends State<LoginApp> {
                     controller.openView();
                   },
                   leading: const Icon(Icons.search),
-                  trailing: <Widget>[],
+                  trailing: const <Widget>[],
                 );
               }, suggestionsBuilder:
                       (BuildContext context, SearchController controller) {
@@ -95,9 +95,9 @@ class _LoginAppState extends State<LoginApp> {
                         width: 400,
                         height: 100,
                         decoration: BoxDecoration(
-                            color: Color(0xFFF7F2FA),
+                            color: const Color(0xFFF7F2FA),
                             borderRadius: BorderRadius.circular(5)),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             CircleAvatar(
@@ -110,14 +110,14 @@ class _LoginAppState extends State<LoginApp> {
                               children: [
                                 Text('Nome: João Antonio',
                                     style: TextStyle(fontSize: 16)),
-                                const SizedBox(
+                                SizedBox(
                                   height: 10,
                                 ),
                                 Text('Telefone: 1699595994',
                                     style: TextStyle(fontSize: 16)),
                               ],
                             ),
-                            const SizedBox(
+                            SizedBox(
                               height: 20,
                             ),
                           ],
@@ -129,9 +129,9 @@ class _LoginAppState extends State<LoginApp> {
                         width: 400,
                         height: 100,
                         decoration: BoxDecoration(
-                            color: Color(0xFFF7F2FA),
+                            color: const Color(0xFFF7F2FA),
                             borderRadius: BorderRadius.circular(5)),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             CircleAvatar(
@@ -144,14 +144,14 @@ class _LoginAppState extends State<LoginApp> {
                               children: [
                                 Text('Nome: Caio Aluizio',
                                     style: TextStyle(fontSize: 16)),
-                                const SizedBox(
+                                SizedBox(
                                   height: 10,
                                 ),
                                 Text('Telefone: 16558551541',
                                     style: TextStyle(fontSize: 16)),
                               ],
                             ),
-                            const SizedBox(
+                            SizedBox(
                               height: 20,
                             ),
                           ],

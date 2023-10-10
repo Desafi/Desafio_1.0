@@ -13,6 +13,7 @@ class BotaoPrincipal extends StatelessWidget {
     this.onTap,
   });
 
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
@@ -20,14 +21,14 @@ class BotaoPrincipal extends StatelessWidget {
         height: 60,
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
         decoration: BoxDecoration(
-          color: this.cor,
+          color: cor,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Center(
           child: Text(
-            this.hintText,
+            hintText,
             style: GoogleFonts.plusJakartaSans(
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,

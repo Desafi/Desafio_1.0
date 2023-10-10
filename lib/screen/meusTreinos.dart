@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: MeusTreinosApp(),
     );
   }
@@ -38,7 +38,7 @@ class _MeusTreinosAppState extends State<MeusTreinosApp> {
               const SizedBox(
                 height: 50,
               ),
-              Center(
+              const Center(
                 child: Text(
                   'Meus Treinos',
                   style: TextStyle(
@@ -68,7 +68,7 @@ class _MeusTreinosAppState extends State<MeusTreinosApp> {
                             controller.openView();
                           },
                           leading: const Icon(Icons.search),
-                          trailing: <Widget>[],
+                          trailing: const <Widget>[],
                         );
                       }, suggestionsBuilder:
                           (BuildContext context, SearchController controller) {
@@ -126,9 +126,9 @@ class _MeusTreinosAppState extends State<MeusTreinosApp> {
                         width: 400,
                         height: 100,
                         decoration: BoxDecoration(
-                            color: Color(0xFFF7F2FA),
+                            color: const Color(0xFFF7F2FA),
                             borderRadius: BorderRadius.circular(5)),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             CircleAvatar(
@@ -141,14 +141,14 @@ class _MeusTreinosAppState extends State<MeusTreinosApp> {
                               children: [
                                 Text('Estilo de treino: borboleta',
                                     style: TextStyle(fontSize: 16)),
-                                const SizedBox(
+                                SizedBox(
                                   height: 10,
                                 ),
                                 Text('Data do treino: 20/09/2023',
                                     style: TextStyle(fontSize: 16)),
                               ],
                             ),
-                            const SizedBox(
+                            SizedBox(
                               height: 20,
                             ),
                           ],
@@ -160,9 +160,9 @@ class _MeusTreinosAppState extends State<MeusTreinosApp> {
                         width: 400,
                         height: 100,
                         decoration: BoxDecoration(
-                            color: Color(0xFFF7F2FA),
+                            color: const Color(0xFFF7F2FA),
                             borderRadius: BorderRadius.circular(5)),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             CircleAvatar(
@@ -175,14 +175,14 @@ class _MeusTreinosAppState extends State<MeusTreinosApp> {
                               children: [
                                 Text('Estilo de treino: Crawl',
                                     style: TextStyle(fontSize: 16)),
-                                const SizedBox(
+                                SizedBox(
                                   height: 10,
                                 ),
                                 Text('Data do treino: 20/08/2023',
                                     style: TextStyle(fontSize: 16)),
                               ],
                             ),
-                            const SizedBox(
+                            SizedBox(
                               height: 20,
                             ),
                           ],

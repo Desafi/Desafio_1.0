@@ -36,7 +36,7 @@ class AdmApp extends StatelessWidget {
                 'assets/images/logoUnaerp.png',
                 width: 200,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
@@ -44,17 +44,17 @@ class AdmApp extends StatelessWidget {
                 'Bem vindo!!',
                 style: GoogleFonts.plusJakartaSans(
                   textStyle:
-                      TextStyle(fontWeight: FontWeight.w600, fontSize: 26),
+                      const TextStyle(fontWeight: FontWeight.w600, fontSize: 26),
                 ),
               ),
               Text(
                 'Escolha uma opção',
                 style: GoogleFonts.plusJakartaSans(
                   textStyle:
-                      TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
+                      const TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Card(
@@ -64,9 +64,9 @@ class AdmApp extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       height: 200,
-                      decoration: BoxDecoration(),
+                      decoration: const BoxDecoration(),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(8),
                             topRight: Radius.circular(8)),
                         child: Image.asset(
@@ -78,13 +78,13 @@ class AdmApp extends StatelessWidget {
                     ),
                     Container(
                       height: 50,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color(0xFFf7f1fb),
                         borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(8),
                             bottomRight: Radius.circular(8)),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Column(
@@ -107,7 +107,7 @@ class AdmApp extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Card(
@@ -117,9 +117,9 @@ class AdmApp extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       height: 200,
-                      decoration: BoxDecoration(),
+                      decoration: const BoxDecoration(),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(8),
                             topRight: Radius.circular(8)),
                         child: Image.asset(
@@ -130,13 +130,13 @@ class AdmApp extends StatelessWidget {
                     ),
                     Container(
                       height: 50,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color(0xFFf7f1fb),
                         borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(8),
                             bottomRight: Radius.circular(8)),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Column(
@@ -159,7 +159,7 @@ class AdmApp extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
             ]),

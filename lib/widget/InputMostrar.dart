@@ -8,6 +8,7 @@ class InputMostrar extends StatelessWidget {
     required this.hintText,
   });
 
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
       enabled: false,
@@ -20,9 +21,9 @@ class InputMostrar extends StatelessWidget {
         ),
         fillColor: Colors.grey[200],
         filled: true,
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
         labelText: hintText,
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: Colors.black54,
         ),
       ),

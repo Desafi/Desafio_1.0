@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: CadastroApp(),
   ));
 }
@@ -28,21 +28,21 @@ class _CadastroAppState extends State<CadastroApp> {
   @override
   Widget build(BuildContext context) {
     List<DropdownMenuItem<String>> menuItems = [
-      const DropdownMenuItem(child: Text("Treinador"), value: "Treinador"),
-      const DropdownMenuItem(child: Text("Atleta"), value: "Atleta"),
+      const DropdownMenuItem(value: "Treinador", child: Text("Treinador")),
+      const DropdownMenuItem(value: "Atleta", child: Text("Atleta")),
     ];
 
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Center(
-            child: Container(
+            child: SizedBox(
               width: 350,
               child: Form(
-                key: _formKey,
+                key: formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -50,21 +50,21 @@ class _CadastroAppState extends State<CadastroApp> {
                       height: 75,
                     ),
                     Image.asset('assets/images/logoUnaerp.png', width: 200),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     Text(
                       textAlign: TextAlign.start,
                       'Cadastre um usuário',
                       style: GoogleFonts.plusJakartaSans(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 26),
                       ),
                     ),
                     Text(
                       'Preencha as informações:',
                       style: GoogleFonts.plusJakartaSans(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             fontWeight: FontWeight.w400, fontSize: 18),
                       ),
                     ),
@@ -89,9 +89,9 @@ class _CadastroAppState extends State<CadastroApp> {
                         ),
                         fillColor: Colors.grey[200],
                         filled: true,
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                         labelText: 'Nome Completo',
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           color: Colors.black54,
                         ),
                       ),
@@ -110,9 +110,9 @@ class _CadastroAppState extends State<CadastroApp> {
                         ),
                         fillColor: Colors.grey[200],
                         filled: true,
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                         labelText: 'E-mail',
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           color: Colors.black54,
                         ),
                       ),
@@ -139,11 +139,11 @@ class _CadastroAppState extends State<CadastroApp> {
                       },
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey, width: 1),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
+                            borderSide: const BorderSide(color: Colors.grey),
                             borderRadius: BorderRadius.circular(5)),
                         filled: true,
                         fillColor: Colors.grey[200],
@@ -151,23 +151,23 @@ class _CadastroAppState extends State<CadastroApp> {
                       onChanged: (String? value) {
                         selectValue = value;
                       },
-                      hint: Text('Selecione uma opção'),
+                      hint: const Text('Selecione uma opção'),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    BotaoPrincipal(
+                    const BotaoPrincipal(
                       hintText: "Cadastrar",
                       cor: Colors.amber,
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    BotaoPrincipal(
+                    const BotaoPrincipal(
                       hintText: "Cancelar",
                       cor: Colors.blueAccent,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                   ],

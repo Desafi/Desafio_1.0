@@ -38,36 +38,36 @@ class _LoginAppState extends State<LoginApp> {
           child: Center(
             child: Form(
               key: _formKey,
-              child: Container(
+              child: SizedBox(
                 width: 350,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 75,
                     ),
                     Image.asset('assets/images/logoUnaerp.png', width: 200),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     Text(
                       'Bem Vindo!',
                       style: GoogleFonts.plusJakartaSans(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 36),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
                       'Faça o login e entre na plataforma.',
                       style: GoogleFonts.plusJakartaSans(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 14),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     //Email
@@ -82,7 +82,7 @@ class _LoginAppState extends State<LoginApp> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
+                        enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1,
                             color: Colors.grey,
@@ -90,12 +90,12 @@ class _LoginAppState extends State<LoginApp> {
                         ),
                         fillColor: Colors.grey[200],
                         filled: true,
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                         labelText: 'E-mail',
                       ),
                     ),
                     //Senha
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     TextFormField(
@@ -108,7 +108,7 @@ class _LoginAppState extends State<LoginApp> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
+                        enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1,
                             color: Colors.grey,
@@ -116,11 +116,11 @@ class _LoginAppState extends State<LoginApp> {
                         ),
                         fillColor: Colors.grey[200],
                         filled: true,
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                         labelText: 'Senha',
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Padding(
@@ -131,7 +131,7 @@ class _LoginAppState extends State<LoginApp> {
                           Text(
                             'Esqueceu sua senha?',
                             style: GoogleFonts.plusJakartaSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 color: Colors.blue,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,
@@ -141,7 +141,7 @@ class _LoginAppState extends State<LoginApp> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 35,
                     ),
                     ElevatedButton(
@@ -149,20 +149,20 @@ class _LoginAppState extends State<LoginApp> {
                         setState(() {
                           if (_formKey.currentState!.validate()) {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => MenuAtletaApp(),
+                              builder: (context) => const MenuAtletaApp(),
                             ));
                           }
                         });
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.amber,
-                        minimumSize: Size(350.0, 60.0),
+                        minimumSize: const Size(350.0, 60.0),
                         shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(15.0), // Borda arredondada
                         ),
                       ),
-                      child: Text('Entrar',
+                      child: const Text('Entrar',
                           style: TextStyle(color: Colors.white, fontSize: 20)),
                     ),
                   ],
