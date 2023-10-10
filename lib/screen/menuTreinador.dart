@@ -35,23 +35,23 @@ class _LoginAppState extends State<LoginApp> {
           destinations: const [
             NavigationDestination(
               icon: Icon(Icons.mode_edit_outline_outlined),
-              label: 'Cadastrar atleta',
+              label: 'Criar atleta',
             ),
             NavigationDestination(
               icon: Icon(Icons.person_pin_outlined),
-              label: 'Gerenciar atleta',
+              label: 'Gerir atleta',
             ),
             NavigationDestination(
               icon: Icon(Icons.pool),
-              label: 'Realizar treino',
+              label: 'Criar treino',
             ),
             NavigationDestination(
               icon: Icon(Icons.article_outlined),
-              label: 'Gerenciar treinos',
+              label: 'Gerir treinos',
             ),
             NavigationDestination(
               icon: Icon(Icons.person),
-              label: 'Perfil\n',
+              label: 'Meu Perfil',
             ),
           ],
           selectedIndex: currentPageIndex,

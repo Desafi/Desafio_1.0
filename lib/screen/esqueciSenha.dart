@@ -1,3 +1,4 @@
+import 'package:desafio/widget/BotaoPrincipal.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -90,47 +91,19 @@ class _EsqueciSenhaAppState extends State<EsqueciSenhaApp> {
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Column(
                     children: [
-                      Container(
-                        padding: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Colors.deepPurple,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Enviar',
-                            style: GoogleFonts.plusJakartaSans(
-                              textStyle: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                        ),
+                      BotaoPrincipal(
+                        cor: Colors.purple,
+                        hintText: "Enviar",
+                        onTap: () {},
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      Container(
-                        padding: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Colors.deepPurple,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Voltar',
-                            style: GoogleFonts.plusJakartaSans(
-                              textStyle: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      BotaoPrincipal(
+                        cor: Colors.blueAccent,
+                        hintText: "Voltar",
+                        onTap: () {},
+                      )
                     ],
                   ),
                 ),

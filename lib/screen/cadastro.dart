@@ -1,6 +1,13 @@
 import 'package:desafio/model/cadastro.dart';
+import 'package:desafio/widget/BotaoPrincipal.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: CadastroApp(),
+  ));
+}
 
 String? selectValue;
 String? sds;
@@ -145,49 +152,22 @@ class _CadastroAppState extends State<CadastroApp> {
                         selectValue = value;
                       },
                       hint: Text('Selecione uma opção'),
-
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Processing Data')),
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amber,
-                        minimumSize: Size(350.0, 60.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(15.0), // Borda arredondada
-                        ),
-                      ),
-                      child: Text('Cadastrar',
-                          style: TextStyle(color: Colors.white, fontSize: 20)),
+                    BotaoPrincipal(
+                      hintText: "Cadastrar",
+                      cor: Colors.amber,
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {});
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 243, 114, 74),
-                        minimumSize: Size(350.0, 60.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(15.0), // Borda arredondada
-                        ),
-                      ),
-                      child: Text('Voltar',
-                          style: TextStyle(color: Colors.white, fontSize: 20)),
+                    BotaoPrincipal(
+                      hintText: "Cancelar",
+                      cor: Colors.blueAccent,
                     ),
-                     SizedBox(
+                    SizedBox(
                       height: 50,
                     ),
                   ],

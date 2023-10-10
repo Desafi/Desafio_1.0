@@ -11,19 +11,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MeusTreinosApp(),
+      home: LoginApp(),
     );
   }
 }
 
-class MeusTreinosApp extends StatefulWidget {
-  const MeusTreinosApp({super.key});
+class LoginApp extends StatefulWidget {
+  const LoginApp({super.key});
 
   @override
-  State<MeusTreinosApp> createState() => _MeusTreinosAppState();
+  State<LoginApp> createState() => _LoginAppState();
 }
 
-class _MeusTreinosAppState extends State<MeusTreinosApp> {
+class _LoginAppState extends State<LoginApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

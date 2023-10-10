@@ -1,9 +1,13 @@
+import 'package:desafio/widget/BotaoPrincipal.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:desafio/model/preTreino.dart';
 
 void main() {
   runApp(const MyApp());
 }
+
+String? selectValue;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -24,25 +28,9 @@ class CadastroPreTreinoApp extends StatefulWidget {
   State<CadastroPreTreinoApp> createState() => _CadastroPreTreinoAppState();
 }
 
-class CadastroPreTreino {
-  String? nome;
-  String? frequenciaCardiaca;
-  String? estiloTreino;
-  String? dataTreino;
-
-  CadastroPreTreino(
-      this.nome, this.frequenciaCardiaca, this.estiloTreino, this.dataTreino);
-}
-
 class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
-  var _obscuro = true;
-  var _obscuroRepetir = true;
-  var hint = "Digite o nome Atleta";
-
   CadastroPreTreino cadastro = CadastroPreTreino("", "", "", "");
 
-  TextEditingController senhaController = TextEditingController();
-  TextEditingController repetirSenhaController = TextEditingController();
   List<String> _kOptions = <String>[
     'joão',
     'lamarca',
@@ -55,26 +43,29 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
       DropdownMenuItem(child: Text("Crawl"), value: "Crawl"),
       DropdownMenuItem(child: Text("Costas"), value: "Costas"),
     ];
-    String? selectValue = 'Crawl';
 
     final _formKey = GlobalKey<FormState>();
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+        child: SingleChildScrollView(
           child: SafeArea(
             child: Form(
               key: _formKey,
               child: Column(
                 children: [
                   const SizedBox(
-                    height: 30,
+                    height: 75,
+                  ),
+                  Image.asset('assets/images/logoUnaerp.png', width: 200),
+                  const SizedBox(
+                    height: 50,
                   ),
                   Text(
                     textAlign: TextAlign.start,
-                    'Cadastre um usuário',
+                    'Cadastre pré-treino',
                     style: GoogleFonts.plusJakartaSans(
                       textStyle:
                           TextStyle(fontWeight: FontWeight.w600, fontSize: 26),
@@ -90,22 +81,29 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                   const SizedBox(
                     height: 50,
                   ),
-                  Autocomplete<String>(
-                    optionsBuilder: (TextEditingValue textEditingValue) {
-                      if (textEditingValue.text.isEmpty) {
-                       
-                        return const Iterable<String>.empty();
-                      }
-                      return _kOptions.where((String option) {
-                        final inputText = textEditingValue.text.toLowerCase();
-                        final optionText = option.toLowerCase();
-                        return optionText.contains(inputText);
-                      });
-                    },
-                    onSelected: (String selection) {},
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Digite o nome do atleta",
+                          textAlign: TextAlign.start),
+                      Autocomplete<String>(
+                        optionsBuilder: (TextEditingValue textEditingValue) {
+                          if (textEditingValue.text.isEmpty) {
+                            return const Iterable<String>.empty();
+                          }
+                          return _kOptions.where((String option) {
+                            final inputText =
+                                textEditingValue.text.toLowerCase();
+                            final optionText = option.toLowerCase();
+                            return optionText.contains(inputText);
+                          });
+                        },
+                        onSelected: (String selection) {},
+                      ),
+                    ],
                   ),
                   const SizedBox(
-                    height: 50,
+                    height: 30,
                   ),
                   TextFormField(
                     keyboardType: TextInputType.number,
@@ -133,12 +131,19 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                   const SizedBox(
                     height: 10,
                   ),
-                  DropdownButtonFormField(
-                    value: selectValue,
+                  DropdownButtonFormField<String>(
+                    value: null,
                     items: menuItems,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Este campo é obrigatório!";
+                      }
+                      cadastro.estiloTreino = value;
+                      return null;
+                    },
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black, width: 1),
+                        borderSide: BorderSide(color: Colors.grey, width: 1),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       border: OutlineInputBorder(
@@ -150,51 +155,26 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                     onChanged: (String? value) {
                       selectValue = value;
                     },
+                    hint: Text('Selecione uma opção'),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 23, 192, 204),
-                        minimumSize: Size(200.0, 60.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(15.0), // Borda arredondada
-                        ),
-                      ),
-                      child: const Text('Iniciar',
-                          style: TextStyle(color: Colors.white, fontSize: 20)),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Processing Data')),
-                          );
-                        }
-                      },
-                    ),
+                  BotaoPrincipal(
+                    hintText: "Iniciar",
+                    cor: Colors.blueAccent,
+                    onTap: () {
+                      if (_formKey.currentState!.validate()) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Processing Data')),
+                        );
+                      }
+                    },
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 197, 23, 0),
-                        minimumSize: Size(200.0, 60.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(15.0), // Borda arredondada
-                        ),
-                      ),
-                      child: const Text('Cancelar',
-                          style: TextStyle(color: Colors.white, fontSize: 20)),
-                      onPressed: () {},
-                    ),
-                  ),
+                  BotaoPrincipal(hintText: "Cancelar", cor: Colors.amber),
                 ],
               ),
             ),

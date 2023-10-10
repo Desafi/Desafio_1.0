@@ -141,7 +141,7 @@ class MeuPerfil extends StatelessWidget {
                   color: Colors.white,
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage('assets/images/feio.png'),
+                    image: AssetImage('assets/images/person.jpg'),
                   ),
                 ),
               ),

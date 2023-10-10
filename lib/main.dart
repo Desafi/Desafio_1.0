@@ -1,34 +1,34 @@
-import 'package:desafio/menuAtleta.dart';
+import 'package:desafio/screen/menuAtleta.dart';
 import 'package:desafio/model/login.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+// void main() {
+//   runApp(const MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: LoginApp(),
-    );
-  }
-}
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: LoginApp(),
+//     );
+//   }
+// }
 
-class LoginApp extends StatefulWidget{
+class LoginApp extends StatefulWidget {
   const LoginApp({super.key});
 
   @override
   State<StatefulWidget> createState() => _LoginAppState();
 }
 
-class _LoginAppState extends State<LoginApp>{
+class _LoginAppState extends State<LoginApp> {
   final _formKey = GlobalKey<FormState>();
-  Login login = Login("","");
+  Login login = Login("", "");
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +38,9 @@ class _LoginAppState extends State<LoginApp>{
           child: Center(
             child: Form(
               key: _formKey,
-               child: Container(
+              child: Container(
                 width: 350,
-                 child: Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
@@ -53,8 +53,8 @@ class _LoginAppState extends State<LoginApp>{
                     Text(
                       'Bem Vindo!',
                       style: GoogleFonts.plusJakartaSans(
-                        textStyle:
-                            TextStyle(fontWeight: FontWeight.w600, fontSize: 36),
+                        textStyle: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 36),
                       ),
                     ),
                     SizedBox(
@@ -63,64 +63,62 @@ class _LoginAppState extends State<LoginApp>{
                     Text(
                       'Faça o login e entre na plataforma.',
                       style: GoogleFonts.plusJakartaSans(
-                        textStyle:
-                            TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                        textStyle: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 14),
                       ),
                     ),
                     SizedBox(
                       height: 50,
                     ),
                     //Email
-                    
-                      TextFormField(
-                        obscureText: false,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                           return "Este campo é obrigatório!";
-                          }
-                          login.email = value;
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Colors.grey,
-                            ),
+
+                    TextFormField(
+                      obscureText: false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Este campo é obrigatório!";
+                        }
+                        login.email = value;
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Colors.grey,
                           ),
-                          fillColor: Colors.grey[200],
-                          filled: true,
-                          border: OutlineInputBorder(),
-                          labelText: 'E-mail',
                         ),
-                      
+                        fillColor: Colors.grey[200],
+                        filled: true,
+                        border: OutlineInputBorder(),
+                        labelText: 'E-mail',
+                      ),
                     ),
                     //Senha
                     SizedBox(
                       height: 15,
                     ),
-                       TextFormField(
-                        obscureText: false,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                           return "Este campo é obrigatório!";
-                          }
-                          login.senha = value;
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Colors.grey,
-                            ),
+                    TextFormField(
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Este campo é obrigatório!";
+                        }
+                        login.senha = value;
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Colors.grey,
                           ),
-                          fillColor: Colors.grey[200],
-                          filled: true,
-                          border: OutlineInputBorder(),
-                          labelText: 'Senha',
                         ),
-                      
+                        fillColor: Colors.grey[200],
+                        filled: true,
+                        border: OutlineInputBorder(),
+                        labelText: 'Senha',
+                      ),
                     ),
                     SizedBox(
                       height: 10,
@@ -147,39 +145,33 @@ class _LoginAppState extends State<LoginApp>{
                       height: 35,
                     ),
                     ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        if(_formKey.currentState!.validate()){
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
+                      onPressed: () {
+                        setState(() {
+                          if (_formKey.currentState!.validate()) {
+                            Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => MenuAtletaApp(),
-                              )
-                          );
-                        }
-                    
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.amber,
-                      minimumSize: Size(350.0, 60.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(15.0), // Borda arredondada
+                            ));
+                          }
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.amber,
+                        minimumSize: Size(350.0, 60.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(15.0), // Borda arredondada
+                        ),
                       ),
+                      child: Text('Entrar',
+                          style: TextStyle(color: Colors.white, fontSize: 20)),
                     ),
-                    child: Text('Entrar',
-                        style: TextStyle(color: Colors.white, fontSize: 20)),
-                  ),
                   ],
-                  ),
-               ),
-              
+                ),
+              ),
             ),
           ),
         ),
       ),
     );
-    
   }
-
 }

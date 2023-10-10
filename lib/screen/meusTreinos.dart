@@ -24,6 +24,8 @@ class MeusTreinosApp extends StatefulWidget {
 }
 
 class _MeusTreinosAppState extends State<MeusTreinosApp> {
+  var _mm = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,37 +50,70 @@ class _MeusTreinosAppState extends State<MeusTreinosApp> {
               const SizedBox(
                 height: 50,
               ),
-              SearchAnchor(
-                  builder: (BuildContext context, SearchController controller) {
-                return SearchBar(
-                  controller: controller,
-                  padding: const MaterialStatePropertyAll<EdgeInsets>(
-                      EdgeInsets.symmetric(horizontal: 16.0)),
-                  onTap: () {
-                    controller.openView();
-                  },
-                  onChanged: (_) {
-                    controller.openView();
-                  },
-                  leading: const Icon(Icons.search),
-                  trailing: <Widget>[],
-                );
-              }, suggestionsBuilder:
-                      (BuildContext context, SearchController controller) {
-                List<String> items = [
-                  'Crawl',
-                ];
-                return items.map((String item) {
-                  return ListTile(
-                    title: Text(item),
-                    onTap: () {
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: SearchAnchor(builder:
+                          (BuildContext context, SearchController controller) {
+                        return SearchBar(
+                          controller: controller,
+                          padding: const MaterialStatePropertyAll<EdgeInsets>(
+                              EdgeInsets.symmetric(horizontal: 16.0)),
+                          onTap: () {
+                            controller.openView();
+                          },
+                          onChanged: (_) {
+                            controller.openView();
+                          },
+                          leading: const Icon(Icons.search),
+                          trailing: <Widget>[],
+                        );
+                      }, suggestionsBuilder:
+                          (BuildContext context, SearchController controller) {
+                        List<String> items = [
+                          'Crawl',
+                        ];
+                        return items.map((String item) {
+                          return ListTile(
+                            title: Text(item),
+                            onTap: () {
+                              setState(() {
+                                controller.closeView(item);
+                              });
+                            },
+                          );
+                        }).toList();
+                      }),
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
                       setState(() {
-                        controller.closeView(item);
+                        _mm = !_mm;
                       });
                     },
-                  );
-                }).toList();
-              }),
+                    child: IconButton(
+                      icon: _mm
+                          ? const Icon(Icons.arrow_drop_up)
+                          : const Icon(Icons.arrow_drop_down),
+                      onPressed: () {
+                        setState(() {
+                          _mm = !_mm;
+                        });
+                      },
+                    ),
+                  )
+                ],
+              ),
               const SizedBox(
                 height: 30,
               ),
