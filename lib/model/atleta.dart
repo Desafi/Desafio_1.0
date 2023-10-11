@@ -1,6 +1,6 @@
 class Atleta {
-  String? nomeCompleto;
-  String? email;
+  // String? nomeCompleto;
+  // String? email;
   String? dataDeNascimento;
   String? numeroDeCelular;
   String? numeroDeEmergencia;
@@ -27,7 +27,8 @@ class Atleta {
   String  imagemRg;
 
   Atleta(
-    this.nomeCompleto,this.email,this.dataDeNascimento,this.numeroDeCelular,this.numeroDeEmergencia,this.nacionalidade,     
+    // this.nomeCompleto,this.email,
+    this.dataDeNascimento,this.numeroDeCelular,this.numeroDeEmergencia,this.nacionalidade,     
     this.naturalidade,this.rg,this.cpf,this.sexo,this.cep,this.bairro,this.endereco,this.convenioMedico,this.estilos,
     this.prova,this.nomeDaMae,this.nomeDoPai,this.clubeDeOrigem,this.alergiaAMedicamentos,this.numeroDeCelularAdicional,
     this.imagemAtestado,this.imagemRegulamentoDoAtleta,this.imagemComprovanteDeResidencia,this.imagemCpf,this.imagemRg

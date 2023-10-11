@@ -21,9 +21,7 @@ class CadastroApp extends StatefulWidget {
 
 class _CadastroAppState extends State<CadastroApp> {
   Cadastro cadastro = Cadastro("", "", "");
-
-  TextEditingController senhaController = TextEditingController();
-  TextEditingController repetirSenhaController = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,17 +30,16 @@ class _CadastroAppState extends State<CadastroApp> {
       const DropdownMenuItem(value: "Atleta", child: Text("Atleta")),
     ];
 
-    final formKey = GlobalKey<FormState>();
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Center(
-            child: SizedBox(
-              width: 350,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Form(
-                key: formKey,
+                key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -139,7 +136,8 @@ class _CadastroAppState extends State<CadastroApp> {
                       },
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.grey, width: 1),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         border: OutlineInputBorder(

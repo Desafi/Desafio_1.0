@@ -33,41 +33,40 @@ class _EsqueciSenhaAppState extends State<EsqueciSenhaApp> {
       // resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 75,
-                ),
-                Image.asset('assets/images/logoUnaerp.png', width: 200),
-                const SizedBox(
-                  height: 75,
-                ),
-                Text(
-                  'Esqueceu sua senha?',
-                  style: GoogleFonts.plusJakartaSans(
-                    textStyle:
-                        const TextStyle(fontWeight: FontWeight.w600, fontSize: 36),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 75,
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Digite seu e-mail e recupere!',
-                  style: GoogleFonts.plusJakartaSans(
-                    textStyle:
-                        const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                  Image.asset('assets/images/logoUnaerp.png', width: 200),
+                  const SizedBox(
+                    height: 75,
                   ),
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                //Email
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: TextField(
+                  Text(
+                    'Esqueceu sua senha?',
+                    style: GoogleFonts.plusJakartaSans(
+                      textStyle: const TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 24),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Digite seu e-mail e recupere!',
+                    style: GoogleFonts.plusJakartaSans(
+                      textStyle: const TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 14),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  TextField(
                     obscureText: false,
                     decoration: InputDecoration(
                       enabledBorder: const OutlineInputBorder(
@@ -82,14 +81,13 @@ class _EsqueciSenhaAppState extends State<EsqueciSenhaApp> {
                       labelText: 'E-mail',
                     ),
                   ),
-                ),
-                //Senha
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Column(
+
+                  //Senha
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+                  Column(
                     children: [
                       BotaoPrincipal(
                         cor: Colors.purple,
@@ -106,8 +104,8 @@ class _EsqueciSenhaAppState extends State<EsqueciSenhaApp> {
                       )
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
