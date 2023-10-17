@@ -67,15 +67,15 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                     textAlign: TextAlign.start,
                     'Cadastre pré-treino',
                     style: GoogleFonts.plusJakartaSans(
-                      textStyle:
-                          const TextStyle(fontWeight: FontWeight.w600, fontSize: 26),
+                      textStyle: const TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 26),
                     ),
                   ),
                   Text(
                     'Preencha as informações:',
                     style: GoogleFonts.plusJakartaSans(
-                      textStyle:
-                          const TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
+                      textStyle: const TextStyle(
+                          fontWeight: FontWeight.w400, fontSize: 18),
                     ),
                   ),
                   const SizedBox(
@@ -143,7 +143,8 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                     },
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.grey, width: 1),
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       border: OutlineInputBorder(
@@ -174,7 +175,7 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                   const SizedBox(
                     height: 10,
                   ),
-                  const BotaoPrincipal(hintText: "Cancelar", cor: Colors.amber),
+                  BotaoPrincipal(hintText: "Cancelar", cor: Colors.amber),
                 ],
               ),
             ),

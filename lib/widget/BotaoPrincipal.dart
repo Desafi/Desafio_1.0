@@ -6,7 +6,7 @@ class BotaoPrincipal extends StatelessWidget {
   final Color cor;
   final Function()? onTap;
 
-  const BotaoPrincipal({
+  BotaoPrincipal({
     super.key,
     required this.hintText,
     required this.cor,
@@ -28,7 +28,7 @@ class BotaoPrincipal extends StatelessWidget {
           child: Text(
             hintText,
             style: GoogleFonts.plusJakartaSans(
-              textStyle: const TextStyle(
+              textStyle: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,

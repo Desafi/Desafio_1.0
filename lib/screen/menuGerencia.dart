@@ -46,7 +46,6 @@ class _MenuGerenciaState extends State<MenuGerencia> {
         ),
         body: TabBarView(
           children: [
-            //MeusTreinadores(),
             MeusUsers(cards: [
               CardPessoas(nome: 'João Antônio'),
               CardPessoas(nome: 'Caio'),

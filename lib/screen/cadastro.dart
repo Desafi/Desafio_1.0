@@ -1,5 +1,7 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:desafio/model/cadastro.dart';
 import 'package:desafio/widget/BotaoPrincipal.dart';
+import 'package:desafio/widget/Scaffolds.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,7 +23,7 @@ class CadastroApp extends StatefulWidget {
 
 class _CadastroAppState extends State<CadastroApp> {
   Cadastro cadastro = Cadastro("", "", "");
-    final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,6 @@ class _CadastroAppState extends State<CadastroApp> {
       const DropdownMenuItem(value: "Treinador", child: Text("Treinador")),
       const DropdownMenuItem(value: "Atleta", child: Text("Atleta")),
     ];
-
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -154,16 +155,36 @@ class _CadastroAppState extends State<CadastroApp> {
                     const SizedBox(
                       height: 20,
                     ),
-                    const BotaoPrincipal(
+                    BotaoPrincipal(
                       hintText: "Cadastrar",
                       cor: Colors.amber,
+                      onTap: () {
+                        if (_formKey.currentState!.validate()) {
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.success,
+                            animType: AnimType.bottomSlide,
+                            showCloseIcon: true,
+                            title: "Sucesso",
+                            desc:
+                                "Sucesso ao cadastrar, verifique o e-mail para mais informações!!",
+                            btnOkOnPress: () {},
+                          ).show();
+
+                          // mostrarSucesso(
+                          //     context, "Sucesso ao cadastrar!", Colors.green);
+                        }
+                      },
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    const BotaoPrincipal(
+                    BotaoPrincipal(
                       hintText: "Cancelar",
                       cor: Colors.blueAccent,
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
                     ),
                     const SizedBox(
                       height: 50,

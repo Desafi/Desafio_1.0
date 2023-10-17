@@ -1,5 +1,6 @@
 import 'package:desafio/model/atleta.dart';
 import 'package:desafio/widget/BotaoAdicionar.dart';
+import 'package:desafio/widget/Scaffolds.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -119,7 +120,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
   TextEditingController txtCep = TextEditingController();
 
   Atleta atleta = Atleta("", "", "", "", "", "", "", "", "", "", "", "", "", "",
-      "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+      "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
 
   @override
   Widget build(BuildContext context) {
@@ -246,7 +247,63 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     const SizedBox(
                       height: 10,
                     ),
-
+                    TextFormField(
+                      obscureText: false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Este campo é obrigatório!";
+                        }
+                        atleta.nacionalidade = value;
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        fillColor: Colors.grey[200],
+                        filled: true,
+                        border: const OutlineInputBorder(),
+                        labelText: 'Nacionalidade',
+                        labelStyle: const TextStyle(
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      obscureText: false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Este campo é obrigatório!";
+                        }
+                        atleta.naturalidade = value;
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.phone),
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        fillColor: Colors.grey[200],
+                        filled: true,
+                        border: const OutlineInputBorder(),
+                        labelText: 'Naturalidade',
+                        labelStyle: const TextStyle(
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     //nacionalidade
                     //naturalidade
 
@@ -1138,16 +1195,10 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                             hintText: "Adicionar outro celular",
                             onTap: () {
                               if (camposAdicionais.length > 4) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content:
-                                        Text('Limite de telefones atingidos'),
-                                    backgroundColor: Colors.red,
-                                    behavior: SnackBarBehavior.floating,
-                                    margin: EdgeInsets.all(50),
-                                    elevation: 30,
-                                  ),
-                                );
+                                mostrarErro(
+                                    context,
+                                    'Limite de telefones atingidos',
+                                    Colors.red);
                                 return null;
                               }
                               adicionarCampo();
@@ -1230,9 +1281,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                           foregroundColor: Colors.red,
                         ),
                         onPressed: () {
-                          setState(() {
-                            
-                          });
+                          setState(() {});
                         },
                         child: IconButton(
                           icon: const Icon(Icons.remove),
