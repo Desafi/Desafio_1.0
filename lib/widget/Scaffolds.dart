@@ -6,7 +6,7 @@ void mostrarErro(BuildContext context, String nome, Color cor) {
       content: Text(nome),
       backgroundColor: cor,
       behavior: SnackBarBehavior.floating,
-      margin: EdgeInsets.all(50),
+      margin: const EdgeInsets.all(50),
       elevation: 30,
     ),
   );
@@ -18,7 +18,7 @@ void mostrarSucesso(BuildContext context, String nome, Color cor) {
       content: Text(nome),
       backgroundColor: cor,
       behavior: SnackBarBehavior.floating,
-      margin: EdgeInsets.all(50),
+      margin: const EdgeInsets.all(50),
       elevation: 30,
     ),
   );

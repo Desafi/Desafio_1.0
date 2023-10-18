@@ -15,7 +15,7 @@ class CardTreino extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 90,
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
           color: const Color(0xFFfaedf4),
           borderRadius: BorderRadius.circular(20)),
@@ -25,10 +25,10 @@ class CardTreino extends StatelessWidget {
         children: [
           Text(
             hint,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
           Text(conteudo,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         ],
       ),
     );

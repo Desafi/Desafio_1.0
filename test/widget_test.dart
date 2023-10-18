@@ -1,12 +1,11 @@
 import 'package:desafio/main.dart';
-import 'package:desafio/model/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  final botao1 = Key('botaoCotrole');
-  final emailControle = Key('emailKey');
-  final senhaControle = Key('senhaKey');
+  const botao1 = Key('botaoCotrole');
+  const emailControle = Key('emailKey');
+  const senhaControle = Key('senhaKey');
 
   // testWidgets("Teste de widgets na tela de login", (tester) async {
   //   await tester.pumpWidget(const MaterialApp(

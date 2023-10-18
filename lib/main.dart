@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: LoginApp(),
     );
   }
@@ -80,7 +80,7 @@ class _LoginAppState extends State<LoginApp> {
                     //Email
 
                     TextFormField(
-                      key: Key('emailKey'),
+                      key: const Key('emailKey'),
                       obscureText: false,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -107,7 +107,7 @@ class _LoginAppState extends State<LoginApp> {
                       height: 15,
                     ),
                     TextFormField(
-                      key: Key('senhaKey'),
+                      key: const Key('senhaKey'),
                       obscureText: true,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -138,7 +138,7 @@ class _LoginAppState extends State<LoginApp> {
                         onTap: () async {
                           await Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (context) => EsqueciSenhaApp()),
+                                builder: (context) => const EsqueciSenhaApp()),
                           );
                         },
                         child: Row(
@@ -162,7 +162,7 @@ class _LoginAppState extends State<LoginApp> {
                       height: 35,
                     ),
                     BotaoPrincipal(
-                      key: Key("botaoCotrole"),
+                      key: const Key("botaoCotrole"),
                       cor: Colors.blueAccent,
                       hintText: "Entrar",
                       onTap: () {
@@ -173,7 +173,7 @@ class _LoginAppState extends State<LoginApp> {
                               mensagem = 'Bem-vindo, Administrador!';
                             });
                             Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => AdmApp()),
+                              MaterialPageRoute(builder: (context) => const AdmApp()),
                             );
                           }
 
@@ -184,7 +184,7 @@ class _LoginAppState extends State<LoginApp> {
                             });
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => MenuAtletaApp()),
+                                  builder: (context) => const MenuAtletaApp()),
                             );
                           }
 
@@ -195,7 +195,7 @@ class _LoginAppState extends State<LoginApp> {
                             });
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => MenuTreinadorApp()),
+                                  builder: (context) => const MenuTreinadorApp()),
                             );
                           }
                         }

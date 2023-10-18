@@ -56,7 +56,7 @@ class _MenuTreinadorAppState extends State<MenuTreinadorApp> {
         controller: pc,
         onPageChanged: setPaginaAtual,
         children: [
-          CadastroApp(),
+          const CadastroApp(),
           MeusUsers(cards: [
             CardPessoas(
               nome: 'João Antônio',
@@ -64,13 +64,13 @@ class _MenuTreinadorAppState extends State<MenuTreinadorApp> {
               onTap: () async {
                 await Navigator.of(context).push(
                   MaterialPageRoute(
-                      builder: (context) => TelaExpandidaAtletaApp()),
+                      builder: (context) => const TelaExpandidaAtletaApp()),
                 );
               },
             ),
-            CardPessoas(nome: 'Caio', telefone: '1699595994'),
+            const CardPessoas(nome: 'Caio', telefone: '1699595994'),
           ], titulo: 'Atletas', hintInput: 'Digite o nome do atleta..'),
-          CadastroPreTreinoApp(),
+          const CadastroPreTreinoApp(),
           TreinosApp(
             cards: [
               CardTreinos(
@@ -80,11 +80,11 @@ class _MenuTreinadorAppState extends State<MenuTreinadorApp> {
                 onTap: () async {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
-                        builder: (context) => TreinoExpandidoApp()),
+                        builder: (context) => const TreinoExpandidoApp()),
                   );
                 },
               ),
-              CardTreinos(
+              const CardTreinos(
                 nome: "Aluizio",
                 estilo: "Crawl",
                 data: "12/05/2023",
@@ -92,7 +92,7 @@ class _MenuTreinadorAppState extends State<MenuTreinadorApp> {
             ],
             titulo: "Treinos",
           ),
-          MeuPerfilApp(),
+          const MeuPerfilApp(),
         ],
       ),
       bottomNavigationBar: SafeArea(

@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: DesempenhoApp(),
     );
   }
@@ -67,16 +67,16 @@ class _DesempenhoAppState extends State<DesempenhoApp> {
                   ),
                   Image.asset('assets/images/imagemGrafico.jpg', width: 400),
                   const SizedBox(height: 50),
-                  CardTreino(
+                  const CardTreino(
                       hint: "Tempo total percorrido", conteudo: "01:30:00"),
                   const SizedBox(height: 10),
-                  CardTreino(
+                  const CardTreino(
                       hint: "Média de tempo por volta", conteudo: "02:30:00"),
                   const SizedBox(height: 10),
-                  CardTreino(
+                  const CardTreino(
                       hint: "Frequência média em prova", conteudo: "120"),
                   const SizedBox(height: 10),
-                  CardTreino(hint: "Frequência média parado", conteudo: "80"),
+                  const CardTreino(hint: "Frequência média parado", conteudo: "80"),
                   const SizedBox(height: 50),
                   BotaoPrincipal(
                     hintText: 'Comparar',

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CardPessoas extends StatelessWidget {
   final String nome;
   final String? telefone;
   final Function()? onTap;
 
-  CardPessoas({
+  const CardPessoas({
     super.key,
     required this.nome,
     this.telefone,
@@ -29,25 +28,25 @@ class CardPessoas extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 40,
                   backgroundImage: AssetImage('assets/images/person.jpg'),
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Nome: $nome', style: TextStyle(fontSize: 16)),
-                    SizedBox(
+                    Text('Nome: $nome', style: const TextStyle(fontSize: 16)),
+                    const SizedBox(
                       height: 10,
                     ),
                     Visibility(
                       visible: telefone != null,
                       child: Text('Telefone $telefone',
-                          style: TextStyle(fontSize: 16)),
+                          style: const TextStyle(fontSize: 16)),
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
               ],

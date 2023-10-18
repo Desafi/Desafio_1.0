@@ -28,7 +28,7 @@ class BotaoPrincipal extends StatelessWidget {
           child: Text(
             hintText,
             style: GoogleFonts.plusJakartaSans(
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,

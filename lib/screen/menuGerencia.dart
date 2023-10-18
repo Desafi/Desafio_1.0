@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: MenuGerencia(),
     );
   }
@@ -32,8 +32,8 @@ class _MenuGerenciaState extends State<MenuGerencia> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Gerencie usuarios'),
-          bottom: TabBar(
+          title: const Text('Gerencie usuarios'),
+          bottom: const TabBar(
             tabs: [
               Tab(
                 text: 'Treinador',
@@ -44,7 +44,7 @@ class _MenuGerenciaState extends State<MenuGerencia> {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             MeusUsers(cards: [
               CardPessoas(nome: 'João Antônio'),

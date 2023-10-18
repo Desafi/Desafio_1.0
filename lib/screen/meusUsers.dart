@@ -5,7 +5,7 @@ class MeusUsers extends StatefulWidget {
   final String titulo;
   final String hintInput;
 
-  MeusUsers({
+  const MeusUsers({
     super.key,
     required this.cards,
     required this.titulo,
@@ -33,7 +33,7 @@ class _MeusUsersState extends State<MeusUsers> {
                 Center(
                   child: Text(
                     widget.titulo,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 40,
                     ),

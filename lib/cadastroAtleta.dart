@@ -11,13 +11,13 @@ import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     localizationsDelegates: [
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate
     ],
     supportedLocales: [
-      const Locale('pt'), // Defina o idioma e país desejados
+      Locale('pt'), // Defina o idioma e país desejados
     ],
     home: CadastroAtleta(),
   ));
@@ -43,22 +43,22 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
 
-  var cepFormatter = new MaskTextInputFormatter(
+  var cepFormatter = MaskTextInputFormatter(
       mask: '#####-###',
       filter: {"#": RegExp(r'[0-9]')},
       type: MaskAutoCompletionType.lazy);
 
-  var cpfFormatter = new MaskTextInputFormatter(
+  var cpfFormatter = MaskTextInputFormatter(
       mask: '###.###.###-##',
       filter: {"#": RegExp(r'[0-9]')},
       type: MaskAutoCompletionType.lazy);
 
-  var rgFormatter = new MaskTextInputFormatter(
+  var rgFormatter = MaskTextInputFormatter(
       mask: '##.###.###-#',
       filter: {"#": RegExp(r'[0-9]')},
       type: MaskAutoCompletionType.lazy);
 
-  var celualarFormatter = new MaskTextInputFormatter(
+  var celualarFormatter = MaskTextInputFormatter(
       mask: '(##) # ####-####',
       filter: {"#": RegExp(r'[0-9]')},
       type: MaskAutoCompletionType.lazy);
@@ -82,36 +82,36 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
   ];
 
   List<DropdownMenuItem<String>> estadosBrasil = [
-    DropdownMenuItem(value: "UF", child: Text("UF")),
-    DropdownMenuItem(value: "AC", child: Text("AC")),
-    DropdownMenuItem(value: "AL", child: Text("AL")),
-    DropdownMenuItem(value: "AP", child: Text("AP")),
-    DropdownMenuItem(value: "AM", child: Text("AM")),
-    DropdownMenuItem(value: "BA", child: Text("BA")),
-    DropdownMenuItem(value: "CE", child: Text("CE")),
-    DropdownMenuItem(value: "DF", child: Text("DF")),
-    DropdownMenuItem(value: "ES", child: Text("ES")),
-    DropdownMenuItem(value: "GO", child: Text("GO")),
-    DropdownMenuItem(value: "MA", child: Text("MA")),
-    DropdownMenuItem(value: "MT", child: Text("MT")),
-    DropdownMenuItem(value: "MS", child: Text("MS")),
-    DropdownMenuItem(value: "MG", child: Text("MG")),
-    DropdownMenuItem(value: "PA", child: Text("PA")),
-    DropdownMenuItem(value: "PB", child: Text("PB")),
-    DropdownMenuItem(value: "PR", child: Text("PR")),
-    DropdownMenuItem(value: "PE", child: Text("PE")),
-    DropdownMenuItem(value: "PI", child: Text("PI")),
-    DropdownMenuItem(value: "RJ", child: Text("RJ")),
-    DropdownMenuItem(value: "RN", child: Text("RN")),
-    DropdownMenuItem(value: "RS", child: Text("RS")),
-    DropdownMenuItem(value: "RO", child: Text("RO")),
-    DropdownMenuItem(value: "RR", child: Text("RR")),
-    DropdownMenuItem(value: "SC", child: Text("SC")),
-    DropdownMenuItem(value: "SP", child: Text("SP")),
-    DropdownMenuItem(value: "SE", child: Text("SE")),
-    DropdownMenuItem(value: "TO", child: Text("TO")),
+    const DropdownMenuItem(value: "UF", child: Text("UF")),
+    const DropdownMenuItem(value: "AC", child: Text("AC")),
+    const DropdownMenuItem(value: "AL", child: Text("AL")),
+    const DropdownMenuItem(value: "AP", child: Text("AP")),
+    const DropdownMenuItem(value: "AM", child: Text("AM")),
+    const DropdownMenuItem(value: "BA", child: Text("BA")),
+    const DropdownMenuItem(value: "CE", child: Text("CE")),
+    const DropdownMenuItem(value: "DF", child: Text("DF")),
+    const DropdownMenuItem(value: "ES", child: Text("ES")),
+    const DropdownMenuItem(value: "GO", child: Text("GO")),
+    const DropdownMenuItem(value: "MA", child: Text("MA")),
+    const DropdownMenuItem(value: "MT", child: Text("MT")),
+    const DropdownMenuItem(value: "MS", child: Text("MS")),
+    const DropdownMenuItem(value: "MG", child: Text("MG")),
+    const DropdownMenuItem(value: "PA", child: Text("PA")),
+    const DropdownMenuItem(value: "PB", child: Text("PB")),
+    const DropdownMenuItem(value: "PR", child: Text("PR")),
+    const DropdownMenuItem(value: "PE", child: Text("PE")),
+    const DropdownMenuItem(value: "PI", child: Text("PI")),
+    const DropdownMenuItem(value: "RJ", child: Text("RJ")),
+    const DropdownMenuItem(value: "RN", child: Text("RN")),
+    const DropdownMenuItem(value: "RS", child: Text("RS")),
+    const DropdownMenuItem(value: "RO", child: Text("RO")),
+    const DropdownMenuItem(value: "RR", child: Text("RR")),
+    const DropdownMenuItem(value: "SC", child: Text("SC")),
+    const DropdownMenuItem(value: "SP", child: Text("SP")),
+    const DropdownMenuItem(value: "SE", child: Text("SE")),
+    const DropdownMenuItem(value: "TO", child: Text("TO")),
   ];
-  TextEditingController _dateController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
   var format = DateFormat('MM/dd/yyyy');
   final _formKey = GlobalKey<FormState>();
 
@@ -163,7 +163,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         keyboardType: TextInputType.datetime,
                         controller: _dateController,
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.calendar_today),
+                          prefixIcon: const Icon(Icons.calendar_today),
                           enabledBorder: const OutlineInputBorder(
                             borderSide: BorderSide(
                               width: 1,
@@ -197,7 +197,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.phone),
+                        prefixIcon: const Icon(Icons.phone),
                         enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1,
@@ -228,7 +228,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.phone),
+                        prefixIcon: const Icon(Icons.phone),
                         enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1,
@@ -285,7 +285,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.phone),
+                        prefixIcon: const Icon(Icons.phone),
                         enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1,
@@ -755,7 +755,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.image),
+                        prefixIcon: const Icon(Icons.image),
                         enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1,
@@ -789,7 +789,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                         onTap: () {
                                           //abrirCamera();
                                         },
-                                        child: Column(
+                                        child: const Column(
                                           children: [
                                             Icon(
                                               Icons.camera_alt_outlined,
@@ -808,7 +808,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                         onTap: () {
                                           //abrirGaleria()
                                         },
-                                        child: Column(
+                                        child: const Column(
                                           children: [
                                             Icon(
                                               Icons.photo_library_outlined,
@@ -843,7 +843,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.image),
+                        prefixIcon: const Icon(Icons.image),
                         enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1,
@@ -877,7 +877,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                         onTap: () {
                                           //abrirCamera();
                                         },
-                                        child: Column(
+                                        child: const Column(
                                           children: [
                                             Icon(
                                               Icons.camera_alt_outlined,
@@ -896,7 +896,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                         onTap: () {
                                           //abrirGaleria()
                                         },
-                                        child: Column(
+                                        child: const Column(
                                           children: [
                                             Icon(
                                               Icons.photo_library_outlined,
@@ -931,7 +931,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.image),
+                        prefixIcon: const Icon(Icons.image),
                         enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1,
@@ -965,7 +965,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                         onTap: () {
                                           //abrirCamera();
                                         },
-                                        child: Column(
+                                        child: const Column(
                                           children: [
                                             Icon(
                                               Icons.camera_alt_outlined,
@@ -984,7 +984,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                         onTap: () {
                                           //abrirGaleria()
                                         },
-                                        child: Column(
+                                        child: const Column(
                                           children: [
                                             Icon(
                                               Icons.photo_library_outlined,
@@ -1019,7 +1019,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.image),
+                        prefixIcon: const Icon(Icons.image),
                         enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1,
@@ -1053,7 +1053,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                         onTap: () {
                                           //abrirCamera();
                                         },
-                                        child: Column(
+                                        child: const Column(
                                           children: [
                                             Icon(
                                               Icons.camera_alt_outlined,
@@ -1072,7 +1072,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                         onTap: () {
                                           //abrirGaleria()
                                         },
-                                        child: Column(
+                                        child: const Column(
                                           children: [
                                             Icon(
                                               Icons.photo_library_outlined,
@@ -1107,7 +1107,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.image),
+                        prefixIcon: const Icon(Icons.image),
                         enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1,
@@ -1141,7 +1141,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                         onTap: () {
                                           //abrirCamera();
                                         },
-                                        child: Column(
+                                        child: const Column(
                                           children: [
                                             Icon(
                                               Icons.camera_alt_outlined,
@@ -1160,7 +1160,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                         onTap: () {
                                           //abrirGaleria()
                                         },
-                                        child: Column(
+                                        child: const Column(
                                           children: [
                                             Icon(
                                               Icons.photo_library_outlined,
@@ -1273,9 +1273,9 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          side: BorderSide(color: Colors.red, width: 2.0),
-                          shape: CircleBorder(),
-                          padding: EdgeInsets.all(2),
+                          side: const BorderSide(color: Colors.red, width: 2.0),
+                          shape: const CircleBorder(),
+                          padding: const EdgeInsets.all(2),
                           backgroundColor:
                               const Color.fromARGB(255, 255, 255, 255),
                           foregroundColor: Colors.red,
@@ -1360,17 +1360,17 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
   }
 
   Future<void> _selectDate() async {
-    DateTime? _picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(1900),
         lastDate: DateTime(2024));
-    if (_picked != null) {
+    if (picked != null) {
       setState(() {
         _dateController.text =
-            DateFormat('dd/MM/yyyy', 'pt_BR').format(_picked);
+            DateFormat('dd/MM/yyyy', 'pt_BR').format(picked);
         atleta.dataDeNascimento =
-            DateFormat('dd/MM/yyyy', 'pt_BR').format(_picked);
+            DateFormat('dd/MM/yyyy', 'pt_BR').format(picked);
       });
     }
   }

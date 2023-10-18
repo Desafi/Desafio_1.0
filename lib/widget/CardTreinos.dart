@@ -30,7 +30,7 @@ class CardTreinos extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 40,
                 backgroundImage: AssetImage('assets/images/person.jpg'),
               ),
@@ -39,19 +39,19 @@ class CardTreinos extends StatelessWidget {
                 children: [
                   Visibility(
                       visible: nome != null,
-                      child: Text('Nome: $nome', style: TextStyle(fontSize: 16))),
-                  SizedBox(
+                      child: Text('Nome: $nome', style: const TextStyle(fontSize: 16))),
+                  const SizedBox(
                     height: 10,
                   ),
                   Text('Estilo de treino: $estilo',
-                      style: TextStyle(fontSize: 16)),
-                  SizedBox(
+                      style: const TextStyle(fontSize: 16)),
+                  const SizedBox(
                     height: 10,
                   ),
-                  Text('Data do treino: $data', style: TextStyle(fontSize: 16)),
+                  Text('Data do treino: $data', style: const TextStyle(fontSize: 16)),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
             ],

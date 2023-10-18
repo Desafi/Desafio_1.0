@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-var cepFormatter = new MaskTextInputFormatter(
+var cepFormatter = MaskTextInputFormatter(
     mask: '#####-###',
     filter: {"#": RegExp(r'[0-9]')},
     type: MaskAutoCompletionType.lazy);
 
-var cpfFormatter = new MaskTextInputFormatter(
+var cpfFormatter = MaskTextInputFormatter(
     mask: '###.###.###-##',
     filter: {"#": RegExp(r'[0-9]')},
     type: MaskAutoCompletionType.lazy);
 
-var rgFormatter = new MaskTextInputFormatter(
+var rgFormatter = MaskTextInputFormatter(
     mask: '##.###.###-#',
     filter: {"#": RegExp(r'[0-9]')},
     type: MaskAutoCompletionType.lazy);
 
-var celularFormatter = new MaskTextInputFormatter(
+var celularFormatter = MaskTextInputFormatter(
     mask: '(##) # ####-####',
     filter: {"#": RegExp(r'[0-9]')},
     type: MaskAutoCompletionType.lazy);
@@ -51,7 +51,7 @@ class InputMostrar extends StatelessWidget {
         return null;
       },
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.phone),
+        prefixIcon: const Icon(Icons.phone),
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(
             width: 1,

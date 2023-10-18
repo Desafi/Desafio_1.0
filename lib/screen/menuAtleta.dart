@@ -1,5 +1,4 @@
 import 'package:desafio/screen/desempenho.dart';
-import 'package:desafio/main.dart';
 import 'package:desafio/screen/formPreTreino.dart';
 import 'package:desafio/screen/Treinos.dart';
 import 'package:desafio/screen/perfil.dart';

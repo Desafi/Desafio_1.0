@@ -172,7 +172,7 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                         );
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (context) => CronometroApp()),
+                              builder: (context) => const CronometroApp()),
                         );
                       }
                     },

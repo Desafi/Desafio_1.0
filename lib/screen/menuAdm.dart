@@ -62,7 +62,7 @@ class AdmApp extends StatelessWidget {
               InkWell(
                 onTap: () async {
                   await Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => CadastroApp()),
+                    MaterialPageRoute(builder: (context) => const CadastroApp()),
                   );
                 },
                 child: Card(
@@ -123,7 +123,7 @@ class AdmApp extends StatelessWidget {
               InkWell(
                 onTap: ()async {
                   await Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => MenuGerencia()),
+                    MaterialPageRoute(builder: (context) => const MenuGerencia()),
                   );
                 },
                 child: Card(

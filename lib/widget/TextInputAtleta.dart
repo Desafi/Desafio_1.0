@@ -23,7 +23,7 @@ class TextInputAtleta extends StatelessWidget {
         return null;
       },
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.phone),
+        prefixIcon: const Icon(Icons.phone),
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(
             width: 1,
