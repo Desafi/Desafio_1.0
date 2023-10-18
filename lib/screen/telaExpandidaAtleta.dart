@@ -12,19 +12,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: InfoAtletaApp(),
+      home: TelaExpandidaAtletaApp(),
     );
   }
 }
 
-class InfoAtletaApp extends StatefulWidget {
-  const InfoAtletaApp({Key? key}) : super(key: key);
+class TelaExpandidaAtletaApp extends StatefulWidget {
+  const TelaExpandidaAtletaApp({Key? key}) : super(key: key);
 
   @override
-  State<InfoAtletaApp> createState() => _InfoAtletaAppState();
+  State<TelaExpandidaAtletaApp> createState() => _TelaExpandidaAtletaAppState();
 }
 
-class _InfoAtletaAppState extends State<InfoAtletaApp> {
+class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
   bool _showMoreInfo = false;
 
   @override

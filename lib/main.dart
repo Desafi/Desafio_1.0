@@ -11,6 +11,8 @@ void main() {
   runApp(const MyApp());
 }
 
+String mensagem = '';
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -71,12 +73,14 @@ class _LoginAppState extends State<LoginApp> {
                             fontWeight: FontWeight.w500, fontSize: 14),
                       ),
                     ),
+
                     const SizedBox(
                       height: 50,
                     ),
                     //Email
 
                     TextFormField(
+                      key: Key('emailKey'),
                       obscureText: false,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -103,6 +107,7 @@ class _LoginAppState extends State<LoginApp> {
                       height: 15,
                     ),
                     TextFormField(
+                      key: Key('senhaKey'),
                       obscureText: true,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -157,24 +162,37 @@ class _LoginAppState extends State<LoginApp> {
                       height: 35,
                     ),
                     BotaoPrincipal(
+                      key: Key("botaoCotrole"),
                       cor: Colors.blueAccent,
                       hintText: "Entrar",
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
-                          if (login.email == "1" && login.senha == "1") {
+                          if (login.email == "adm.com" &&
+                              login.senha == "123") {
+                            setState(() {
+                              mensagem = 'Bem-vindo, Administrador!';
+                            });
                             Navigator.of(context).push(
                               MaterialPageRoute(builder: (context) => AdmApp()),
                             );
                           }
 
-                          if (login.email == "2" && login.senha == "2") {
+                          if (login.email == "atl.com" &&
+                              login.senha == "123") {
+                            setState(() {
+                              mensagem = 'Bem-vindo, Atleta!';
+                            });
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => MenuAtletaApp()),
                             );
                           }
 
-                          if (login.email == "3" && login.senha == "3") {
+                          if (login.email == "trei.com" &&
+                              login.senha == "123") {
+                            setState(() {
+                              mensagem = 'Bem-vindo, Treinador!';
+                            });
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => MenuTreinadorApp()),

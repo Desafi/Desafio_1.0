@@ -1,8 +1,9 @@
-import 'package:desafio/desempenho.dart';
+import 'package:desafio/screen/desempenho.dart';
 import 'package:desafio/main.dart';
 import 'package:desafio/screen/formPreTreino.dart';
-import 'package:desafio/screen/meusTreinos.dart';
+import 'package:desafio/screen/Treinos.dart';
 import 'package:desafio/screen/perfil.dart';
+import 'package:desafio/widget/CardTreinos.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -52,7 +53,19 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
         controller: pc,
         onPageChanged: setPaginaAtual,
         children: const [
-          MeusTreinosApp(),
+          TreinosApp(
+            cards: [
+              CardTreinos(
+                estilo: "Borboleta",
+                data: "11/05/2023",
+              ),
+              CardTreinos(
+                estilo: "Crawl",
+                data: "12/05/2023",
+              ),
+            ],
+            titulo: "Meus Treinos",
+          ),
           DesempenhoApp(),
           CadastroPreTreinoApp(),
           MeuPerfilApp()

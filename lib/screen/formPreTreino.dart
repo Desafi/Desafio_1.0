@@ -1,3 +1,4 @@
+import 'package:desafio/screen/cronometro.dart';
 import 'package:desafio/widget/BotaoPrincipal.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -169,13 +170,16 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Processing Data')),
                         );
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => CronometroApp()),
+                        );
                       }
                     },
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  BotaoPrincipal(hintText: "Cancelar", cor: Colors.amber),
                 ],
               ),
             ),

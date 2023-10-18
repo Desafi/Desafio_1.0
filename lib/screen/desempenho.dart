@@ -1,5 +1,5 @@
 import 'package:desafio/widget/BotaoPrincipal.dart';
-import 'package:desafio/widget/CardTreino.dart';
+import 'package:desafio/widget/CardResultado.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

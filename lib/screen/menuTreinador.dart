@@ -1,9 +1,12 @@
 import 'package:desafio/screen/cadastro.dart';
 import 'package:desafio/screen/formPreTreino.dart';
-import 'package:desafio/screen/meusTreinos.dart';
+import 'package:desafio/screen/Treinos.dart';
 import 'package:desafio/screen/meusUsers.dart';
 import 'package:desafio/screen/perfil.dart';
+import 'package:desafio/screen/telaExpandidaAtleta.dart';
+import 'package:desafio/screen/treinoExpandido.dart';
 import 'package:desafio/widget/CardPessoas.dart';
+import 'package:desafio/widget/CardTreinos.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -55,11 +58,40 @@ class _MenuTreinadorAppState extends State<MenuTreinadorApp> {
         children: [
           CadastroApp(),
           MeusUsers(cards: [
-            CardPessoas(nome: 'João Antônio', telefone: '62262626262'),
+            CardPessoas(
+              nome: 'João Antônio',
+              telefone: '62262626262',
+              onTap: () async {
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => TelaExpandidaAtletaApp()),
+                );
+              },
+            ),
             CardPessoas(nome: 'Caio', telefone: '1699595994'),
           ], titulo: 'Atletas', hintInput: 'Digite o nome do atleta..'),
           CadastroPreTreinoApp(),
-          MeusTreinosApp(),
+          TreinosApp(
+            cards: [
+              CardTreinos(
+                nome: "João Antonio",
+                estilo: "Borboleta",
+                data: "11/05/2023",
+                onTap: () async {
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => TreinoExpandidoApp()),
+                  );
+                },
+              ),
+              CardTreinos(
+                nome: "Aluizio",
+                estilo: "Crawl",
+                data: "12/05/2023",
+              ),
+            ],
+            titulo: "Treinos",
+          ),
           MeuPerfilApp(),
         ],
       ),

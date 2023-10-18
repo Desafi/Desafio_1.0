@@ -49,6 +49,7 @@ class MeuPerfilApp extends StatelessWidget {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: const Color.fromRGBO(2, 76, 99, 1),
+        automaticallyImplyLeading: false,
       ),
       body: Stack(
         alignment: Alignment.center,
