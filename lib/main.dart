@@ -1,23 +1,27 @@
+import 'package:desafio/screen/esqueciSenha.dart';
+import 'package:desafio/screen/menuAdm.dart';
 import 'package:desafio/screen/menuAtleta.dart';
 import 'package:desafio/model/login.dart';
+import 'package:desafio/screen/menuTreinador.dart';
+import 'package:desafio/widget/BotaoPrincipal.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// void main() {
-//   runApp(const MyApp());
-// }
+void main() {
+  runApp(const MyApp());
+}
 
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: LoginApp(),
-//     );
-//   }
-// }
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: LoginApp(),
+    );
+  }
+}
 
 class LoginApp extends StatefulWidget {
   const LoginApp({super.key});
@@ -125,46 +129,60 @@ class _LoginAppState extends State<LoginApp> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Esqueceu sua senha?',
-                            style: GoogleFonts.plusJakartaSans(
-                              textStyle: const TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
+                      child: InkWell(
+                        onTap: () async {
+                          await Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => EsqueciSenhaApp()),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Esqueceu sua senha?',
+                              style: GoogleFonts.plusJakartaSans(
+                                textStyle: const TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(
                       height: 35,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          if (_formKey.currentState!.validate()) {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const MenuAtletaApp(),
-                            ));
+                    BotaoPrincipal(
+                      cor: Colors.blueAccent,
+                      hintText: "Entrar",
+                      onTap: () {
+                        if (_formKey.currentState!.validate()) {
+                          if (login.email == "1" && login.senha == "1") {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => AdmApp()),
+                            );
                           }
-                        });
+
+                          if (login.email == "2" && login.senha == "2") {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => MenuAtletaApp()),
+                            );
+                          }
+
+                          if (login.email == "3" && login.senha == "3") {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => MenuTreinadorApp()),
+                            );
+                          }
+                        }
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amber,
-                        minimumSize: const Size(350.0, 60.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(15.0), // Borda arredondada
-                        ),
-                      ),
-                      child: const Text('Entrar',
-                          style: TextStyle(color: Colors.white, fontSize: 20)),
-                    ),
+                    )
                   ],
                 ),
               ),

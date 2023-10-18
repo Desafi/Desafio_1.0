@@ -1,7 +1,8 @@
-import 'package:desafio/screen/cadastro.dart';
-import 'package:desafio/screen/cronometro.dart';
-import 'package:desafio/screen/esqueciSenha.dart';
+import 'package:desafio/desempenho.dart';
 import 'package:desafio/main.dart';
+import 'package:desafio/screen/formPreTreino.dart';
+import 'package:desafio/screen/meusTreinos.dart';
+import 'package:desafio/screen/perfil.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -51,10 +52,10 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
         controller: pc,
         onPageChanged: setPaginaAtual,
         children: const [
-          CronometroApp(),
-          LoginApp(),
-          EsqueciSenhaApp(),
-          CadastroApp()
+          MeusTreinosApp(),
+          DesempenhoApp(),
+          CadastroPreTreinoApp(),
+          MeuPerfilApp()
         ],
       ),
       bottomNavigationBar: SizedBox(

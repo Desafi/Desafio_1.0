@@ -1,3 +1,9 @@
+import 'package:desafio/screen/cadastro.dart';
+import 'package:desafio/screen/formPreTreino.dart';
+import 'package:desafio/screen/meusTreinos.dart';
+import 'package:desafio/screen/meusUsers.dart';
+import 'package:desafio/screen/perfil.dart';
+import 'package:desafio/widget/CardPessoas.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,24 +17,52 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: LoginApp(),
+      home: MenuTreinadorApp(),
     );
   }
 }
 
-class LoginApp extends StatefulWidget {
-  const LoginApp({super.key});
+class MenuTreinadorApp extends StatefulWidget {
+  const MenuTreinadorApp({super.key});
 
   @override
-  State<LoginApp> createState() => _LoginAppState();
+  State<MenuTreinadorApp> createState() => _MenuTreinadorAppState();
 }
 
-class _LoginAppState extends State<LoginApp> {
-  int currentPageIndex = 0;
+class _MenuTreinadorAppState extends State<MenuTreinadorApp> {
+  int paginaAtual = 0;
+  late PageController pc;
+
+  @override
+  void initState() {
+    super.initState();
+
+    pc = PageController(initialPage: paginaAtual);
+  }
+
+  setPaginaAtual(pagina) {
+    setState(() {
+      paginaAtual = pagina;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: PageView(
+        controller: pc,
+        onPageChanged: setPaginaAtual,
+        children: [
+          CadastroApp(),
+          MeusUsers(cards: [
+            CardPessoas(nome: 'João Antônio', telefone: '62262626262'),
+            CardPessoas(nome: 'Caio', telefone: '1699595994'),
+          ], titulo: 'Atletas', hintInput: 'Digite o nome do atleta..'),
+          CadastroPreTreinoApp(),
+          MeusTreinosApp(),
+          MeuPerfilApp(),
+        ],
+      ),
       bottomNavigationBar: SafeArea(
         child: NavigationBar(
           indicatorColor: Colors.blueAccent,
@@ -43,7 +77,7 @@ class _LoginAppState extends State<LoginApp> {
             ),
             NavigationDestination(
               icon: Icon(Icons.pool),
-              label: 'Criar treino',
+              label: 'Iniciar treino',
             ),
             NavigationDestination(
               icon: Icon(Icons.article_outlined),
@@ -54,10 +88,13 @@ class _LoginAppState extends State<LoginApp> {
               label: 'Meu Perfil',
             ),
           ],
-          selectedIndex: currentPageIndex,
+          selectedIndex: paginaAtual,
           onDestinationSelected: (int index) {
             setState(() {
-              currentPageIndex = index;
+              paginaAtual = index;
+              pc.animateToPage(index,
+                  duration: const Duration(milliseconds: 400),
+                  curve: Curves.ease);
             });
           },
         ),

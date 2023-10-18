@@ -11,13 +11,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Meu Perfil',
-      home: MeuPerfil(),
+      home: MeuPerfilApp(),
     );
   }
 }
 
-class MeuPerfil extends StatelessWidget {
-  const MeuPerfil({super.key});
+class MeuPerfilApp extends StatelessWidget {
+  const MeuPerfilApp({super.key});
 
   Widget textfield({@required hintText}) {
     return Material(
@@ -49,13 +49,6 @@ class MeuPerfil extends StatelessWidget {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: const Color.fromRGBO(2, 76, 99, 1),
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () {},
-        ),
       ),
       body: Stack(
         alignment: Alignment.center,

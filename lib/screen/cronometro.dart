@@ -124,9 +124,6 @@ class _CronometroAppState extends State<CronometroApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      appBar: AppBar(
-        title: const Text('Cronometro'),
-      ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(

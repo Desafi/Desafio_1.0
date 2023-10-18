@@ -1,7 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:desafio/model/cadastro.dart';
 import 'package:desafio/widget/BotaoPrincipal.dart';
-import 'package:desafio/widget/Scaffolds.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -157,7 +156,7 @@ class _CadastroAppState extends State<CadastroApp> {
                     ),
                     BotaoPrincipal(
                       hintText: "Cadastrar",
-                      cor: Colors.amber,
+                      cor: Colors.blueAccent,
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
                           AwesomeDialog(
@@ -181,7 +180,7 @@ class _CadastroAppState extends State<CadastroApp> {
                     ),
                     BotaoPrincipal(
                       hintText: "Cancelar",
-                      cor: Colors.blueAccent,
+                      cor: Colors.amber,
                       onTap: () {
                         Navigator.pop(context);
                       },
