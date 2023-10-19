@@ -1,6 +1,11 @@
 import 'package:desafio/model/atleta.dart';
 import 'package:desafio/widget/BotaoAdicionar.dart';
+import 'package:desafio/widget/DropDownEstados.dart';
+import 'package:desafio/widget/ModalImagem.dart';
 import 'package:desafio/widget/Scaffolds.dart';
+import 'package:desafio/widget/TextFormFieldCadastro.dart';
+import 'package:desafio/widget/TextFormFieldFoto.dart';
+import 'package:desafio/widget/TextFormFieldWithFormatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,34 +39,10 @@ class CadastroAtleta extends StatefulWidget {
 }
 
 class _CadastroAtletaAppState extends State<CadastroAtleta> {
-  final TextEditingController _textController = TextEditingController();
   TextEditingController cidadeController = TextEditingController();
   TextEditingController bairroController = TextEditingController();
   TextEditingController estadoController = TextEditingController();
   TextEditingController enderecoController = TextEditingController();
-
-  final ImagePicker _picker = ImagePicker();
-  XFile? _image;
-
-  var cepFormatter = MaskTextInputFormatter(
-      mask: '#####-###',
-      filter: {"#": RegExp(r'[0-9]')},
-      type: MaskAutoCompletionType.lazy);
-
-  var cpfFormatter = MaskTextInputFormatter(
-      mask: '###.###.###-##',
-      filter: {"#": RegExp(r'[0-9]')},
-      type: MaskAutoCompletionType.lazy);
-
-  var rgFormatter = MaskTextInputFormatter(
-      mask: '##.###.###-#',
-      filter: {"#": RegExp(r'[0-9]')},
-      type: MaskAutoCompletionType.lazy);
-
-  var celualarFormatter = MaskTextInputFormatter(
-      mask: '(##) # ####-####',
-      filter: {"#": RegExp(r'[0-9]')},
-      type: MaskAutoCompletionType.lazy);
 
   List<DropdownMenuItem<String>> menuItems = [
     const DropdownMenuItem(value: "Feminino", child: Text("Feminino")),
@@ -80,37 +61,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
     const DropdownMenuItem(value: "Número Pai", child: Text("Número Pai")),
     const DropdownMenuItem(value: "Número Mae", child: Text("Número Mae")),
   ];
-
-  List<DropdownMenuItem<String>> estadosBrasil = [
-    const DropdownMenuItem(value: "UF", child: Text("UF")),
-    const DropdownMenuItem(value: "AC", child: Text("AC")),
-    const DropdownMenuItem(value: "AL", child: Text("AL")),
-    const DropdownMenuItem(value: "AP", child: Text("AP")),
-    const DropdownMenuItem(value: "AM", child: Text("AM")),
-    const DropdownMenuItem(value: "BA", child: Text("BA")),
-    const DropdownMenuItem(value: "CE", child: Text("CE")),
-    const DropdownMenuItem(value: "DF", child: Text("DF")),
-    const DropdownMenuItem(value: "ES", child: Text("ES")),
-    const DropdownMenuItem(value: "GO", child: Text("GO")),
-    const DropdownMenuItem(value: "MA", child: Text("MA")),
-    const DropdownMenuItem(value: "MT", child: Text("MT")),
-    const DropdownMenuItem(value: "MS", child: Text("MS")),
-    const DropdownMenuItem(value: "MG", child: Text("MG")),
-    const DropdownMenuItem(value: "PA", child: Text("PA")),
-    const DropdownMenuItem(value: "PB", child: Text("PB")),
-    const DropdownMenuItem(value: "PR", child: Text("PR")),
-    const DropdownMenuItem(value: "PE", child: Text("PE")),
-    const DropdownMenuItem(value: "PI", child: Text("PI")),
-    const DropdownMenuItem(value: "RJ", child: Text("RJ")),
-    const DropdownMenuItem(value: "RN", child: Text("RN")),
-    const DropdownMenuItem(value: "RS", child: Text("RS")),
-    const DropdownMenuItem(value: "RO", child: Text("RO")),
-    const DropdownMenuItem(value: "RR", child: Text("RR")),
-    const DropdownMenuItem(value: "SC", child: Text("SC")),
-    const DropdownMenuItem(value: "SP", child: Text("SP")),
-    const DropdownMenuItem(value: "SE", child: Text("SE")),
-    const DropdownMenuItem(value: "TO", child: Text("TO")),
-  ];
+  
   final TextEditingController _dateController = TextEditingController();
   var format = DateFormat('MM/dd/yyyy');
   final _formKey = GlobalKey<FormState>();
@@ -185,10 +136,12 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      obscureText: false,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [celualarFormatter],
+                    // mask: '(##) # ####-####',
+                    //     filter: {"#": RegExp(r'[0-9]')},
+                    TextFormFieldWithFormatter(
+                      labelText: 'Celular',
+                      mask: '(##) # ####-####',
+                      onChanged: (value) {},
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Este campo é obrigatório!";
@@ -196,59 +149,26 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         atleta.numeroDoCelular = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.phone),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Número de celular',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      obscureText: false,
-                      keyboardType: TextInputType.phone,
-                      inputFormatters: [celualarFormatter],
+                    TextFormFieldWithFormatter(
+                      labelText: 'Celular de emergência',
+                      mask: '(##) # ####-####',
+                      onChanged: (value) {},
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Este campo é obrigatório!";
                         }
-                        atleta.numeroDoCelular = value;
+                        atleta.numeroDeEmergencia = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.phone),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Número de emergência',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      obscureText: false,
+                    TextFormFieldCadastro(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Este campo é obrigatório!";
@@ -256,27 +176,12 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         atleta.nacionalidade = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Nacionalidade',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
+                      labelText: 'Nacionalidade',
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      obscureText: false,
+                    TextFormFieldCadastro(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Este campo é obrigatório!";
@@ -284,33 +189,16 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         atleta.naturalidade = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.phone),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Naturalidade',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
+                      labelText: 'Naturalidade',
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    //nacionalidade
-                    //naturalidade
 
-                    TextFormField(
-                      obscureText: false,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [cpfFormatter],
+                    TextFormFieldWithFormatter(
+                      labelText: 'Cpf',
+                      mask: '###.###.###-##',
+                      onChanged: (value) {},
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Este campo é obrigatório!";
@@ -318,28 +206,16 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         atleta.cpf = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'CPF',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
                     ),
+
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      obscureText: false,
-                      inputFormatters: [rgFormatter],
+
+                    TextFormFieldWithFormatter(
+                      labelText: 'Rg',
+                      mask: '##.###.###-#',
+                      onChanged: (value) {},
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Este campo é obrigatório!";
@@ -347,25 +223,11 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         atleta.rg = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'RG',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
+
                     DropdownButtonFormField<String>(
                       value: null,
                       items: menuItems,
@@ -396,12 +258,13 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      inputFormatters: [cepFormatter],
-                      controller: txtCep,
+
+                    TextFormFieldWithFormatter(
+                      labelText: 'Cep',
+                      mask: '#####-###',
                       onChanged: (value) {
                         if (value.length == 9) {
-                          BuscarCep();
+                          BuscarCep(value);
                         }
                       },
                       validator: (value) {
@@ -411,21 +274,6 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         atleta.cep = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Cep',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
                     ),
                     const SizedBox(
                       height: 10,
@@ -434,9 +282,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                       children: [
                         Expanded(
                           flex: 3,
-                          child: TextFormField(
-                            controller: cidadeController,
-                            obscureText: false,
+                          child: TextFormFieldCadastro(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return "Este campo é obrigatório!";
@@ -444,30 +290,14 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                               atleta.cidade = value;
                               return null;
                             },
-                            decoration: InputDecoration(
-                              enabledBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  width: 1,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              fillColor: Colors.grey[200],
-                              filled: true,
-                              border: const OutlineInputBorder(),
-                              labelText: 'Cidade',
-                              labelStyle: const TextStyle(
-                                color: Colors.black54,
-                              ),
-                            ),
+                            labelText: 'Cidade',
+                            formController: cidadeController,
                           ),
                         ),
                         Expanded(
                           flex: 2,
-                          child: DropdownButtonFormField<String>(
-                            value: estadoController.text.isEmpty
-                                ? "UF"
-                                : estadoController.text,
-                            items: estadosBrasil,
+                          child: DropDownEstados(
+                            formController: estadoController,
                             validator: (value) {
                               if (value == null ||
                                   value.isEmpty ||
@@ -477,34 +307,14 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                               atleta.estado = value;
                               return null;
                             },
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              border: OutlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(5)),
-                              filled: true,
-                              fillColor: Colors.grey[200],
-                            ),
-                            onChanged: (String? value) {
-                              valorEstado = value;
-                            },
-                            hint: const Text('Selecione'),
                           ),
                         ),
                       ],
                     ),
-
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      controller: bairroController,
-                      obscureText: false,
+                    TextFormFieldCadastro(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Este campo é obrigatório!";
@@ -512,28 +322,14 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         atleta.bairro = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Bairro',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
+                      labelText: 'Bairro',
+                      formController: bairroController,
                     ),
+
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      controller: enderecoController,
-                      obscureText: false,
+                    TextFormFieldCadastro(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Este campo é obrigatório!";
@@ -541,28 +337,15 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         atleta.endereco = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Endereço',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
+                      labelText: 'Endereço',
+                      formController: enderecoController,
                     ),
 
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      obscureText: false,
+
+                    TextFormFieldCadastro(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Este campo é obrigatório!";
@@ -570,27 +353,13 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         atleta.convenioMedico = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Convenio Médico',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
+                      labelText: 'Convênio Médico',
                     ),
+
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      obscureText: false,
+                    TextFormFieldCadastro(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Este campo é obrigatório!";
@@ -598,27 +367,14 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         atleta.estilos = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Estilo natação',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
+                      labelText: 'Estilo natação',
                     ),
+
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      obscureText: false,
+
+                    TextFormFieldCadastro(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Este campo é obrigatório!";
@@ -626,564 +382,166 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         atleta.prova = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Prova atleta',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
+                      labelText: 'Prova atleta',
                     ),
+
                     const SizedBox(
                       height: 10,
                     ),
-
-                    TextFormField(
-                      obscureText: false,
+                    TextFormFieldCadastro(
                       validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Este campo é obrigatório!";
+                        }
                         atleta.nomeDaMae = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Nome da mãe',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
+                      labelText: 'Nome da mãe',
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      obscureText: false,
-                      validator: (value) {
-                        atleta.nomeDoPai = value;
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Nome do pai',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      obscureText: false,
-                      validator: (value) {
-                        atleta.clubeDeOrigem = value;
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Clube de origem',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      obscureText: false,
-                      validator: (value) {
-                        atleta.alergiaAMedicamentos = value;
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Alergia a medicamentos',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ),
+
                     const SizedBox(
                       height: 10,
                     ),
 
-                    TextFormField(
-                      obscureText: false,
-                      readOnly: true,
+                    TextFormFieldCadastro(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Este campo é obrigatório!";
+                        }
+                        atleta.nomeDoPai = value;
+                        return null;
+                      },
+                      labelText: 'Nome do pai',
+                    ),
+
+                    const SizedBox(
+                      height: 10,
+                    ),
+
+                    TextFormFieldCadastro(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Este campo é obrigatório!";
+                        }
+                        atleta.clubeDeOrigem = value;
+                        return null;
+                      },
+                      labelText: 'Clube de origem',
+                    ),
+
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormFieldCadastro(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Este campo é obrigatório!";
+                        }
+                        atleta.alergiaAMedicamentos = value;
+                        return null;
+                      },
+                      labelText: 'Alergia a medicamentos',
+                    ),
+
+                    const SizedBox(
+                      height: 10,
+                    ),
+
+                    TextFormFieldFoto(
+                      hint: 'Foto atestado',
                       validator: (value) {
                         atleta.imagemAtestado = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.image),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Foto atestado',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
                       onTap: () {
                         showModalBottomSheet<void>(
                           context: context,
                           builder: (BuildContext context) {
-                            return Container(
-                              height: 200,
-                              color: const Color.fromARGB(255, 255, 255, 255),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          //abrirCamera();
-                                        },
-                                        child: const Column(
-                                          children: [
-                                            Icon(
-                                              Icons.camera_alt_outlined,
-                                              size: 70,
-                                            ),
-                                            Text(
-                                              "Tirar foto",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          //abrirGaleria()
-                                        },
-                                        child: const Column(
-                                          children: [
-                                            Icon(
-                                              Icons.photo_library_outlined,
-                                              size: 70,
-                                            ),
-                                            Text(
-                                              "Escolher foto",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
+                            return const ModalImagem();
                           },
                         );
                       },
                     ),
+
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      obscureText: false,
-                      readOnly: true,
+                    TextFormFieldFoto(
+                      hint: 'Foto regulamento',
                       validator: (value) {
                         atleta.imagemRegulamentoDoAtleta = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.image),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Foto regulamento',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
                       onTap: () {
                         showModalBottomSheet<void>(
                           context: context,
                           builder: (BuildContext context) {
-                            return Container(
-                              height: 200,
-                              color: const Color.fromARGB(255, 255, 255, 255),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          //abrirCamera();
-                                        },
-                                        child: const Column(
-                                          children: [
-                                            Icon(
-                                              Icons.camera_alt_outlined,
-                                              size: 70,
-                                            ),
-                                            Text(
-                                              "Tirar foto",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          //abrirGaleria()
-                                        },
-                                        child: const Column(
-                                          children: [
-                                            Icon(
-                                              Icons.photo_library_outlined,
-                                              size: 70,
-                                            ),
-                                            Text(
-                                              "Escolher foto",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
+                            return const ModalImagem();
                           },
                         );
                       },
                     ),
+
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      obscureText: false,
-                      readOnly: true,
+
+                    TextFormFieldFoto(
+                      hint: 'Foto cpf',
                       validator: (value) {
                         atleta.cpf = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.image),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Foto cpf',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
                       onTap: () {
                         showModalBottomSheet<void>(
                           context: context,
                           builder: (BuildContext context) {
-                            return Container(
-                              height: 200,
-                              color: const Color.fromARGB(255, 255, 255, 255),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          //abrirCamera();
-                                        },
-                                        child: const Column(
-                                          children: [
-                                            Icon(
-                                              Icons.camera_alt_outlined,
-                                              size: 70,
-                                            ),
-                                            Text(
-                                              "Tirar foto",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          //abrirGaleria()
-                                        },
-                                        child: const Column(
-                                          children: [
-                                            Icon(
-                                              Icons.photo_library_outlined,
-                                              size: 70,
-                                            ),
-                                            Text(
-                                              "Escolher foto",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
+                            return const ModalImagem();
                           },
                         );
                       },
                     ),
+
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      obscureText: false,
-                      readOnly: true,
+
+                    TextFormFieldFoto(
+                      hint: 'Foto rg',
                       validator: (value) {
                         atleta.rg = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.image),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Foto rg',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
                       onTap: () {
                         showModalBottomSheet<void>(
                           context: context,
                           builder: (BuildContext context) {
-                            return Container(
-                              height: 200,
-                              color: const Color.fromARGB(255, 255, 255, 255),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          //abrirCamera();
-                                        },
-                                        child: const Column(
-                                          children: [
-                                            Icon(
-                                              Icons.camera_alt_outlined,
-                                              size: 70,
-                                            ),
-                                            Text(
-                                              "Tirar foto",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          //abrirGaleria()
-                                        },
-                                        child: const Column(
-                                          children: [
-                                            Icon(
-                                              Icons.photo_library_outlined,
-                                              size: 70,
-                                            ),
-                                            Text(
-                                              "Escolher foto",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
+                            return const ModalImagem();
                           },
                         );
                       },
                     ),
+
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      obscureText: false,
-                      readOnly: true,
+
+                    TextFormFieldFoto(
+                      hint: 'Foto comprovante residência',
                       validator: (value) {
                         atleta.imagemComprovanteDeResidencia = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.image),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Foto comprovante residência',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
                       onTap: () {
                         showModalBottomSheet<void>(
                           context: context,
                           builder: (BuildContext context) {
-                            return Container(
-                              height: 200,
-                              color: const Color.fromARGB(255, 255, 255, 255),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          //abrirCamera();
-                                        },
-                                        child: const Column(
-                                          children: [
-                                            Icon(
-                                              Icons.camera_alt_outlined,
-                                              size: 70,
-                                            ),
-                                            Text(
-                                              "Tirar foto",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          //abrirGaleria()
-                                        },
-                                        child: const Column(
-                                          children: [
-                                            Icon(
-                                              Icons.photo_library_outlined,
-                                              size: 70,
-                                            ),
-                                            Text(
-                                              "Escolher foto",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
+                            return const ModalImagem();
                           },
                         );
                       },
                     ),
+
                     const SizedBox(
                       height: 10,
                     ),
@@ -1246,7 +604,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                             if (value == null || value.isEmpty) {
                               return "Este campo é obrigatório!";
                             }
-                            atleta.sexo = value;
+                            atleta.numeroDeCelularAdicional = value;
                             return null;
                           },
                           decoration: InputDecoration(
@@ -1290,28 +648,17 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                       ),
                     ],
                   ),
-                  TextFormField(
-                    obscureText: false,
-                    inputFormatters: [celualarFormatter],
+                  TextFormFieldWithFormatter(
+                    labelText: 'Celular',
+                    mask: '(##) # ####-####',
+                    onChanged: (value) {},
                     validator: (value) {
-                      atleta.alergiaAMedicamentos = value;
+                      if (value == null || value.isEmpty) {
+                        return "Este campo é obrigatório!";
+                      }
+                      atleta.numeroDeCelularAdicional = value;
                       return null;
                     },
-                    decoration: InputDecoration(
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      fillColor: Colors.grey[200],
-                      filled: true,
-                      border: const OutlineInputBorder(),
-                      labelText: 'Digite o número',
-                      labelStyle: const TextStyle(
-                        color: Colors.black54,
-                      ),
-                    ),
                   ),
                 ],
               ),
@@ -1322,9 +669,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
     });
   }
 
-  Future<void> BuscarCep() async {
-    String cep = txtCep.text;
-
+  Future<void> BuscarCep(String cep) async {
     String url = "https://viacep.com.br/ws/$cep/json/";
 
     http.Response response;
@@ -1367,8 +712,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
         lastDate: DateTime(2024));
     if (picked != null) {
       setState(() {
-        _dateController.text =
-            DateFormat('dd/MM/yyyy', 'pt_BR').format(picked);
+        _dateController.text = DateFormat('dd/MM/yyyy', 'pt_BR').format(picked);
         atleta.dataDeNascimento =
             DateFormat('dd/MM/yyyy', 'pt_BR').format(picked);
       });
