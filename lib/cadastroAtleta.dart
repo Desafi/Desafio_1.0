@@ -1,5 +1,6 @@
 import 'package:desafio/model/atleta.dart';
 import 'package:desafio/widget/BotaoAdicionar.dart';
+import 'package:desafio/widget/BotaoPrincipal.dart';
 import 'package:desafio/widget/DropDownEstados.dart';
 import 'package:desafio/widget/ModalImagem.dart';
 import 'package:desafio/widget/Scaffolds.dart';
@@ -10,10 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:ionicons/ionicons.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -30,6 +30,7 @@ void main() {
 
 String? valorSexo;
 String? valorEstado;
+String? variavelModel;
 
 class CadastroAtleta extends StatefulWidget {
   const CadastroAtleta({super.key});
@@ -52,16 +53,20 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
 
   List<DropdownMenuItem<String>> telefones = [
     const DropdownMenuItem(
-        value: "Número Adicional", child: Text("Numero Adicional")),
+        value: "atleta.numeroDeCelularAdicional",
+        child: Text("Numero Adicional")),
     const DropdownMenuItem(
-        value: "Número Residencial", child: Text("Numero Residencial")),
+        value: "atleta.numeroDeCelularResidencial",
+        child: Text("Numero Residencial")),
     const DropdownMenuItem(
-        value: "Número Local de Trabalho",
+        value: "atleta.numeroDeCelularLocalTrabalho",
         child: Text("Número Local de Trabalho")),
-    const DropdownMenuItem(value: "Número Pai", child: Text("Número Pai")),
-    const DropdownMenuItem(value: "Número Mae", child: Text("Número Mae")),
+    const DropdownMenuItem(
+        value: "atleta.numeroDeCelularAdicionalPai", child: Text("Número Pai")),
+    const DropdownMenuItem(
+        value: "atleta.numeroDeCelularAdicionalMae", child: Text("Número Mae")),
   ];
-  
+
   final TextEditingController _dateController = TextEditingController();
   var format = DateFormat('MM/dd/yyyy');
   final _formKey = GlobalKey<FormState>();
@@ -146,6 +151,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         if (value == null || value.isEmpty) {
                           return "Este campo é obrigatório!";
                         }
+
                         atleta.numeroDoCelular = value;
                         return null;
                       },
@@ -550,6 +556,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         Align(
                           alignment: Alignment.bottomLeft,
                           child: BotaoAdicionar(
+                            cor: Colors.green,
                             hintText: "Adicionar outro celular",
                             onTap: () {
                               if (camposAdicionais.length > 4) {
@@ -565,8 +572,23 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Column(
                       children: camposAdicionais,
+                    ),
+
+                    const SizedBox(
+                      height: 30,
+                    ),
+
+                    BotaoPrincipal(
+                      hintText: 'Enviar',
+                      cor: Colors.blue,
+                      onTap: () {
+                        if (_formKey.currentState!.validate()) {}
+                      },
                     ),
                   ],
                 ),
@@ -582,7 +604,12 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
     setState(() {
       camposAdicionais.add(
         Card(
-          color: Colors.amber,
+          color: Colors.grey[100],
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: BorderSide(color: Colors.black, width: 1),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -604,7 +631,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                             if (value == null || value.isEmpty) {
                               return "Este campo é obrigatório!";
                             }
-                            atleta.numeroDeCelularAdicional = value;
+                            variavelModel = value;
                             return null;
                           },
                           decoration: InputDecoration(
@@ -620,14 +647,9 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                             filled: true,
                             fillColor: Colors.grey[200],
                           ),
-                          onChanged: (String? value) {
-                            valorSexo = value;
-                          },
+                          onChanged: (String? value) {},
                           hint: const Text('Selecione uma opção'),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 10,
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -642,7 +664,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                           setState(() {});
                         },
                         child: IconButton(
-                          icon: const Icon(Icons.remove),
+                          icon: const Icon(Ionicons.trash_outline),
                           onPressed: () {},
                         ),
                       ),
@@ -656,7 +678,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                       if (value == null || value.isEmpty) {
                         return "Este campo é obrigatório!";
                       }
-                      atleta.numeroDeCelularAdicional = value;
+                      variavelModel = value;
                       return null;
                     },
                   ),
@@ -671,8 +693,6 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
 
   Future<void> BuscarCep(String cep) async {
     String url = "https://viacep.com.br/ws/$cep/json/";
-
-    http.Response response;
 
     try {
       final response = await http.get(Uri.parse(url));

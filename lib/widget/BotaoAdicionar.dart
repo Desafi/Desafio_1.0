@@ -3,11 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 
 class BotaoAdicionar extends StatelessWidget {
   final String hintText;
+  final Color cor;
   final Function()? onTap;
 
   const BotaoAdicionar({
     super.key,
     required this.hintText,
+    required this.cor,
     this.onTap,
   });
 
@@ -20,7 +22,7 @@ class BotaoAdicionar extends StatelessWidget {
           width: 250,
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
           decoration: BoxDecoration(
-            color: Colors.blue,
+            color: cor,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(

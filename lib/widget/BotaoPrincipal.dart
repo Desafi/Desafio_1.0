@@ -6,7 +6,7 @@ class BotaoPrincipal extends StatelessWidget {
   final Color cor;
   final Function()? onTap;
 
-  const BotaoPrincipal({
+  BotaoPrincipal({
     super.key,
     required this.hintText,
     required this.cor,
