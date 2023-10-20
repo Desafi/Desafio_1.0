@@ -56,7 +56,11 @@ class _MenuTreinadorAppState extends State<MenuTreinadorApp> {
         controller: pc,
         onPageChanged: setPaginaAtual,
         children: [
-          const CadastroApp(),
+          const CadastroApp(
+            menuItems: [
+              const DropdownMenuItem(value: "Atleta", child: Text("Atleta")),
+            ],
+          ),
           MeusUsers(cards: [
             CardPessoas(
               nome: 'João Antônio',

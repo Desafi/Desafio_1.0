@@ -26,7 +26,6 @@ class SplashScreen extends StatelessWidget {
       duration: 3000,
       backgroundColor: Color.fromARGB(255, 86, 97, 255),
       splashTransition: SplashTransition.scaleTransition,
-      
     );
   }
 }

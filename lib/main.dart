@@ -173,7 +173,8 @@ class _LoginAppState extends State<LoginApp> {
                               mensagem = 'Bem-vindo, Administrador!';
                             });
                             Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => const AdmApp()),
+                              MaterialPageRoute(
+                                  builder: (context) => const AdmApp()),
                             );
                           }
 
@@ -195,7 +196,8 @@ class _LoginAppState extends State<LoginApp> {
                             });
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => const MenuTreinadorApp()),
+                                  builder: (context) =>
+                                      const MenuTreinadorApp()),
                             );
                           }
                         }

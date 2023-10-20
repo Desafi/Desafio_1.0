@@ -37,14 +37,19 @@ dependencies:
   ionicons: ^0.2.2
   mask_text_input_formatter: ^2.5.0
   http: ^1.1.0
-  image_picker: ^0.8.3
   awesome_dialog: ^3.1.0
   animated_splash_screen: ^1.3.0
   lottie: ^2.6.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  camera: ^0.10.5+5
+  image_picker: ^1.0.4
+  loading_animation_widget: ^1.2.0+4
 
+
+
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -69,7 +74,6 @@ flutter:
   assets:
      - assets/images/logoUnaerp.png
      - assets/images/Atleta.jpg
-     - assets/images/Treinador.png
      - assets/images/person.jpg
      - assets/images/gerenciar.png
      - assets/images/imagemGrafico.jpg

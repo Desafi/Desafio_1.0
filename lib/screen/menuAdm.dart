@@ -62,7 +62,16 @@ class AdmApp extends StatelessWidget {
               InkWell(
                 onTap: () async {
                   await Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const CadastroApp()),
+                    MaterialPageRoute(
+                        builder: (context) => CadastroApp(
+                              menuItems: [
+                                const DropdownMenuItem(
+                                    value: "Treinador",
+                                    child: Text("Treinador")),
+                                const DropdownMenuItem(
+                                    value: "Atleta", child: Text("Atleta")),
+                              ],
+                            )),
                   );
                 },
                 child: Card(
@@ -121,9 +130,10 @@ class AdmApp extends StatelessWidget {
                 height: 20,
               ),
               InkWell(
-                onTap: ()async {
+                onTap: () async {
                   await Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const MenuGerencia()),
+                    MaterialPageRoute(
+                        builder: (context) => const MenuGerencia()),
                   );
                 },
                 child: Card(
@@ -165,7 +175,8 @@ class AdmApp extends StatelessWidget {
                                 Text(
                                   "Clique e veja",
                                   style: TextStyle(
-                                      fontSize: 12, fontWeight: FontWeight.w400),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400),
                                 ),
                               ],
                             ),

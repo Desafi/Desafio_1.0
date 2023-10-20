@@ -4,17 +4,21 @@ import 'package:desafio/widget/BotaoPrincipal.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    home: CadastroApp(),
-  ));
-}
+// void main() {
+//   runApp(const MaterialApp(
+//     home: CadastroApp(),
+//   ));
+// }
 
 String? selectValue;
 String? sds;
 
 class CadastroApp extends StatefulWidget {
-  const CadastroApp({super.key});
+  final List<DropdownMenuItem<String>> menuItems;
+  const CadastroApp({
+    super.key,
+    required this.menuItems,
+  });
 
   @override
   State<CadastroApp> createState() => _CadastroAppState();
@@ -26,10 +30,10 @@ class _CadastroAppState extends State<CadastroApp> {
 
   @override
   Widget build(BuildContext context) {
-    List<DropdownMenuItem<String>> menuItems = [
-      const DropdownMenuItem(value: "Treinador", child: Text("Treinador")),
-      const DropdownMenuItem(value: "Atleta", child: Text("Atleta")),
-    ];
+    // List<DropdownMenuItem<String>> menuItems = [
+    //   const DropdownMenuItem(value: "Treinador", child: Text("Treinador")),
+    //   const DropdownMenuItem(value: "Atleta", child: Text("Atleta")),
+    // ];
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -126,7 +130,7 @@ class _CadastroAppState extends State<CadastroApp> {
                     ),
                     DropdownButtonFormField<String>(
                       value: null,
-                      items: menuItems,
+                      items: widget.menuItems,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Este campo é obrigatório!";

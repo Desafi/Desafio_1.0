@@ -31,6 +31,7 @@ void main() {
 String? valorSexo;
 String? valorEstado;
 String? variavelModel;
+int index = 0;
 
 class CadastroAtleta extends StatefulWidget {
   const CadastroAtleta({super.key});
@@ -456,6 +457,9 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     TextFormFieldFoto(
                       hint: 'Foto atestado',
                       validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Este campo é obrigatório!";
+                        }
                         atleta.imagemAtestado = value;
                         return null;
                       },
@@ -475,6 +479,9 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     TextFormFieldFoto(
                       hint: 'Foto regulamento',
                       validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Este campo é obrigatório!";
+                        }
                         atleta.imagemRegulamentoDoAtleta = value;
                         return null;
                       },
@@ -495,7 +502,10 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     TextFormFieldFoto(
                       hint: 'Foto cpf',
                       validator: (value) {
-                        atleta.cpf = value;
+                        if (value == null || value.isEmpty) {
+                          return "Este campo é obrigatório!";
+                        }
+                        atleta.imagemCpf = value;
                         return null;
                       },
                       onTap: () {
@@ -515,7 +525,10 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     TextFormFieldFoto(
                       hint: 'Foto rg',
                       validator: (value) {
-                        atleta.rg = value;
+                        if (value == null || value.isEmpty) {
+                          return "Este campo é obrigatório!";
+                        }
+                        atleta.imagemRg = value;
                         return null;
                       },
                       onTap: () {
@@ -535,6 +548,9 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     TextFormFieldFoto(
                       hint: 'Foto comprovante residência',
                       validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Este campo é obrigatório!";
+                        }
                         atleta.imagemComprovanteDeResidencia = value;
                         return null;
                       },
@@ -619,6 +635,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -660,9 +677,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                               const Color.fromARGB(255, 255, 255, 255),
                           foregroundColor: Colors.red,
                         ),
-                        onPressed: () {
-                          setState(() {});
-                        },
+                        onPressed: () {},
                         child: IconButton(
                           icon: const Icon(Ionicons.trash_outline),
                           onPressed: () {},

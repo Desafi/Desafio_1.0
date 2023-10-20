@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 class ModalImagem extends StatefulWidget {
@@ -8,6 +9,8 @@ class ModalImagem extends StatefulWidget {
 }
 
 class _ModalImagemState extends State<ModalImagem> {
+  
+
   Widget build(BuildContext context) {
     return Container(
       height: 200,
@@ -61,3 +64,4 @@ class _ModalImagemState extends State<ModalImagem> {
     );
   }
 }
+
