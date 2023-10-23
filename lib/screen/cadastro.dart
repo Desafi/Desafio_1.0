@@ -1,17 +1,21 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
+import 'dart:math';
 import 'package:desafio/model/cadastro.dart';
+import 'package:desafio/widget/AwesomeDialog.dart';
 import 'package:desafio/widget/BotaoPrincipal.dart';
+import 'package:desafio/widget/Scaffolds.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // void main() {
 //   runApp(const MaterialApp(
-//     home: CadastroApp(),
+//     home: CadastroApp(menuItems: []),
 //   ));
 // }
 
 String? selectValue;
-String? sds;
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class CadastroApp extends StatefulWidget {
   final List<DropdownMenuItem<String>> menuItems;
@@ -25,16 +29,17 @@ class CadastroApp extends StatefulWidget {
 }
 
 class _CadastroAppState extends State<CadastroApp> {
-  Cadastro cadastro = Cadastro("", "", "");
+  @override
+  void initState() {
+    super.initState();
+    Firebase.initializeApp();
+  }
+
+  Cadastro cadastro = Cadastro("", "", "", "");
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    // List<DropdownMenuItem<String>> menuItems = [
-    //   const DropdownMenuItem(value: "Treinador", child: Text("Treinador")),
-    //   const DropdownMenuItem(value: "Atleta", child: Text("Atleta")),
-    // ];
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -163,19 +168,8 @@ class _CadastroAppState extends State<CadastroApp> {
                       cor: Colors.blueAccent,
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
-                          AwesomeDialog(
-                            context: context,
-                            dialogType: DialogType.success,
-                            animType: AnimType.bottomSlide,
-                            showCloseIcon: true,
-                            title: "Sucesso",
-                            desc:
-                                "Sucesso ao cadastrar, verifique o e-mail para mais informações!!",
-                            btnOkOnPress: () {},
-                          ).show();
-
-                          // mostrarSucesso(
-                          //     context, "Sucesso ao cadastrar!", Colors.green);
+                          cadastro.senha = _GerarSenha();
+                          Registrar(cadastro.email, cadastro.senha, context);
                         }
                       },
                     ),
@@ -201,4 +195,32 @@ class _CadastroAppState extends State<CadastroApp> {
       ),
     );
   }
+}
+
+void Registrar(String email, String senha, BuildContext context) async {
+  try {
+    await _auth.createUserWithEmailAndPassword(email: email, password: senha);
+    MensagemAwesome(context, "Sucesso",
+        "Sucesso ao cadastrar, verifique o e-mail para mais informações!!");
+  } on FirebaseAuthException catch (e) {
+    switch (e.code) {
+      case 'email-already-in-use':
+        Mensagem(context, 'Este e-mail já está cadastrado!', Colors.red);
+        break;
+      case 'invalid-email':
+        Mensagem(context, 'E-mail inválido', Colors.red);
+        break;
+      default:
+        Mensagem(context, 'Erro, tente novamente mais tarde!', Colors.red);
+    }
+  }
+}
+
+_GerarSenha() {
+  final random = Random();
+  final min = 10000000;
+  final max = 99999999;
+
+  final numeroRandomico = min + random.nextInt(max - min + 1);
+  return numeroRandomico.toString();
 }

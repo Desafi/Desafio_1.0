@@ -1,17 +1,19 @@
 import 'package:desafio/screen/esqueciSenha.dart';
-import 'package:desafio/screen/menuAdm.dart';
-import 'package:desafio/screen/menuAtleta.dart';
 import 'package:desafio/model/login.dart';
-import 'package:desafio/screen/menuTreinador.dart';
 import 'package:desafio/widget/BotaoPrincipal.dart';
+import 'package:desafio/widget/Scaffolds.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
 String mensagem = '';
+final FirebaseAuth _auth = FirebaseAuth.instance;
+Login login = Login("", "", "");
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -33,8 +35,13 @@ class LoginApp extends StatefulWidget {
 }
 
 class _LoginAppState extends State<LoginApp> {
+  @override
+  void initState() {
+    super.initState();
+    Firebase.initializeApp();
+  }
+
   final _formKey = GlobalKey<FormState>();
-  Login login = Login("", "");
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +120,9 @@ class _LoginAppState extends State<LoginApp> {
                         if (value == null || value.isEmpty) {
                           return "Este campo é obrigatório!";
                         }
+                        if (value.length < 6) {
+                          return "Senha precisa ter mais de 6 dígitos!";
+                        }
                         login.senha = value;
                         return null;
                       },
@@ -167,39 +177,41 @@ class _LoginAppState extends State<LoginApp> {
                       hintText: "Entrar",
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
-                          if (login.email == "adm.com" &&
-                              login.senha == "123") {
-                            setState(() {
-                              mensagem = 'Bem-vindo, Administrador!';
-                            });
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => const AdmApp()),
-                            );
-                          }
+                          // if (login.email == "adm.com" &&
+                          //     login.senha == "123") {
+                          //   setState(() {
+                          //     mensagem = 'Bem-vindo, Administrador!';
+                          //   });
+                          //   Navigator.of(context).push(
+                          //     MaterialPageRoute(
+                          //         builder: (context) => const AdmApp()),
+                          //   );
+                          // }
 
-                          if (login.email == "atl.com" &&
-                              login.senha == "123") {
-                            setState(() {
-                              mensagem = 'Bem-vindo, Atleta!';
-                            });
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => const MenuAtletaApp()),
-                            );
-                          }
+                          // if (login.email == "atl.com" &&
+                          //     login.senha == "123") {
+                          //   setState(() {
+                          //     mensagem = 'Bem-vindo, Atleta!';
+                          //   });
+                          //   Navigator.of(context).push(
+                          //     MaterialPageRoute(
+                          //         builder: (context) => const MenuAtletaApp()),
+                          //   );
+                          // }
 
-                          if (login.email == "trei.com" &&
-                              login.senha == "123") {
-                            setState(() {
-                              mensagem = 'Bem-vindo, Treinador!';
-                            });
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const MenuTreinadorApp()),
-                            );
-                          }
+                          // if (login.email == "trei.com" &&
+                          //     login.senha == "123") {
+                          //   setState(() {
+                          //     mensagem = 'Bem-vindo, Treinador!';
+                          //   });
+                          //   Navigator.of(context).push(
+                          //     MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             const MenuTreinadorApp()),
+                          //   );
+                          // }
+
+                          Logar(context);
                         }
                       },
                     )
@@ -211,5 +223,38 @@ class _LoginAppState extends State<LoginApp> {
         ),
       ),
     );
+  }
+}
+
+_tipoUsuario() {
+  var usuario = _auth.currentUser;
+}
+
+Future Logar(BuildContext context) async {
+  try {
+    UserCredential user = await _auth.signInWithEmailAndPassword(
+        email: login.email, password: login.senha);
+
+    if (user != null) {
+      print('oi');
+    }
+    _tipoUsuario();
+  } on FirebaseAuthException catch (e) {
+    switch (e.code) {
+      case 'wrong-password':
+        Mensagem(context, 'Senha incorreta. Tente novamente!', Colors.red);
+        break;
+      case 'invalid-email':
+        Mensagem(context, 'E-mail inválido', Colors.red);
+        break;
+      case 'user-not-found':
+        Mensagem(context, 'Usuário não encontrado.', Colors.red);
+        break;
+      case 'INVALID_LOGIN_CREDENTIALS':
+        Mensagem(context, 'Dados incorretos.', Colors.red);
+        break;
+      default:
+        Mensagem(context, 'Erro, tente novamente mais tarde!', Colors.red);
+    }
   }
 }

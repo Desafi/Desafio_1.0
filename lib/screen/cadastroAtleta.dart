@@ -576,7 +576,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                             hintText: "Adicionar outro celular",
                             onTap: () {
                               if (camposAdicionais.length > 4) {
-                                mostrarErro(
+                                Mensagem(
                                     context,
                                     'Limite de telefones atingidos',
                                     Colors.red);
