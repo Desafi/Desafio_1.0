@@ -57,6 +57,7 @@ class _MenuTreinadorAppState extends State<MenuTreinadorApp> {
         onPageChanged: setPaginaAtual,
         children: [
           const CadastroApp(
+            isVisible: false,
             menuItems: [
               const DropdownMenuItem(value: "Atleta", child: Text("Atleta")),
             ],

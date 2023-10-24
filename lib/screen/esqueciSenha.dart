@@ -1,24 +1,30 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:desafio/widget/AwesomeDialog.dart';
 import 'package:desafio/widget/BotaoPrincipal.dart';
+import 'package:desafio/widget/Scaffolds.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+// void main() {
+//   runApp(const MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(),
-      home: const EsqueciSenhaApp(),
-    );
-  }
-}
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       theme: ThemeData(),
+//       home: const EsqueciSenhaApp(),
+//     );
+//   }
+// }
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+TextEditingController email = TextEditingController();
 
 class EsqueciSenhaApp extends StatefulWidget {
   const EsqueciSenhaApp({super.key});
@@ -28,6 +34,12 @@ class EsqueciSenhaApp extends StatefulWidget {
 }
 
 class _EsqueciSenhaAppState extends State<EsqueciSenhaApp> {
+  @override
+  void initState() {
+    super.initState();
+    Firebase.initializeApp();
+  }
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -72,6 +84,7 @@ class _EsqueciSenhaAppState extends State<EsqueciSenhaApp> {
                       height: 50,
                     ),
                     TextFormField(
+                      controller: email,
                       obscureText: false,
                       decoration: InputDecoration(
                         enabledBorder: const OutlineInputBorder(
@@ -108,19 +121,7 @@ class _EsqueciSenhaAppState extends State<EsqueciSenhaApp> {
                           hintText: "Enviar",
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
-                              AwesomeDialog(
-                                context: context,
-                                dialogType: DialogType.success,
-                                animType: AnimType.bottomSlide,
-                                showCloseIcon: true,
-                                title: "Sucesso",
-                                desc:
-                                    "Sucesso ao recuperar senha, verifique o e-mail para mais informações!!",
-                                btnOkOnPress: () {},
-                              ).show();
-
-                              // mostrarSucesso(
-                              //     context, "Sucesso ao cadastrar!", Colors.green);
+                              RedefinirSenha(context, email);
                             }
                           },
                         ),
@@ -145,4 +146,23 @@ class _EsqueciSenhaAppState extends State<EsqueciSenhaApp> {
       ),
     );
   }
+}
+
+void RedefinirSenha(BuildContext context, TextEditingController email) {
+  _auth
+      .sendPasswordResetEmail(email: email.text)
+      .then((value) => MensagemAwesome(context, "Sucesso",
+          "Sucesso ao recuperar senha, verifique o e-mail para mais informações!!"))
+      .catchError((e) {
+    switch (e.code) {
+      case 'auth/user-not-found':
+        Mensagem(context, 'Usuário não encontrado!', Colors.red);
+        break;
+      case 'invalid-email':
+        Mensagem(context, 'E-mail inválido!', Colors.red);
+        break;
+      default:
+        Mensagem(context, 'Erro, tente novamente mais tarde!', Colors.red);
+    }
+  });
 }

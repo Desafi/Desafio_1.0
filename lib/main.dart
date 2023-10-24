@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/screen/esqueciSenha.dart';
 import 'package:desafio/model/login.dart';
+import 'package:desafio/screen/menuAdm.dart';
+import 'package:desafio/screen/menuAtleta.dart';
+import 'package:desafio/screen/menuTreinador.dart';
 import 'package:desafio/widget/BotaoPrincipal.dart';
 import 'package:desafio/widget/Scaffolds.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,12 +12,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
 String mensagem = '';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 Login login = Login("", "", "");
+FirebaseFirestore db = FirebaseFirestore.instance;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -177,40 +185,6 @@ class _LoginAppState extends State<LoginApp> {
                       hintText: "Entrar",
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
-                          // if (login.email == "adm.com" &&
-                          //     login.senha == "123") {
-                          //   setState(() {
-                          //     mensagem = 'Bem-vindo, Administrador!';
-                          //   });
-                          //   Navigator.of(context).push(
-                          //     MaterialPageRoute(
-                          //         builder: (context) => const AdmApp()),
-                          //   );
-                          // }
-
-                          // if (login.email == "atl.com" &&
-                          //     login.senha == "123") {
-                          //   setState(() {
-                          //     mensagem = 'Bem-vindo, Atleta!';
-                          //   });
-                          //   Navigator.of(context).push(
-                          //     MaterialPageRoute(
-                          //         builder: (context) => const MenuAtletaApp()),
-                          //   );
-                          // }
-
-                          // if (login.email == "trei.com" &&
-                          //     login.senha == "123") {
-                          //   setState(() {
-                          //     mensagem = 'Bem-vindo, Treinador!';
-                          //   });
-                          //   Navigator.of(context).push(
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             const MenuTreinadorApp()),
-                          //   );
-                          // }
-
                           Logar(context);
                         }
                       },
@@ -226,19 +200,35 @@ class _LoginAppState extends State<LoginApp> {
   }
 }
 
-_tipoUsuario() {
-  var usuario = _auth.currentUser;
+_VerificaTipo(String userId, BuildContext context) {
+  final docRef = db.collection("Usuarios").doc(userId);
+  docRef.get().then((DocumentSnapshot documentSnapshot) {
+    final Map<String, dynamic> data =
+        documentSnapshot.data() as Map<String, dynamic>;
+    final String tipo = data["Tipo"];
+    switch (tipo) {
+      case 'Administrador':
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const AdmApp()));
+        break;
+      case 'Treinador':
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const MenuTreinadorApp()));
+        break;
+      case 'Atleta':
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const MenuAtletaApp()));
+        break;
+    }
+  });
 }
 
-Future Logar(BuildContext context) async {
+Logar(BuildContext context) async {
   try {
     UserCredential user = await _auth.signInWithEmailAndPassword(
         email: login.email, password: login.senha);
-
-    if (user != null) {
-      print('oi');
-    }
-    _tipoUsuario();
+        
+    _VerificaTipo(user.user!.uid, context);
   } on FirebaseAuthException catch (e) {
     switch (e.code) {
       case 'wrong-password':

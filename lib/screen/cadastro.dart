@@ -1,12 +1,19 @@
+import 'dart:async';
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:desafio/helper/Define.dart';
 import 'package:desafio/model/cadastro.dart';
 import 'package:desafio/widget/AwesomeDialog.dart';
+import 'package:desafio/widget/BotaoLoader.dart';
 import 'package:desafio/widget/BotaoPrincipal.dart';
 import 'package:desafio/widget/Scaffolds.dart';
+import 'package:desafio/widget/TextFormFieldCadastro.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 
 // void main() {
 //   runApp(const MaterialApp(
@@ -16,12 +23,17 @@ import 'package:google_fonts/google_fonts.dart';
 
 String? selectValue;
 final FirebaseAuth _auth = FirebaseAuth.instance;
+bool estaCarregando = false;
+FirebaseFirestore db = FirebaseFirestore.instance;
 
 class CadastroApp extends StatefulWidget {
   final List<DropdownMenuItem<String>> menuItems;
+  final bool isVisible;
+
   const CadastroApp({
     super.key,
     required this.menuItems,
+    required this.isVisible,
   });
 
   @override
@@ -33,6 +45,11 @@ class _CadastroAppState extends State<CadastroApp> {
   void initState() {
     super.initState();
     Firebase.initializeApp();
+    // _auth.authStateChanges().listen((User? user) {
+    //   if (user != null) {
+    //     print(user.uid);
+    //   }
+    // });
   }
 
   Cadastro cadastro = Cadastro("", "", "", "");
@@ -77,8 +94,8 @@ class _CadastroAppState extends State<CadastroApp> {
                     const SizedBox(
                       height: 50,
                     ),
-                    TextFormField(
-                      obscureText: false,
+                    TextFormFieldCadastro(
+                      labelText: "Nome Completo",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Este campo é obrigatório!";
@@ -86,42 +103,12 @@ class _CadastroAppState extends State<CadastroApp> {
                         cadastro.nome = value;
                         return null;
                       },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Nome Completo',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'E-mail',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
+                    TextFormFieldCadastro(
+                      labelText: "E-mail",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Este campo é obrigatório!";
@@ -163,25 +150,50 @@ class _CadastroAppState extends State<CadastroApp> {
                     const SizedBox(
                       height: 20,
                     ),
-                    BotaoPrincipal(
-                      hintText: "Cadastrar",
+                    BotaoLoader(
+                      hintText: estaCarregando
+                          ? CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              "Cadastrar",
+                              style: GoogleFonts.plusJakartaSans(
+                                textStyle: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
                       cor: Colors.blueAccent,
-                      onTap: () {
-                        if (_formKey.currentState!.validate()) {
-                          cadastro.senha = _GerarSenha();
-                          Registrar(cadastro.email, cadastro.senha, context);
-                        }
-                      },
+                      onTap: estaCarregando
+                          ? null
+                          : () {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  estaCarregando = true;
+                                });
+                                Timer(Duration(seconds: 5), () {
+                                  setState(() {
+                                    estaCarregando = false;
+                                  });
+                                });
+                                cadastro.senha = _GerarSenha();
+                                Registrar(cadastro.email, cadastro.senha,
+                                    cadastro.tipo, cadastro.nome, context);
+                              }
+                            },
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    BotaoPrincipal(
-                      hintText: "Cancelar",
-                      cor: Colors.amber,
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
+                    Visibility(
+                      visible: widget.isVisible,
+                      child: BotaoPrincipal(
+                        hintText: "Cancelar",
+                        cor: Colors.amber,
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
                     ),
                     const SizedBox(
                       height: 50,
@@ -197,11 +209,17 @@ class _CadastroAppState extends State<CadastroApp> {
   }
 }
 
-void Registrar(String email, String senha, BuildContext context) async {
+void Registrar(String email, String senha, String tipo, String nome,
+    BuildContext context) async {
   try {
-    await _auth.createUserWithEmailAndPassword(email: email, password: senha);
-    MensagemAwesome(context, "Sucesso",
-        "Sucesso ao cadastrar, verifique o e-mail para mais informações!!");
+    final UserCredential userCredential = await _auth
+        .createUserWithEmailAndPassword(email: email, password: senha);
+    final String userId = userCredential.user!.uid;
+    //Cadastra os dados no banco
+    await _CadastraBanco(userId, nome, email, tipo, context);
+
+    //Envia a senha para o email cadastrado
+    await _EnviarEmail(email, senha, context);
   } on FirebaseAuthException catch (e) {
     switch (e.code) {
       case 'email-already-in-use':
@@ -216,10 +234,44 @@ void Registrar(String email, String senha, BuildContext context) async {
   }
 }
 
+_CadastraBanco(String userId, String nome, String email, String tipo,
+    BuildContext context) {
+  try {
+    final user = <String, dynamic>{
+      "Nome": nome,
+      "Email": email,
+      "Tipo": tipo,
+    };
+
+    db.collection("Usuarios").doc(userId).set(user);
+  } catch (e) {
+    Mensagem(context,
+        "Ocorreu um erro ao cadastrar, tente novamente mais tarde", Colors.red);
+  }
+}
+
+_EnviarEmail(String email, String senha, BuildContext context) async {
+  final smtpServer = gmail(username, password);
+
+  final message = Message()
+    ..from = Address(username, 'Unaqua')
+    ..recipients.add(email)
+    ..subject = 'Senha da Unaqua'
+    ..text =
+        'Sua senha para entrar no aplicativo é: $senha, troque ela assim que possivel!';
+  try {
+    final sendReport = await send(message, smtpServer);
+    MensagemAwesome(context, "Sucesso",
+        "Sucesso ao cadastrar, verifique o e-mail para mais informações!!");
+  } on MailerException catch (e) {
+    Mensagem(context, "Erro ao enviar e-mail, contate o suporte", Colors.red);
+  }
+}
+
 _GerarSenha() {
   final random = Random();
-  final min = 10000000;
-  final max = 99999999;
+  const min = 10000000;
+  const max = 99999999;
 
   final numeroRandomico = min + random.nextInt(max - min + 1);
   return numeroRandomico.toString();
