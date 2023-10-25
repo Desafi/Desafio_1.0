@@ -1,47 +1,25 @@
+import 'package:desafio/widget/BotaoPrincipal.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+// void main() {
+//   runApp(const MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Meu Perfil',
-      home: MeuPerfilApp(),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(
+//       title: 'Meu Perfil',
+//       home: MeuPerfilApp(),
+//     );
+//   }
+// }
 
 class MeuPerfilApp extends StatelessWidget {
   const MeuPerfilApp({super.key});
-
-  Widget textfield({@required hintText}) {
-    return Material(
-      elevation: 4,
-      shadowColor: Colors.grey,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-            hintText: hintText,
-            hintStyle: const TextStyle(
-              letterSpacing: 2,
-              color: Colors.black54,
-              fontWeight: FontWeight.bold,
-            ),
-            fillColor: Colors.white30,
-            filled: true,
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide.none)),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +78,18 @@ class MeuPerfilApp extends StatelessWidget {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 50),
+
+                    BotaoPrincipal(hintText: "Editar", cor: Colors.grey),
+                    const SizedBox(height: 20),
+                    BotaoPrincipal(
+                      hintText: "Sair",
+                      cor: Colors.red,
+                      onTap: () {
+                        print('kk');
+                        //  await FirebaseAuth.instance.signOut();
+                      },
+                    ),
                   ],
                 ),
               )
@@ -143,20 +133,6 @@ class MeuPerfilApp extends StatelessWidget {
               ),
             ],
           ),
-          // icone de editar
-          Padding(
-            padding: const EdgeInsets.only(bottom: 270, left: 184),
-            child: CircleAvatar(
-              backgroundColor: Colors.black54,
-              child: IconButton(
-                icon: const Icon(
-                  Icons.edit,
-                  color: Colors.white,
-                ),
-                onPressed: () {},
-              ),
-            ),
-          )
         ],
       ),
     );

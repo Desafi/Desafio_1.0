@@ -47,6 +47,12 @@ class _LoginAppState extends State<LoginApp> {
   void initState() {
     super.initState();
     Firebase.initializeApp();
+
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+        _VerificaTipo(user.uid, context);
+      }
+    });
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -227,7 +233,7 @@ Logar(BuildContext context) async {
   try {
     UserCredential user = await _auth.signInWithEmailAndPassword(
         email: login.email, password: login.senha);
-        
+
     _VerificaTipo(user.user!.uid, context);
   } on FirebaseAuthException catch (e) {
     switch (e.code) {
