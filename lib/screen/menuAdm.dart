@@ -1,5 +1,10 @@
+import 'dart:math';
+
+import 'package:desafio/main.dart';
 import 'package:desafio/screen/menuGerencia.dart';
 import 'package:desafio/screen/cadastro.dart';
+import 'package:desafio/widget/CardAdm.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -31,8 +36,24 @@ class AdmApp extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: Column(children: [
-              const SizedBox(
-                height: 40,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton.icon(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.red), // Defina a cor desejada
+                    ),
+                    onPressed: () async {
+                      await FirebaseAuth.instance.signOut();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => LoginApp()),
+                          (route) => false);
+                    },
+                    icon: Icon(Icons.exit_to_app),
+                    label: Text("Sair"),
+                  ),
+                ],
               ),
               Image.asset(
                 'assets/images/logoUnaerp.png',
@@ -59,7 +80,10 @@ class AdmApp extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              InkWell(
+              CardAdm(
+                imagem: "assets/images/Atleta.jpg",
+                titulo: "Crie um usuário",
+                subTitulo: "Clique e cadastre",
                 onTap: () async {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
@@ -75,118 +99,20 @@ class AdmApp extends StatelessWidget {
                             )),
                   );
                 },
-                child: Card(
-                  elevation: 5,
-                  child: Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 200,
-                        decoration: const BoxDecoration(),
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(8),
-                              topRight: Radius.circular(8)),
-                          child: Image.asset(
-                            'assets/images/Atleta.jpg',
-                            fit: BoxFit.fitHeight,
-                            alignment: Alignment.center,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFf7f1fb),
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(8),
-                              bottomRight: Radius.circular(8)),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text("Crie um usuário",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold)),
-                                Text(
-                                  "Clique e cadastre",
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ),
               const SizedBox(
                 height: 20,
               ),
-              InkWell(
+              CardAdm(
+                imagem: "assets/images/gerenciar.png",
+                titulo: "Gerencie os usuários",
+                subTitulo: "Clique e veja",
                 onTap: () async {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
                         builder: (context) => const MenuGerencia()),
                   );
                 },
-                child: Card(
-                  elevation: 5,
-                  child: Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 200,
-                        decoration: const BoxDecoration(),
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(8),
-                              topRight: Radius.circular(8)),
-                          child: Image.asset(
-                            'assets/images/gerenciar.png',
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFf7f1fb),
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(8),
-                              bottomRight: Radius.circular(8)),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text("Gerencie os usuários",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold)),
-                                Text(
-                                  "Clique e veja",
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ),
               const SizedBox(
                 height: 40,

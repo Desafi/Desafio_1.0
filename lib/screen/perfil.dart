@@ -1,22 +1,9 @@
+import 'package:desafio/main.dart';
 import 'package:desafio/widget/BotaoPrincipal.dart';
+import 'package:desafio/widget/BotaoUI.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-// void main() {
-//   runApp(const MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       title: 'Meu Perfil',
-//       home: MeuPerfilApp(),
-//     );
-//   }
-// }
+import 'package:google_fonts/google_fonts.dart';
 
 class MeuPerfilApp extends StatelessWidget {
   const MeuPerfilApp({super.key});
@@ -32,6 +19,13 @@ class MeuPerfilApp extends StatelessWidget {
       body: Stack(
         alignment: Alignment.center,
         children: [
+          CustomPaint(
+            painter: HeaderCurvedContainer(),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+            ),
+          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -42,65 +36,51 @@ class MeuPerfilApp extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 80),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Nome',
-                        labelStyle: const TextStyle(
-                          color: Colors.black,
-                        ),
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
+                    const SizedBox(
+                      height: 60,
                     ),
-                    const SizedBox(height: 30), // Reduzi o espaçamento vertical
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        labelStyle: const TextStyle(
-                          color: Colors.black,
-                        ),
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
+                    Text('João Antonio',
+                        style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 24),
+                        )),
+                    Text('joaoantoniolaraujo@gmail.com',
+                        style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                              fontWeight: FontWeight.w300, fontSize: 14),
+                        )),
+                    const SizedBox(
+                      height: 60,
                     ),
-                    const SizedBox(height: 50),
-
-                    BotaoPrincipal(hintText: "Editar", cor: Colors.grey),
-                    const SizedBox(height: 20),
-                    BotaoPrincipal(
+                    BotaoUI(
+                      hintText: "Editar",
+                      icone: Icon(
+                        Icons.edit_outlined,
+                        size: 25,
+                      ),
+                      cor: Colors.grey[400],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    BotaoUI(
                       hintText: "Sair",
-                      cor: Colors.red,
-                      onTap: () {
-                        print('kk');
-                        //  await FirebaseAuth.instance.signOut();
+                      icone: Icon(
+                        Icons.exit_to_app,
+                        size: 25,
+                      ),
+                      cor: Colors.red[500],
+                      onTap: () async {
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => LoginApp()),
+                            (route) => false);
                       },
                     ),
                   ],
                 ),
               )
             ],
-          ),
-          CustomPaint(
-            painter: HeaderCurvedContainer(),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-            ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,

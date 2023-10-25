@@ -1,5 +1,7 @@
 import 'package:desafio/screen/meusUsers.dart';
 import 'package:desafio/widget/CardPessoas.dart';
+import 'package:desafio/widget/Skeleton.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -26,6 +28,12 @@ class MenuGerencia extends StatefulWidget {
 }
 
 class _MenuGerenciaState extends State<MenuGerencia> {
+  @override
+  void initState() {
+    super.initState();
+    Firebase.initializeApp();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

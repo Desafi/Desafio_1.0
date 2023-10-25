@@ -166,19 +166,19 @@ class _CadastroAppState extends State<CadastroApp> {
                       cor: Colors.blueAccent,
                       onTap: estaCarregando
                           ? null
-                          : () {
+                          : () async {
                               if (_formKey.currentState!.validate()) {
                                 setState(() {
                                   estaCarregando = true;
                                 });
-                                Timer(Duration(seconds: 5), () {
-                                  setState(() {
-                                    estaCarregando = false;
-                                  });
-                                });
+
                                 cadastro.senha = _GerarSenha();
-                                Registrar(cadastro.email, cadastro.senha,
+                                await Registrar(cadastro.email, cadastro.senha,
                                     cadastro.tipo, cadastro.nome, context);
+
+                                setState(() {
+                                  estaCarregando = false;
+                                });
                               }
                             },
                     ),
@@ -209,7 +209,7 @@ class _CadastroAppState extends State<CadastroApp> {
   }
 }
 
-void Registrar(String email, String senha, String tipo, String nome,
+Registrar(String email, String senha, String tipo, String nome,
     BuildContext context) async {
   try {
     final UserCredential userCredential = await _auth

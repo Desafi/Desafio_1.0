@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/screen/esqueciSenha.dart';
 import 'package:desafio/model/login.dart';
 import 'package:desafio/screen/menuAdm.dart';
 import 'package:desafio/screen/menuAtleta.dart';
 import 'package:desafio/screen/menuTreinador.dart';
+import 'package:desafio/screen/splashScreen.dart';
+import 'package:desafio/widget/BotaoLoader.dart';
 import 'package:desafio/widget/BotaoPrincipal.dart';
 import 'package:desafio/widget/Scaffolds.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,13 +19,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  runApp(const MyApp());
+  runApp(MyAppSplash());
 }
 
 String mensagem = '';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 Login login = Login("", "", "");
 FirebaseFirestore db = FirebaseFirestore.instance;
+bool estaCarregando = false;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -50,7 +55,7 @@ class _LoginAppState extends State<LoginApp> {
 
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
-        _VerificaTipo(user.uid, context);
+        VerificaTipo(user.uid, context);
       }
     });
   }
@@ -185,16 +190,36 @@ class _LoginAppState extends State<LoginApp> {
                     const SizedBox(
                       height: 35,
                     ),
-                    BotaoPrincipal(
-                      key: const Key("botaoCotrole"),
+                    BotaoLoader(
+                      hintText: estaCarregando
+                          ? CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              "Entrar",
+                              style: GoogleFonts.plusJakartaSans(
+                                textStyle: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
                       cor: Colors.blueAccent,
-                      hintText: "Entrar",
-                      onTap: () {
-                        if (_formKey.currentState!.validate()) {
-                          Logar(context);
-                        }
-                      },
-                    )
+                      onTap: estaCarregando
+                          ? null
+                          : () async {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  estaCarregando = true;
+                                });
+                                await Logar(context);
+
+                                setState(() {
+                                  estaCarregando = false;
+                                });
+                              }
+                            },
+                    ),
+                    
                   ],
                 ),
               ),
@@ -206,7 +231,7 @@ class _LoginAppState extends State<LoginApp> {
   }
 }
 
-_VerificaTipo(String userId, BuildContext context) {
+VerificaTipo(String userId, BuildContext context) {
   final docRef = db.collection("Usuarios").doc(userId);
   docRef.get().then((DocumentSnapshot documentSnapshot) {
     final Map<String, dynamic> data =
@@ -214,16 +239,20 @@ _VerificaTipo(String userId, BuildContext context) {
     final String tipo = data["Tipo"];
     switch (tipo) {
       case 'Administrador':
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const AdmApp()));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => AdmApp()),
+            (route) => false);
         break;
       case 'Treinador':
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const MenuTreinadorApp()));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => MenuTreinadorApp()),
+            (route) => false);
+
         break;
       case 'Atleta':
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const MenuAtletaApp()));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => MenuAtletaApp()),
+            (route) => false);
         break;
     }
   });
@@ -234,7 +263,7 @@ Logar(BuildContext context) async {
     UserCredential user = await _auth.signInWithEmailAndPassword(
         email: login.email, password: login.senha);
 
-    _VerificaTipo(user.user!.uid, context);
+    VerificaTipo(user.user!.uid, context);
   } on FirebaseAuthException catch (e) {
     switch (e.code) {
       case 'wrong-password':

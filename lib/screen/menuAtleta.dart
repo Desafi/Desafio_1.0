@@ -1,25 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:desafio/screen/cadastroAtleta.dart';
 import 'package:desafio/screen/desempenho.dart';
 import 'package:desafio/screen/formPreTreino.dart';
 import 'package:desafio/screen/Treinos.dart';
 import 'package:desafio/screen/perfil.dart';
 import 'package:desafio/widget/CardTreinos.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+// void main() {
+//   runApp(const MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MenuAtletaApp(),
-    );
-  }
-}
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(
+//       home: MenuAtletaApp(),
+//     );
+//   }
+// }
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+FirebaseFirestore db = FirebaseFirestore.instance;
 
 class MenuAtletaApp extends StatefulWidget {
   const MenuAtletaApp({super.key});
@@ -35,6 +41,7 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
   @override
   void initState() {
     super.initState();
+    //VerificaCadastro(context);
 
     pc = PageController(initialPage: paginaAtual);
   }
@@ -106,4 +113,22 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
           )),
     );
   }
+}
+
+VerificaCadastro(BuildContext context) {
+  var user = _auth.currentUser;
+  print(user!.uid);
+  db
+      .collection('Cadastro')
+      .doc(user!.uid)
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+    if (documentSnapshot.exists) {
+      print('existe');
+    } else {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => CadastroAtleta()),
+          (route) => false);
+    }
+  });
 }

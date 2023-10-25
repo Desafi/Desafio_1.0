@@ -96,7 +96,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     ),
                     Image.asset('assets/images/logoUnaerp.png', width: 200),
                     const SizedBox(
-                      height: 50,
+                      height: 20,
                     ),
                     Text(
                       'Termine seu cadastro',
