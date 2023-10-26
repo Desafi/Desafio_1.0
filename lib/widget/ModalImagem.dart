@@ -3,7 +3,9 @@ import 'package:desafio/screen/PaginaCamera.dart';
 import 'package:flutter/material.dart';
 
 class ModalImagem extends StatefulWidget {
-  const ModalImagem({super.key});
+  const ModalImagem({
+    super.key,
+  });
 
   @override
   State<ModalImagem> createState() => _ModalImagemState();
@@ -22,11 +24,12 @@ class _ModalImagemState extends State<ModalImagem> {
             children: [
               InkWell(
                 onTap: () async {
-                  await availableCameras().then((value) => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PaginaCamera(cameras: value),
-                      )));
+                  XFile? fotoSelecionada =
+                      await availableCameras().then((value) => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PaginaCamera(cameras: value),
+                          )));
                 },
                 child: const Column(
                   children: [
