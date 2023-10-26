@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:desafio/screen/PaginaCamera.dart';
 import 'package:flutter/material.dart';
 
 class ModalImagem extends StatefulWidget {
@@ -9,8 +10,6 @@ class ModalImagem extends StatefulWidget {
 }
 
 class _ModalImagemState extends State<ModalImagem> {
-  
-
   Widget build(BuildContext context) {
     return Container(
       height: 200,
@@ -22,8 +21,12 @@ class _ModalImagemState extends State<ModalImagem> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               InkWell(
-                onTap: () {
-                  //abrirCamera();
+                onTap: () async {
+                  await availableCameras().then((value) => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PaginaCamera(cameras: value),
+                      )));
                 },
                 child: const Column(
                   children: [
@@ -64,4 +67,3 @@ class _ModalImagemState extends State<ModalImagem> {
     );
   }
 }
-

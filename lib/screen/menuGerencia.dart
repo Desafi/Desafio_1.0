@@ -1,6 +1,5 @@
 import 'package:desafio/screen/meusUsers.dart';
 import 'package:desafio/widget/CardPessoas.dart';
-import 'package:desafio/widget/Skeleton.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
