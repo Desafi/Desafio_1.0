@@ -586,6 +586,23 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                             },
                           ),
                         ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Visibility(
+                          visible: camposAdicionais.length > 0,
+                          child: ElevatedButton(
+                              child: Text('Apagar ultimo número'),
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.red)),
+                              onPressed: () {
+                                camposAdicionais.removeLast();
+                                setState(() {
+                                  camposAdicionais;
+                                });
+                              }),
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -668,21 +685,21 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                           hint: const Text('Selecione uma opção'),
                         ),
                       ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          side: const BorderSide(color: Colors.red, width: 2.0),
-                          shape: const CircleBorder(),
-                          padding: const EdgeInsets.all(2),
-                          backgroundColor:
-                              const Color.fromARGB(255, 255, 255, 255),
-                          foregroundColor: Colors.red,
-                        ),
-                        onPressed: () {},
-                        child: IconButton(
-                          icon: const Icon(Ionicons.trash_outline),
-                          onPressed: () {},
-                        ),
-                      ),
+                      // ElevatedButton(
+                      //   style: ElevatedButton.styleFrom(
+                      //     side: const BorderSide(color: Colors.red, width: 2.0),
+                      //     shape: const CircleBorder(),
+                      //     padding: const EdgeInsets.all(2),
+                      //     backgroundColor:
+                      //         const Color.fromARGB(255, 255, 255, 255),
+                      //     foregroundColor: Colors.red,
+                      //   ),
+                      //   onPressed: () {},
+                      //   child: IconButton(
+                      //     icon: const Icon(Ionicons.trash_outline),
+                      //     onPressed: () {},
+                      //   ),
+                      // ),
                     ],
                   ),
                   TextFormFieldWithFormatter(

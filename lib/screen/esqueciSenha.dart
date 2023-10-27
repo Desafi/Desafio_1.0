@@ -149,8 +149,8 @@ class _EsqueciSenhaAppState extends State<EsqueciSenhaApp> {
 }
 
 void RedefinirSenha(BuildContext context, TextEditingController email) {
-  _auth
-      .sendPasswordResetEmail(email: email.text)
+  
+  FirebaseAuth.instance.sendPasswordResetEmail(email: email.text)
       .then((value) => MensagemAwesome(context, "Sucesso",
           "Sucesso ao recuperar senha, verifique o e-mail para mais informações!!"))
       .catchError((e) {

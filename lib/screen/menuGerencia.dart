@@ -1,5 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/screen/meusUsers.dart';
-import 'package:desafio/widget/CardPessoas.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +19,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
+FirebaseFirestore db = FirebaseFirestore.instance;
+
+
 class MenuGerencia extends StatefulWidget {
   const MenuGerencia({super.key});
 
@@ -31,12 +34,13 @@ class _MenuGerenciaState extends State<MenuGerencia> {
   void initState() {
     super.initState();
     Firebase.initializeApp();
+    
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Gerencie usuarios'),
@@ -51,19 +55,39 @@ class _MenuGerenciaState extends State<MenuGerencia> {
             ],
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
-            MeusUsers(cards: [
-              CardPessoas(nome: 'João Antônio'),
-              CardPessoas(nome: 'Caio'),
-            ], titulo: 'Treinador', hintInput: 'Digite o nome do treinador..'),
-            MeusUsers(cards: [
-              CardPessoas(nome: 'João Antônio', telefone: '62262626262'),
-              CardPessoas(nome: 'Caio', telefone: '1699595994'),
-            ], titulo: 'Atletas', hintInput: 'Digite o nome do atleta..'),
+            MeusUsers(
+                titulo: 'Treinador',
+                hintInput: 'Digite o nome do treinador..'),
+            MeusUsers(
+                titulo: 'Atletas',
+                hintInput: 'Digite o nome do atleta..'),
           ],
         ),
       ),
     );
   }
 }
+
+// ReceberInformacoes() async {
+//   await db.collection("Usuarios").get().then(
+//     (querySnapshot) {
+//       for (var docSnapshot in querySnapshot.docs) {
+//         if (docSnapshot.data()['Tipo'] == 'Treinador') {
+//           cardTreinador.add(CardPessoas(
+//             email: docSnapshot.data()['Email'],
+//             nome: docSnapshot.data()['Nome'],
+//           ));
+//         }
+//         if (docSnapshot.data()['Tipo'] == 'Atleta') {
+//           cardAtleta.add(CardPessoas(
+//             email: docSnapshot.data()['Email'],
+//             nome: docSnapshot.data()['Nome'],
+//           ));
+//         }
+//       }
+//     },
+//     onError: (e) => print("Error completing: $e"),
+//   );
+// }

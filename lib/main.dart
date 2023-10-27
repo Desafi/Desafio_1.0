@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/screen/esqueciSenha.dart';
 import 'package:desafio/model/login.dart';
@@ -8,7 +6,6 @@ import 'package:desafio/screen/menuAtleta.dart';
 import 'package:desafio/screen/menuTreinador.dart';
 import 'package:desafio/screen/splashScreen.dart';
 import 'package:desafio/widget/BotaoLoader.dart';
-import 'package:desafio/widget/BotaoPrincipal.dart';
 import 'package:desafio/widget/Scaffolds.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

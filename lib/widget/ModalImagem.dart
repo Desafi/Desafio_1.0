@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:desafio/screen/PaginaCamera.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ModalImagem extends StatefulWidget {
   const ModalImagem({
@@ -46,8 +47,11 @@ class _ModalImagemState extends State<ModalImagem> {
                 ),
               ),
               InkWell(
-                onTap: () {
-                  //abrirGaleria()
+                onTap: () async {
+                  final ImagePicker picker = ImagePicker();
+                  final XFile? image =
+                      await picker.pickImage(source: ImageSource.gallery);
+                  
                 },
                 child: const Column(
                   children: [

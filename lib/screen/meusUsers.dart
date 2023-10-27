@@ -1,13 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:desafio/widget/CardPessoas.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/firestore.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class MeusUsers extends StatefulWidget {
-  final List<Widget> cards;
   final String titulo;
   final String hintInput;
 
   const MeusUsers({
     super.key,
-    required this.cards,
     required this.titulo,
     required this.hintInput,
   });
@@ -16,7 +19,16 @@ class MeusUsers extends StatefulWidget {
   State<MeusUsers> createState() => _MeusUsersState();
 }
 
+FirebaseFirestore db = FirebaseFirestore.instance;
+final usersQuery = FirebaseFirestore.instance.collection('Usuarios');
+
 class _MeusUsersState extends State<MeusUsers> {
+  @override
+  void initState() {
+    super.initState();
+    Firebase.initializeApp();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,11 +92,20 @@ class _MeusUsersState extends State<MeusUsers> {
                 const SizedBox(
                   height: 30,
                 ),
-                SingleChildScrollView(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: widget.cards),
-                ),
+                FirestoreListView<Map<String, dynamic>>(
+                  shrinkWrap: true,
+                  loadingBuilder: (context) => LoadingAnimationWidget.inkDrop(color: Colors.black, size: 2),
+                  query: widget.titulo == 'Treinador'
+                      ? usersQuery.where('Tipo', isEqualTo: 'Treinador')
+                      : usersQuery.where('Tipo', isEqualTo: 'Atleta'),
+                  itemBuilder: (context, snapshot) {
+                    Map<String, dynamic> user = snapshot.data();
+                    return CardPessoas(
+                      email: user['Email'],
+                      nome: user['Nome'],
+                    );
+                  },
+                )
               ],
             ),
           ),

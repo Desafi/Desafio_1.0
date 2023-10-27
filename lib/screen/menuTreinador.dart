@@ -62,19 +62,21 @@ class _MenuTreinadorAppState extends State<MenuTreinadorApp> {
               const DropdownMenuItem(value: "Atleta", child: Text("Atleta")),
             ],
           ),
-          MeusUsers(cards: [
-            CardPessoas(
-              nome: 'João Antônio',
-              telefone: '62262626262',
-              onTap: () async {
-                await Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => const TelaExpandidaAtletaApp()),
-                );
-              },
-            ),
-            const CardPessoas(nome: 'Caio', telefone: '1699595994'),
-          ], titulo: 'Atletas', hintInput: 'Digite o nome do atleta..'),
+          MeusUsers(
+            //cards: [
+            // CardPessoas(
+            //   nome: 'João Antônio',
+            //   telefone: '62262626262',
+            //   onTap: () async {
+            //     await Navigator.of(context).push(
+            //       MaterialPageRoute(
+            //           builder: (context) => const TelaExpandidaAtletaApp()),
+            //     );
+            //   },
+            // ),
+            // const CardPessoas(nome: 'Caio', telefone: '1699595994'),
+          //], 
+          titulo: 'Atletas', hintInput: 'Digite o nome do atleta..'),
           const CadastroPreTreinoApp(),
           TreinosApp(
             cards: [

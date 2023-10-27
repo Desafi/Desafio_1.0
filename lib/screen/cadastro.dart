@@ -45,11 +45,7 @@ class _CadastroAppState extends State<CadastroApp> {
   void initState() {
     super.initState();
     Firebase.initializeApp();
-    // _auth.authStateChanges().listen((User? user) {
-    //   if (user != null) {
-    //     print(user.uid);
-    //   }
-    // });
+ 
   }
 
   Cadastro cadastro = Cadastro("", "", "", "");

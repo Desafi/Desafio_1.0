@@ -1,5 +1,4 @@
 import 'package:desafio/main.dart';
-import 'package:desafio/widget/BotaoPrincipal.dart';
 import 'package:desafio/widget/BotaoUI.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -34,11 +33,8 @@ class MeuPerfilApp extends StatelessWidget {
                 width: double.infinity,
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      height: 60,
-                    ),
                     Text('João Antonio',
                         style: GoogleFonts.poppins(
                           textStyle: const TextStyle(

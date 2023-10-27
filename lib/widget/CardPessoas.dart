@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class CardPessoas extends StatelessWidget {
   final String nome;
-  final String? telefone;
+  final String email;
   final Function()? onTap;
 
   const CardPessoas({
     super.key,
     required this.nome,
-    this.telefone,
+    required this.email,
     this.onTap,
   });
 
@@ -39,11 +39,7 @@ class CardPessoas extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    Visibility(
-                      visible: telefone != null,
-                      child: Text('Telefone $telefone',
-                          style: const TextStyle(fontSize: 16)),
-                    ),
+                    Text(email, style: const TextStyle(fontSize: 16)),
                   ],
                 ),
                 const SizedBox(
