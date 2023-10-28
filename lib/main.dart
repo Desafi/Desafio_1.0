@@ -64,160 +64,163 @@ class _LoginAppState extends State<LoginApp> {
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Center(
-            child: Form(
-              key: _formKey,
-              child: SizedBox(
-                width: 350,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 75,
-                    ),
-                    Image.asset('assets/images/logoUnaerp.png', width: 200),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Text(
-                      'Bem Vindo!',
-                      style: GoogleFonts.plusJakartaSans(
-                        textStyle: const TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 36),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Center(
+              child: Form(
+                key: _formKey,
+                child: SizedBox(
+                  width: 350,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 75,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Faça o login e entre na plataforma.',
-                      style: GoogleFonts.plusJakartaSans(
-                        textStyle: const TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 14),
+                      Image.asset('assets/images/logoUnaerp.png', width: 200),
+                      const SizedBox(
+                        height: 50,
                       ),
-                    ),
-
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    //Email
-
-                    TextFormField(
-                      key: const Key('emailKey'),
-                      obscureText: false,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Este campo é obrigatório!";
-                        }
-                        login.email = value;
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
+                      Text(
+                        'Bem Vindo!',
+                        style: GoogleFonts.plusJakartaSans(
+                          textStyle: const TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 36),
                         ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'E-mail',
                       ),
-                    ),
-                    //Senha
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    TextFormField(
-                      key: const Key('senhaKey'),
-                      obscureText: true,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Este campo é obrigatório!";
-                        }
-                        if (value.length < 6) {
-                          return "Senha precisa ter mais de 6 dígitos!";
-                        }
-                        login.senha = value;
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'Faça o login e entre na plataforma.',
+                        style: GoogleFonts.plusJakartaSans(
+                          textStyle: const TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 14),
                         ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: 'Senha',
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: InkWell(
-                        onTap: () async {
-                          await Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const EsqueciSenhaApp()),
-                          );
+
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      //Email
+
+                      TextFormField(
+                        key: const Key('emailKey'),
+                        obscureText: false,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Este campo é obrigatório!";
+                          }
+                          login.email = value;
+                          return null;
                         },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Esqueceu sua senha?',
-                              style: GoogleFonts.plusJakartaSans(
-                                textStyle: const TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
-                              ),
+                        decoration: InputDecoration(
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey,
                             ),
-                          ],
+                          ),
+                          fillColor: Colors.grey[200],
+                          filled: true,
+                          border: const OutlineInputBorder(),
+                          labelText: 'E-mail',
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 35,
-                    ),
-                    BotaoLoader(
-                      hintText: estaCarregando
-                          ? CircularProgressIndicator(color: Colors.white)
-                          : Text(
-                              "Entrar",
-                              style: GoogleFonts.plusJakartaSans(
-                                textStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                      //Senha
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextFormField(
+                        key: const Key('senhaKey'),
+                        obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Este campo é obrigatório!";
+                          }
+                          if (value.length < 6) {
+                            return "Senha precisa ter mais de 6 dígitos!";
+                          }
+                          login.senha = value;
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          fillColor: Colors.grey[200],
+                          filled: true,
+                          border: const OutlineInputBorder(),
+                          labelText: 'Senha',
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                        child: InkWell(
+                          onTap: () async {
+                            await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const EsqueciSenhaApp()),
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Esqueceu sua senha?',
+                                style: GoogleFonts.plusJakartaSans(
+                                  textStyle: const TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
                                 ),
                               ),
-                            ),
-                      cor: Colors.blueAccent,
-                      onTap: estaCarregando
-                          ? null
-                          : () async {
-                              if (_formKey.currentState!.validate()) {
-                                setState(() {
-                                  estaCarregando = true;
-                                });
-                                await Logar(context);
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 35,
+                      ),
+                      BotaoLoader(
+                        hintText: estaCarregando
+                            ? CircularProgressIndicator(color: Colors.white)
+                            : Text(
+                                "Entrar",
+                                style: GoogleFonts.plusJakartaSans(
+                                  textStyle: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                        cor: Colors.blueAccent,
+                        onTap: estaCarregando
+                            ? null
+                            : () async {
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    estaCarregando = true;
+                                  });
+                                  await Logar(context);
 
-                                setState(() {
-                                  estaCarregando = false;
-                                });
-                              }
-                            },
-                    ),
-                    
-                  ],
+                                  setState(() {
+                                    estaCarregando = false;
+                                  });
+                                }
+                              },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

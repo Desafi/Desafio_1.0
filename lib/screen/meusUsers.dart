@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/widget/CardPessoas.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfire_ui/firestore.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class MeusUsers extends StatefulWidget {
@@ -94,7 +94,8 @@ class _MeusUsersState extends State<MeusUsers> {
                 ),
                 FirestoreListView<Map<String, dynamic>>(
                   shrinkWrap: true,
-                  loadingBuilder: (context) => LoadingAnimationWidget.inkDrop(color: Colors.black, size: 2),
+                  loadingBuilder: (context) => LoadingAnimationWidget.inkDrop(
+                      color: Colors.black, size: 2),
                   query: widget.titulo == 'Treinador'
                       ? usersQuery.where('Tipo', isEqualTo: 'Treinador')
                       : usersQuery.where('Tipo', isEqualTo: 'Atleta'),

@@ -39,7 +39,7 @@ class CardPessoas extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    Text(email, style: const TextStyle(fontSize: 16)),
+                    Text(email, style: const TextStyle(fontSize: 10)),
                   ],
                 ),
                 const SizedBox(
