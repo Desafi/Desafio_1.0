@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:desafio/main.dart';
 import 'package:desafio/screen/menuGerencia.dart';
 import 'package:desafio/screen/cadastro.dart';
@@ -18,15 +16,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: AdmApp(),
     );
   }
 }
 
-class AdmApp extends StatelessWidget {
-  const AdmApp({super.key});
+class AdmApp extends StatefulWidget {
+  @override
+  _AdmAppState createState() => _AdmAppState();
+}
 
+class _AdmAppState extends State<AdmApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
       splash: Lottie.asset('assets/images/carregamento.json'),
-      nextScreen: Container(),
+      nextScreen: LoginApp(),
       splashIconSize: 250,
       duration: 3000,
       backgroundColor: Color.fromARGB(255, 86, 97, 255),

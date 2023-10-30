@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:desafio/screen/PaginaCamera.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 class ModalImagem extends StatefulWidget {
   const ModalImagem({
@@ -11,6 +15,8 @@ class ModalImagem extends StatefulWidget {
   @override
   State<ModalImagem> createState() => _ModalImagemState();
 }
+
+final storage = FirebaseStorage.instance;
 
 class _ModalImagemState extends State<ModalImagem> {
   Widget build(BuildContext context) {
@@ -25,12 +31,17 @@ class _ModalImagemState extends State<ModalImagem> {
             children: [
               InkWell(
                 onTap: () async {
-                  XFile? fotoSelecionada =
+                  XFile? foto =
                       await availableCameras().then((value) => Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => PaginaCamera(cameras: value),
                           )));
+
+                  // Reference ref = storage
+                  //     .ref()
+                  //     .child('images/img-${Uuid().v4().toString()}.jpg');
+                  // UploadTask uploadTask = ref.putFile(File(foto!.path));
                 },
                 child: const Column(
                   children: [
@@ -51,7 +62,6 @@ class _ModalImagemState extends State<ModalImagem> {
                   final ImagePicker picker = ImagePicker();
                   final XFile? image =
                       await picker.pickImage(source: ImageSource.gallery);
-                  
                 },
                 child: const Column(
                   children: [

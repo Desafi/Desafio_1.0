@@ -7,7 +7,7 @@ List<DropdownMenuItem<String>> menuItems = [
 ];
 String? selectValue;
 
-Cadastro cadastro = Cadastro("", "", "","");
+Cadastro cadastro = Cadastro("", "", "", "", "");
 
 class DropDownCadastro extends StatelessWidget {
   final Function()? onTap;

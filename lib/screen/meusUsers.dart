@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:desafio/screen/telaExpandidaAtleta.dart';
+import 'package:desafio/screen/telaNaoEncontrada.dart';
 import 'package:desafio/widget/CardPessoas.dart';
+import 'package:desafio/widget/Scaffolds.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class MeusUsers extends StatefulWidget {
@@ -21,6 +25,7 @@ class MeusUsers extends StatefulWidget {
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 final usersQuery = FirebaseFirestore.instance.collection('Usuarios');
+bool? existe;
 
 class _MeusUsersState extends State<MeusUsers> {
   @override
@@ -28,6 +33,8 @@ class _MeusUsersState extends State<MeusUsers> {
     super.initState();
     Firebase.initializeApp();
   }
+  String? pesquisa;
+
 
   @override
   Widget build(BuildContext context) {
@@ -54,45 +61,37 @@ class _MeusUsersState extends State<MeusUsers> {
                 const SizedBox(
                   height: 50,
                 ),
-                SearchAnchor(builder:
-                    (BuildContext context, SearchController controller) {
-                  return SearchBar(
-                    hintText: (widget.hintInput),
-                    controller: controller,
-                    padding: const MaterialStatePropertyAll<EdgeInsets>(
-                        EdgeInsets.symmetric(horizontal: 16.0)),
-                    onTap: () {
-                      controller.openView();
-                    },
-                    onChanged: (_) {
-                      controller.openView();
-                    },
-                    leading: const Icon(Icons.search),
-                    trailing: const <Widget>[],
-                  );
-                }, suggestionsBuilder:
-                    (BuildContext context, SearchController controller) {
-                  List<String> items = [
-                    'João',
-                    'Caio',
-                    'Gabriel',
-                    'Luiz',
-                  ];
-                  return items.map((String item) {
-                    return ListTile(
-                      title: Text(item),
-                      onTap: () {
-                        setState(() {
-                          controller.closeView(item);
-                        });
-                      },
-                    );
-                  }).toList();
-                }),
+                SearchBar(
+                  onChanged: (value) {
+                    setState(() {
+                      pesquisa = value;
+                    });
+                  },
+                  padding: const MaterialStatePropertyAll<EdgeInsets>(
+                      EdgeInsets.symmetric(horizontal: 25.0)),
+                  hintText: widget.hintInput,
+                  trailing: <Widget>[
+                    Tooltip(
+                      message: 'Pesquisar',
+                      child: IconButton(
+                        onPressed: () {
+                          if (pesquisa == null || pesquisa!.isEmpty) {
+                            Mensagem(context, "Digite algo!", Colors.red);
+                          }
+                          // Pesquisa(pesquisa.toString());
+                          setState(() {});
+                        },
+                        icon: const Icon(Icons.search),
+                      ),
+                    )
+                  ],
+                ),
                 const SizedBox(
                   height: 30,
                 ),
                 FirestoreListView<Map<String, dynamic>>(
+                  physics: BouncingScrollPhysics(),
+                  pageSize: 3,
                   shrinkWrap: true,
                   loadingBuilder: (context) => LoadingAnimationWidget.inkDrop(
                       color: Colors.black, size: 2),
@@ -104,9 +103,33 @@ class _MeusUsersState extends State<MeusUsers> {
                     return CardPessoas(
                       email: user['Email'],
                       nome: user['Nome'],
+                      onTap: () async {
+                        if (user['Tipo'] == 'Atleta') {
+                          QuerySnapshot querySnapshot = await db
+                              .collection('Cadastro')
+                              .where('Email', isEqualTo: user['Email'])
+                              .get();
+
+                          existe = querySnapshot.docs.isNotEmpty;
+                          if (existe!) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        TelaExpandidaAtletaApp(
+                                          emailUser: user['Email'],
+                                        )));
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NaoEncontrado()));
+                          }
+                        }
+                      },
                     );
                   },
-                )
+                ),
               ],
             ),
           ),

@@ -12,12 +12,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
 
 // void main() {
 //   runApp(const MaterialApp(
-//     home: CadastroApp(menuItems: []),
+//     home: CadastroApp(),
 //   ));
 // }
 
@@ -45,10 +46,9 @@ class _CadastroAppState extends State<CadastroApp> {
   void initState() {
     super.initState();
     Firebase.initializeApp();
- 
   }
 
-  Cadastro cadastro = Cadastro("", "", "", "");
+  Cadastro cadastro = Cadastro("", "", "", "", "");
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -211,8 +211,11 @@ Registrar(String email, String senha, String tipo, String nome,
     final UserCredential userCredential = await _auth
         .createUserWithEmailAndPassword(email: email, password: senha);
     final String userId = userCredential.user!.uid;
+
+    //Pega hora atual
+    final dataAtual = Data();
     //Cadastra os dados no banco
-    await _CadastraBanco(userId, nome, email, tipo, context);
+    await _CadastraBanco(userId, nome, email, tipo, dataAtual, context);
 
     //Envia a senha para o email cadastrado
     await _EnviarEmail(email, senha, context);
@@ -231,12 +234,13 @@ Registrar(String email, String senha, String tipo, String nome,
 }
 
 _CadastraBanco(String userId, String nome, String email, String tipo,
-    BuildContext context) {
+    String data, BuildContext context) {
   try {
     final user = <String, dynamic>{
       "Nome": nome,
       "Email": email,
       "Tipo": tipo,
+      "DataCriacao": data
     };
 
     db.collection("Usuarios").doc(userId).set(user);
@@ -271,4 +275,10 @@ _GerarSenha() {
 
   final numeroRandomico = min + random.nextInt(max - min + 1);
   return numeroRandomico.toString();
+}
+
+String Data() {
+  DateTime agora = DateTime.now();
+  String formato = DateFormat('dd-MM-yyyy - kk:mm:ss').format(agora);
+  return formato.toString();
 }

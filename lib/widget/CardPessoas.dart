@@ -35,11 +35,11 @@ class CardPessoas extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Nome: $nome', style: const TextStyle(fontSize: 16)),
+                    Text(nome, style: const TextStyle(fontSize: 16)),
                     const SizedBox(
                       height: 10,
                     ),
-                    Text(email, style: const TextStyle(fontSize: 10)),
+                    Text(email, style: const TextStyle(fontSize: 12)),
                   ],
                 ),
                 const SizedBox(

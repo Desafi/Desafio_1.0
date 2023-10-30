@@ -94,6 +94,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     const SizedBox(
                       height: 75,
                     ),
+
                     Image.asset('assets/images/logoUnaerp.png', width: 200),
                     const SizedBox(
                       height: 20,
@@ -622,6 +623,9 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                       onTap: () {
                         if (_formKey.currentState!.validate()) {}
                       },
+                    ),
+                    const SizedBox(
+                      height: 30,
                     ),
                   ],
                 ),

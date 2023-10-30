@@ -41,7 +41,7 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
   @override
   void initState() {
     super.initState();
-    //VerificaCadastro(context);
+    VerificaCadastro(context);
 
     pc = PageController(initialPage: paginaAtual);
   }

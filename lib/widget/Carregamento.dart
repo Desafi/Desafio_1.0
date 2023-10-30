@@ -8,6 +8,14 @@ class Carregamento extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LoadingAnimationWidget.inkDrop(color: Colors.black, size: 200);
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: LoadingAnimationWidget.inkDrop(
+          color: Colors.black,
+          size: 200
+          ),
+      ),
+    );
   }
 }

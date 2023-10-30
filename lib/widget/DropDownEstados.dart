@@ -1,4 +1,3 @@
-import 'package:desafio/model/atleta.dart';
 import 'package:flutter/material.dart';
 
 List<DropdownMenuItem<String>> estadosBrasil = [

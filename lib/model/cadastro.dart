@@ -3,6 +3,7 @@ class Cadastro {
   String email;
   String senha;
   String tipo;
+  String dataCriacao;
 
-  Cadastro(this.nome, this.email, this.senha, this.tipo);
+  Cadastro(this.nome, this.email, this.senha, this.tipo, this.dataCriacao);
 }
