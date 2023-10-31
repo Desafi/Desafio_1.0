@@ -4,23 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:desafio/model/preTreino.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+// void main() {
+//   runApp(const MyApp());
+// }
 
 String? selectValue;
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: CadastroPreTreinoApp(),
-    );
-  }
-}
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(
+//       home: CadastroPreTreinoApp(),
+//     );
+//   }
+// }
 
 class CadastroPreTreinoApp extends StatefulWidget {
   const CadastroPreTreinoApp({super.key});
@@ -29,14 +29,15 @@ class CadastroPreTreinoApp extends StatefulWidget {
   State<CadastroPreTreinoApp> createState() => _CadastroPreTreinoAppState();
 }
 
+List<String> _kOptions = <String>[
+  'joão',
+  'lamarca',
+  'caio',
+];
+List<String> pesquisa = [];
+
 class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
   CadastroPreTreino cadastro = CadastroPreTreino("", "", "", "");
-
-  final List<String> _kOptions = <String>[
-    'joão',
-    'lamarca',
-    'caio',
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +47,16 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
     ];
 
     final formKey = GlobalKey<FormState>();
+
+    void filterSearchResults(String query) {
+      setState(() {
+        pesquisa = _kOptions
+            .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+
+        print(pesquisa);
+      });
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -82,27 +93,45 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                   const SizedBox(
                     height: 50,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Digite o nome do atleta",
-                          textAlign: TextAlign.start),
-                      Autocomplete<String>(
-                        optionsBuilder: (TextEditingValue textEditingValue) {
-                          if (textEditingValue.text.isEmpty) {
-                            return const Iterable<String>.empty();
-                          }
-                          return _kOptions.where((String option) {
-                            final inputText =
-                                textEditingValue.text.toLowerCase();
-                            final optionText = option.toLowerCase();
-                            return optionText.contains(inputText);
-                          });
-                        },
-                        onSelected: (String selection) {},
-                      ),
-                    ],
-                  ),
+                  //Pesquisar
+                  SearchAnchor(builder:
+                      (BuildContext context, SearchController controller) {
+                    return SearchBar(
+                      hintText: "Selecione o atleta",
+                      controller: controller,
+                      padding: const MaterialStatePropertyAll<EdgeInsets>(
+                          EdgeInsets.symmetric(horizontal: 16.0)),
+                      onTap: () {
+                        controller.openView();
+                      },
+                      onChanged: (text) {
+                        print(text);
+                        // filterSearchResults(value);s
+                      },
+                      leading: const Icon(Icons.search),
+                    );
+                  }, suggestionsBuilder:
+                      (BuildContext context, SearchController controller) {
+                    return List<Widget>.generate(_kOptions.length, (int index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            radius: 30,
+                            backgroundImage:
+                                AssetImage('assets/images/person.jpg'),
+                          ),
+                          title: Text(
+                            _kOptions[index],
+                          ),
+                          onTap: () {
+                            controller.closeView(_kOptions[index]);
+                          },
+                        ),
+                      );
+                    });
+                  }),
+
                   const SizedBox(
                     height: 30,
                   ),

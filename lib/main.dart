@@ -72,7 +72,7 @@ class _LoginAppState extends State<LoginApp> {
                 child: SizedBox(
                   width: 350,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       const SizedBox(
                         height: 75,

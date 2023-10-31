@@ -41,7 +41,7 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
   @override
   void initState() {
     super.initState();
-    VerificaCadastro(context);
+    // VerificaCadastro(context);
 
     pc = PageController(initialPage: paginaAtual);
   }
@@ -120,7 +120,7 @@ VerificaCadastro(BuildContext context) {
   print(user!.uid);
   db
       .collection('Cadastro')
-      .doc(user!.uid)
+      .doc(user.uid)
       .get()
       .then((DocumentSnapshot documentSnapshot) {
     if (documentSnapshot.exists) {

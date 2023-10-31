@@ -35,6 +35,10 @@ class MeuPerfilApp extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Padding(padding: EdgeInsets.all(25)),
                     Text('João Antonio',
                         style: GoogleFonts.poppins(
                           textStyle: const TextStyle(

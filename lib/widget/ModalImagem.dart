@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:camera/camera.dart';
-import 'package:desafio/screen/PaginaCamera.dart';
+import 'package:desafio/screen/paginaCamera.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:uuid/uuid.dart';
 
 class ModalImagem extends StatefulWidget {
   const ModalImagem({
@@ -37,11 +34,27 @@ class _ModalImagemState extends State<ModalImagem> {
                           MaterialPageRoute(
                             builder: (context) => PaginaCamera(cameras: value),
                           )));
+                  // print(foto!.path);
 
-                  // Reference ref = storage
-                  //     .ref()
-                  //     .child('images/img-${Uuid().v4().toString()}.jpg');
-                  // UploadTask uploadTask = ref.putFile(File(foto!.path));
+                  // Reference reference = FirebaseStorage.instance.ref();
+                  // Reference referenceDirImages = reference.child('images');
+
+                  // Reference referenceImageToUpload =
+                  //     referenceDirImages.child(Uuid().v4());
+
+                  // try {
+                  //   await referenceImageToUpload.putFile(File(foto!.path));
+
+                  //   imageUrl = await referenceImageToUpload.getDownloadURL();
+                  // } catch (e) {
+                  //   // ...
+                  // }
+
+                  // Reference ref =
+                  //     storage.ref().child("images/${Uuid().v4()}.jpg");
+                  // await ref.putFile(File(foto!.path));
+                  // String imageUrl = await ref.getDownloadURL();
+                  // print("URL da imagem: $imageUrl");
                 },
                 child: const Column(
                   children: [

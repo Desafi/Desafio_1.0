@@ -46,6 +46,8 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
   TextEditingController estadoController = TextEditingController();
   TextEditingController enderecoController = TextEditingController();
 
+  TextEditingController testeController = TextEditingController();
+
   List<DropdownMenuItem<String>> menuItems = [
     const DropdownMenuItem(value: "Feminino", child: Text("Feminino")),
     const DropdownMenuItem(value: "Masculino", child: Text("Masculino")),

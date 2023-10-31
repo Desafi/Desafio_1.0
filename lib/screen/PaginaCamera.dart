@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
@@ -91,13 +90,18 @@ class _PaginaCamera extends State<PaginaCamera> {
                         backgroundColor: Colors.white,
                         elevation: 20,
                         onPressed: () async {
-                          XFile file = await controller.takePicture();
-                          if (mounted) {
-                            setState(() {
-                              pictureFile = file;
-                              botaoFoto = !botaoFoto;
-                              botoesSelecionar = !botoesSelecionar;
-                            });
+                          try {
+                            XFile file = await controller.takePicture();
+
+                            if (mounted) {
+                              setState(() {
+                                pictureFile = file;
+                                botaoFoto = !botaoFoto;
+                                botoesSelecionar = !botoesSelecionar;
+                              });
+                            }
+                          } catch (e) {
+                            print('Erro na captura de imagem: $e');
                           }
                         },
                         child: const Icon(
