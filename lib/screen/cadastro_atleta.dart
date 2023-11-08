@@ -1,12 +1,12 @@
 import 'package:desafio/model/atleta.dart';
-import 'package:desafio/widget/BotaoAdicionar.dart';
-import 'package:desafio/widget/BotaoPrincipal.dart';
-import 'package:desafio/widget/DropDownEstados.dart';
-import 'package:desafio/widget/ModalImagem.dart';
-import 'package:desafio/widget/Scaffolds.dart';
-import 'package:desafio/widget/TextFormFieldCadastro.dart';
-import 'package:desafio/widget/TextFormFieldFoto.dart';
-import 'package:desafio/widget/TextFormFieldWithFormatter.dart';
+import 'package:desafio/widget/botao_adicionar.dart';
+import 'package:desafio/widget/botao_principal.dart';
+import 'package:desafio/widget/drop_down_estados.dart';
+import 'package:desafio/widget/modal_imagem.dart';
+import 'package:desafio/widget/scaffolds.dart';
+import 'package:desafio/widget/text_form_field_cadastro.dart';
+import 'package:desafio/widget/text_form_field_foto.dart';
+import 'package:desafio/widget/text_form_field_with_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -97,10 +97,6 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                       height: 75,
                     ),
 
-                    Image.asset('assets/images/logoUnaerp.png', width: 200),
-                    const SizedBox(
-                      height: 20,
-                    ),
                     Text(
                       'Termine seu cadastro',
                       style: GoogleFonts.plusJakartaSans(

@@ -1,4 +1,4 @@
-import 'package:desafio/widget/IconesTreino.dart';
+import 'package:desafio/widget/icones_treino.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
@@ -40,17 +40,14 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                 const SizedBox(
                   height: 75,
                 ),
-                Image.asset('assets/images/logoUnaerp.png', width: 200),
-                const SizedBox(
-                  height: 30,
-                ),
                 const SizedBox(height: 30.0),
                 const Text(
                   'Informações da prova',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10.0),
-                const Text('Aqui mostra uma descrição detalhada sobre sua prova:',
+                const Text(
+                    'Aqui mostra uma descrição detalhada sobre sua prova:',
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.w300)),
                 const Row(

@@ -1,4 +1,4 @@
-import 'package:desafio/widget/InputMostrar.dart';
+import 'package:desafio/widget/input_mostrar.dart';
 import 'package:desafio/widget/InputMostrarFoto.dart';
 import 'package:flutter/material.dart';
 

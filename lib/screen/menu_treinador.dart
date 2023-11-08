@@ -1,12 +1,12 @@
 import 'package:desafio/screen/cadastro.dart';
-import 'package:desafio/screen/formPreTreino.dart';
+import 'package:desafio/screen/form_pre_treino.dart';
 import 'package:desafio/screen/Treinos.dart';
-import 'package:desafio/screen/meusUsers.dart';
+import 'package:desafio/screen/meus_users.dart';
 import 'package:desafio/screen/perfil.dart';
-import 'package:desafio/screen/telaExpandidaAtleta.dart';
-import 'package:desafio/screen/treinoExpandido.dart';
-import 'package:desafio/widget/CardPessoas.dart';
-import 'package:desafio/widget/CardTreinos.dart';
+import 'package:desafio/screen/tela_expandida_atleta.dart';
+import 'package:desafio/screen/treino_expandido.dart';
+import 'package:desafio/widget/card_pessoas.dart';
+import 'package:desafio/widget/card_treinos.dart';
 import 'package:flutter/material.dart';
 
 void main() {

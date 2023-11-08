@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:desafio/screen/cadastroAtleta.dart';
+import 'package:desafio/screen/cadastro_atleta.dart';
 import 'package:desafio/screen/desempenho.dart';
-import 'package:desafio/screen/formPreTreino.dart';
+import 'package:desafio/screen/form_pre_treino.dart';
 import 'package:desafio/screen/Treinos.dart';
 import 'package:desafio/screen/perfil.dart';
-import 'package:desafio/widget/CardTreinos.dart';
+import 'package:desafio/widget/card_treinos.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:desafio/screen/telaExpandidaAtleta.dart';
-import 'package:desafio/screen/telaNaoEncontrada.dart';
-import 'package:desafio/widget/CardPessoas.dart';
-import 'package:desafio/widget/Scaffolds.dart';
+import 'package:desafio/screen/tela_expandida_atleta.dart';
+import 'package:desafio/screen/tela_nao_encontrada.dart';
+import 'package:desafio/widget/card_pessoas.dart';
+import 'package:desafio/widget/scaffolds.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class MeusUsers extends StatefulWidget {

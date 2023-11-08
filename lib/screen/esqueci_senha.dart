@@ -1,6 +1,6 @@
-import 'package:desafio/widget/AwesomeDialog.dart';
-import 'package:desafio/widget/BotaoPrincipal.dart';
-import 'package:desafio/widget/Scaffolds.dart';
+import 'package:desafio/widget/awesome_dialog.dart';
+import 'package:desafio/widget/botao_principal.dart';
+import 'package:desafio/widget/scaffolds.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

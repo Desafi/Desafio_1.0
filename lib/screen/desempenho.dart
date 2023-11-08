@@ -1,5 +1,5 @@
-import 'package:desafio/widget/BotaoPrincipal.dart';
-import 'package:desafio/widget/CardResultado.dart';
+import 'package:desafio/widget/botao_principal.dart';
+import 'package:desafio/widget/card_resultado.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -41,10 +41,7 @@ class _DesempenhoAppState extends State<DesempenhoApp> {
                   const SizedBox(
                     height: 75,
                   ),
-                  Image.asset('assets/images/logoUnaerp.png', width: 200),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  
                   Text(
                     'Desempenho',
                     style: GoogleFonts.plusJakartaSans(

@@ -3,11 +3,11 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/helper/Define.dart';
 import 'package:desafio/model/cadastro.dart';
-import 'package:desafio/widget/AwesomeDialog.dart';
-import 'package:desafio/widget/BotaoLoader.dart';
-import 'package:desafio/widget/BotaoPrincipal.dart';
-import 'package:desafio/widget/Scaffolds.dart';
-import 'package:desafio/widget/TextFormFieldCadastro.dart';
+import 'package:desafio/widget/awesome_dialog.dart';
+import 'package:desafio/widget/botao_loader.dart';
+import 'package:desafio/widget/botao_principal.dart';
+import 'package:desafio/widget/scaffolds.dart';
+import 'package:desafio/widget/text_form_field_cadastro.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -68,10 +68,7 @@ class _CadastroAppState extends State<CadastroApp> {
                     const SizedBox(
                       height: 75,
                     ),
-                    Image.asset('assets/images/logoUnaerp.png', width: 200),
-                    const SizedBox(
-                      height: 50,
-                    ),
+                 
                     Text(
                       textAlign: TextAlign.start,
                       'Cadastre um usuário',

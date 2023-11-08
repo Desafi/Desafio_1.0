@@ -1,4 +1,4 @@
-import 'package:desafio/widget/BotaoPrincipal.dart';
+import 'package:desafio/widget/botao_principal.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';

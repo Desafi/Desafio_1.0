@@ -1,5 +1,5 @@
 import 'package:desafio/main.dart';
-import 'package:desafio/widget/BotaoUI.dart';
+import 'package:desafio/widget/botao_ui.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

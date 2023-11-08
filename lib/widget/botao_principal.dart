@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class BotaoPrincipal extends StatelessWidget {
   final String hintText;
-  final Color cor;
+  final Color? cor;
   final Function()? onTap;
 
   BotaoPrincipal({

@@ -1,5 +1,5 @@
 import 'package:desafio/screen/cronometro.dart';
-import 'package:desafio/widget/BotaoPrincipal.dart';
+import 'package:desafio/widget/botao_principal.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:desafio/model/preTreino.dart';
@@ -71,10 +71,7 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                   const SizedBox(
                     height: 75,
                   ),
-                  Image.asset('assets/images/logoUnaerp.png', width: 200),
-                  const SizedBox(
-                    height: 50,
-                  ),
+               
                   Text(
                     textAlign: TextAlign.start,
                     'Cadastre pré-treino',

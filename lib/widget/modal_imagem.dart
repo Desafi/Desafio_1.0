@@ -1,5 +1,5 @@
 import 'package:camera/camera.dart';
-import 'package:desafio/screen/paginaCamera.dart';
+import 'package:desafio/screen/pagina_camera.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
