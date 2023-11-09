@@ -13,13 +13,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
-import 'package:ionicons/ionicons.dart';
 
 void main() {
   runApp(const MaterialApp(
     localizationsDelegates: [
       GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
     ],
     supportedLocales: [
       Locale('pt'), // Defina o idioma e país desejados
@@ -115,9 +115,16 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                       height: 20,
                     ),
 
-                    TextField(
+                    TextFormField(
                         keyboardType: TextInputType.datetime,
                         controller: _dateController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Este campo é obrigatório!";
+                          }
+                          atleta.dataDeNascimento = value;
+                          return null;
+                        },
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.calendar_today),
                           enabledBorder: const OutlineInputBorder(
@@ -589,7 +596,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                           height: 30,
                         ),
                         Visibility(
-                          visible: camposAdicionais.length > 0,
+                          visible: camposAdicionais.isNotEmpty,
                           child: ElevatedButton(
                               child: Text('Apagar ultimo número'),
                               style: ButtonStyle(

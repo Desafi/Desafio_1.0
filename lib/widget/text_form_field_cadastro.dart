@@ -6,7 +6,6 @@ class TextFormFieldCadastro extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final TextEditingController? formController;
 
-
   const TextFormFieldCadastro({
     super.key,
     required this.labelText,
@@ -21,7 +20,8 @@ class TextFormFieldCadastro extends StatelessWidget {
         onChanged: onChanged,
         validator: validator,
         decoration: InputDecoration(
-          enabledBorder: const OutlineInputBorder(
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
             borderSide: BorderSide(
               width: 1,
               color: Colors.grey,

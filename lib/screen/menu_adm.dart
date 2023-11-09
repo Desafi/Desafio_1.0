@@ -5,7 +5,6 @@ import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/card_adm.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 // void main() {
 //   runApp(const MyApp());
@@ -32,7 +31,6 @@ class _AdmAppState extends State<AdmApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -44,13 +42,24 @@ class _AdmAppState extends State<AdmApp> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 200,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(22.0),
+                      color: Colors.grey[300],
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 9,
+                          blurRadius: 8,
+                          offset: Offset(0, 8),
+                        )
+                      ]),
                   child: Card(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
-                    color: Colors.grey[100],
+                    color: Colors.white,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const CircleAvatar(
                           radius: 50,
@@ -70,7 +79,7 @@ class _AdmAppState extends State<AdmApp> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 30),
                 Text(
                   'Selecione',
                   style: TextStyle(fontSize: 24),
@@ -106,7 +115,7 @@ class _AdmAppState extends State<AdmApp> {
                     );
                   },
                 ),
-                SizedBox(height: 70),
+                SizedBox(height: 80),
                 BotaoPrincipal(
                   hintText: 'Sair',
                   cor: Colors.red[400],

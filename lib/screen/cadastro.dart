@@ -68,7 +68,6 @@ class _CadastroAppState extends State<CadastroApp> {
                     const SizedBox(
                       height: 75,
                     ),
-                 
                     Text(
                       textAlign: TextAlign.start,
                       'Cadastre um usuário',
@@ -208,7 +207,6 @@ Registrar(String email, String senha, String tipo, String nome,
     final UserCredential userCredential = await _auth
         .createUserWithEmailAndPassword(email: email, password: senha);
     final String userId = userCredential.user!.uid;
-
     //Pega hora atual
     final dataAtual = Data();
     //Cadastra os dados no banco

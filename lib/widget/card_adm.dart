@@ -20,7 +20,7 @@ class CardAdm extends StatelessWidget {
         elevation: 10,
         child: Container(
           width: MediaQuery.of(context).size.width,
-          height: 100,
+          height: 80,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

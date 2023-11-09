@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/screen/tela_expandida_atleta.dart';
 import 'package:desafio/screen/tela_nao_encontrada.dart';
 import 'package:desafio/widget/card_pessoas.dart';
-import 'package:desafio/widget/scaffolds.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +24,7 @@ class MeusUsers extends StatefulWidget {
 FirebaseFirestore db = FirebaseFirestore.instance;
 final usersQuery = FirebaseFirestore.instance.collection('Usuarios');
 bool? existe;
+String? pesquisa;
 
 class _MeusUsersState extends State<MeusUsers> {
   @override
@@ -32,8 +32,6 @@ class _MeusUsersState extends State<MeusUsers> {
     super.initState();
     Firebase.initializeApp();
   }
-  String? pesquisa;
-
 
   @override
   Widget build(BuildContext context) {
@@ -61,29 +59,14 @@ class _MeusUsersState extends State<MeusUsers> {
                   height: 50,
                 ),
                 SearchBar(
+                  padding: const MaterialStatePropertyAll<EdgeInsets>(
+                      EdgeInsets.symmetric(horizontal: 25.0)),
+                  hintText: widget.hintInput,
                   onChanged: (value) {
                     setState(() {
                       pesquisa = value;
                     });
                   },
-                  padding: const MaterialStatePropertyAll<EdgeInsets>(
-                      EdgeInsets.symmetric(horizontal: 25.0)),
-                  hintText: widget.hintInput,
-                  trailing: <Widget>[
-                    Tooltip(
-                      message: 'Pesquisar',
-                      child: IconButton(
-                        onPressed: () {
-                          if (pesquisa == null || pesquisa!.isEmpty) {
-                            Mensagem(context, "Digite algo!", Colors.red);
-                          }
-                          // Pesquisa(pesquisa.toString());
-                          setState(() {});
-                        },
-                        icon: const Icon(Icons.search),
-                      ),
-                    )
-                  ],
                 ),
                 const SizedBox(
                   height: 30,
@@ -95,38 +78,76 @@ class _MeusUsersState extends State<MeusUsers> {
                   loadingBuilder: (context) => LoadingAnimationWidget.inkDrop(
                       color: Colors.black, size: 2),
                   query: widget.titulo == 'Treinador'
-                      ? usersQuery.where('Tipo', isEqualTo: 'Treinador')
-                      : usersQuery.where('Tipo', isEqualTo: 'Atleta'),
+                      ? usersQuery
+                          .where('Tipo', isEqualTo: 'Treinador')
+                          .orderBy('DataCriacao', descending: false)
+                      : usersQuery
+                          .where('Tipo', isEqualTo: 'Atleta')
+                          .orderBy('DataCriacao', descending: false),
                   itemBuilder: (context, snapshot) {
-                    Map<String, dynamic> user = snapshot.data();
-                    return CardPessoas(
-                      email: user['Email'],
-                      nome: user['Nome'],
-                      onTap: () async {
-                        if (user['Tipo'] == 'Atleta') {
-                          QuerySnapshot querySnapshot = await db
-                              .collection('Cadastro')
-                              .where('Email', isEqualTo: user['Email'])
-                              .get();
+                    if (pesquisa == null) {
+                      Map<String, dynamic> user = snapshot.data();
+                      return CardPessoas(
+                          email: user['Email'],
+                          nome: user['Nome'],
+                          onTap: () async {
+                            if (user['Tipo'] == 'Atleta') {
+                              QuerySnapshot querySnapshot = await db
+                                  .collection('Cadastro')
+                                  .where('Email', isEqualTo: user['Email'])
+                                  .get();
 
-                          existe = querySnapshot.docs.isNotEmpty;
-                          if (existe!) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        TelaExpandidaAtletaApp(
-                                          emailUser: user['Email'],
-                                        )));
-                          } else {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => NaoEncontrado()));
-                          }
-                        }
-                      },
-                    );
+                              existe = querySnapshot.docs.isNotEmpty;
+                              if (existe!) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            TelaExpandidaAtletaApp(
+                                              emailUser: user['Email'],
+                                            )));
+                              }
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => NaoEncontrado()));
+                            }
+                          });
+                    } else {
+                      Map<String, dynamic> user = snapshot.data();
+                      final nome = user['Nome'].toLowerCase().toString();
+
+                      if (nome.contains(pesquisa!.toLowerCase())) {
+                        return CardPessoas(
+                            email: user['Email'],
+                            nome: user['Nome'],
+                            onTap: () async {
+                              if (user['Tipo'] == 'Atleta') {
+                                QuerySnapshot querySnapshot = await db
+                                    .collection('Cadastro')
+                                    .where('Email', isEqualTo: user['Email'])
+                                    .get();
+
+                                existe = querySnapshot.docs.isNotEmpty;
+                                if (existe!) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              TelaExpandidaAtletaApp(
+                                                emailUser: user['Email'],
+                                              )));
+                                }
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NaoEncontrado()));
+                              }
+                            });
+                      } else {
+                        return Container();
+                      }
+                    }
                   },
                 ),
               ],
@@ -137,3 +158,4 @@ class _MeusUsersState extends State<MeusUsers> {
     );
   }
 }
+

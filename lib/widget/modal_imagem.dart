@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:desafio/screen/pagina_camera.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,9 +14,16 @@ class ModalImagem extends StatefulWidget {
   State<ModalImagem> createState() => _ModalImagemState();
 }
 
+XFile? pictureFile;
 final storage = FirebaseStorage.instance;
 
 class _ModalImagemState extends State<ModalImagem> {
+  @override
+  void initState() {
+    super.initState();
+    Firebase.initializeApp();
+  }
+
   Widget build(BuildContext context) {
     return Container(
       height: 200,
@@ -34,7 +42,9 @@ class _ModalImagemState extends State<ModalImagem> {
                           MaterialPageRoute(
                             builder: (context) => PaginaCamera(cameras: value),
                           )));
-                  // print(foto!.path);
+
+                  // Reference ref =
+                  //     storage.ref().child("images/${Uuid().v4()}.jpg");
 
                   // Reference reference = FirebaseStorage.instance.ref();
                   // Reference referenceDirImages = reference.child('images');

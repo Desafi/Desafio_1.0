@@ -57,9 +57,11 @@ class _PaginaCamera extends State<PaginaCamera> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pop(context),
-          ),
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+                pictureFile = null;
+              }),
           title: const Text("Camera"),
         ),
         body: Column(
@@ -92,7 +94,6 @@ class _PaginaCamera extends State<PaginaCamera> {
                         onPressed: () async {
                           try {
                             XFile file = await controller.takePicture();
-
                             if (mounted) {
                               setState(() {
                                 pictureFile = file;

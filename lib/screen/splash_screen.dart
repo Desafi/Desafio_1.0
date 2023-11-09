@@ -18,17 +18,17 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => _SplashScreenState();
 }
 
+String? tipo;
+
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
-        VerificaTipo(user.uid, context);
-      } else {
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => LoginApp()),
-            (route) => false);
+        setState(() {
+          tipo = VerificaTipo(user.uid, context);
+        });
       }
     });
   }

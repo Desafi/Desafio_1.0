@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/screen/cronometro.dart';
 import 'package:desafio/widget/botao_principal.dart';
+import 'package:desafio/widget/carregamento.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:desafio/model/preTreino.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 // void main() {
 //   runApp(const MyApp());
@@ -29,12 +32,10 @@ class CadastroPreTreinoApp extends StatefulWidget {
   State<CadastroPreTreinoApp> createState() => _CadastroPreTreinoAppState();
 }
 
-List<String> _kOptions = <String>[
-  'joão',
-  'lamarca',
-  'caio',
-];
+List<String> _kOptions = <String>[];
 List<String> pesquisa = [];
+FirebaseFirestore db = FirebaseFirestore.instance;
+bool carregando = false;
 
 class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
   CadastroPreTreino cadastro = CadastroPreTreino("", "", "", "");
@@ -48,15 +49,15 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
 
     final formKey = GlobalKey<FormState>();
 
-    void filterSearchResults(String query) {
-      setState(() {
-        pesquisa = _kOptions
-            .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-            .toList();
+    // void filterSearchResults(String query) {
+    //   setState(() {
+    //     pesquisa = _kOptions
+    //         .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+    //         .toList();
 
-        print(pesquisa);
-      });
-    }
+    //     print(pesquisa);
+    //   });
+    // }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -71,10 +72,10 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                   const SizedBox(
                     height: 75,
                   ),
-               
+
                   Text(
                     textAlign: TextAlign.start,
-                    'Cadastre pré-treino',
+                    'Cadastro pré-treino',
                     style: GoogleFonts.plusJakartaSans(
                       textStyle: const TextStyle(
                           fontWeight: FontWeight.w600, fontSize: 26),
@@ -98,13 +99,11 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                       controller: controller,
                       padding: const MaterialStatePropertyAll<EdgeInsets>(
                           EdgeInsets.symmetric(horizontal: 16.0)),
-                      onTap: () {
+                      onTap: () async {
                         controller.openView();
+                        await PesquisaAtleta();
                       },
-                      onChanged: (text) {
-                        print(text);
-                        // filterSearchResults(value);s
-                      },
+                      onChanged: (text) => print(text),
                       leading: const Icon(Icons.search),
                     );
                   }, suggestionsBuilder:
@@ -214,4 +213,14 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
       ),
     );
   }
+}
+
+PesquisaAtleta() async {
+  QuerySnapshot atletasQuery =
+      await db.collection('Usuarios').where('Tipo', isEqualTo: 'Atleta').get();
+  _kOptions.clear();
+  atletasQuery.docs.forEach((doc) {
+    String nomeAtleta = doc['Nome'];
+    _kOptions.add(nomeAtleta);
+  });
 }

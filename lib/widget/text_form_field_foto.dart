@@ -10,7 +10,6 @@ class TextFormFieldFoto extends StatelessWidget {
     required this.hint,
     this.onTap,
     this.validator,
-
   });
 
   @override

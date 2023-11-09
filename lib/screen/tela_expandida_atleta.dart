@@ -1,5 +1,5 @@
 import 'package:desafio/widget/input_mostrar.dart';
-import 'package:desafio/widget/InputMostrarFoto.dart';
+import 'package:desafio/widget/input_mostrar_foto.dart';
 import 'package:flutter/material.dart';
 
 // void main() {
