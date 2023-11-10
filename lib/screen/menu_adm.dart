@@ -92,7 +92,6 @@ class _AdmAppState extends State<AdmApp> {
                     await Navigator.of(context).push(
                       MaterialPageRoute(
                           builder: (context) => CadastroApp(
-                                isVisible: true,
                                 menuItems: [
                                   const DropdownMenuItem(
                                       value: "Treinador",

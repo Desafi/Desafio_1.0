@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/model/atleta.dart';
 import 'package:desafio/widget/botao_adicionar.dart';
 import 'package:desafio/widget/botao_principal.dart';
@@ -7,6 +8,8 @@ import 'package:desafio/widget/scaffolds.dart';
 import 'package:desafio/widget/text_form_field_cadastro.dart';
 import 'package:desafio/widget/text_form_field_foto.dart';
 import 'package:desafio/widget/text_form_field_with_formatter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,8 +33,18 @@ void main() {
 
 String? valorSexo;
 String? valorEstado;
-String? variavelModel;
+
 int index = 0;
+
+bool fotoAtestado = false;
+bool fotoRegulamento = false;
+bool fotoCpf = false;
+bool fotoRg = false;
+bool fotoComprovanteResidencia = false;
+String? va;
+FirebaseFirestore db = FirebaseFirestore.instance;
+FirebaseAuth _auth = FirebaseAuth.instance;
+FirebaseStorage storage = FirebaseStorage.instance;
 
 class CadastroAtleta extends StatefulWidget {
   const CadastroAtleta({super.key});
@@ -46,8 +59,6 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
   TextEditingController estadoController = TextEditingController();
   TextEditingController enderecoController = TextEditingController();
 
-  TextEditingController testeController = TextEditingController();
-
   List<DropdownMenuItem<String>> menuItems = [
     const DropdownMenuItem(value: "Feminino", child: Text("Feminino")),
     const DropdownMenuItem(value: "Masculino", child: Text("Masculino")),
@@ -56,18 +67,14 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
 
   List<DropdownMenuItem<String>> telefones = [
     const DropdownMenuItem(
-        value: "atleta.numeroDeCelularAdicional",
-        child: Text("Numero Adicional")),
+        value: "Numero Adicional", child: Text("Número Adicional")),
     const DropdownMenuItem(
-        value: "atleta.numeroDeCelularResidencial",
-        child: Text("Numero Residencial")),
+        value: "Numero Residencial", child: Text("Número Residencial")),
     const DropdownMenuItem(
-        value: "atleta.numeroDeCelularLocalTrabalho",
+        value: "Numero Local de Trabalho",
         child: Text("Número Local de Trabalho")),
-    const DropdownMenuItem(
-        value: "atleta.numeroDeCelularAdicionalPai", child: Text("Número Pai")),
-    const DropdownMenuItem(
-        value: "atleta.numeroDeCelularAdicionalMae", child: Text("Número Mae")),
+    const DropdownMenuItem(value: "Numero Pai", child: Text("Número Pai")),
+    const DropdownMenuItem(value: "Numero Mae", child: Text("Número Mãe")),
   ];
 
   final TextEditingController _dateController = TextEditingController();
@@ -461,19 +468,29 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     ),
 
                     TextFormFieldFoto(
+                      certo: fotoAtestado,
                       hint: 'Foto atestado',
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (fotoAtestado == false) {
                           return "Este campo é obrigatório!";
                         }
-                        atleta.imagemAtestado = value;
                         return null;
                       },
                       onTap: () {
                         showModalBottomSheet<void>(
                           context: context,
                           builder: (BuildContext context) {
-                            return const ModalImagem();
+                            return ModalImagem(
+                              onPhotoSelected: (fotoPath) {
+                                atleta.imagemAtestado = fotoPath;
+                                if (atleta.imagemAtestado != null) {
+                                  setState(() {
+                                    fotoAtestado = !fotoAtestado;
+                                  });
+                                  print(atleta.imagemAtestado! + " atestado");
+                                }
+                              },
+                            );
                           },
                         );
                       },
@@ -482,20 +499,32 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     const SizedBox(
                       height: 10,
                     ),
+
                     TextFormFieldFoto(
+                      certo: fotoRegulamento,
                       hint: 'Foto regulamento',
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (fotoRegulamento == false) {
                           return "Este campo é obrigatório!";
                         }
-                        atleta.imagemRegulamentoDoAtleta = value;
                         return null;
                       },
                       onTap: () {
                         showModalBottomSheet<void>(
                           context: context,
                           builder: (BuildContext context) {
-                            return const ModalImagem();
+                            return ModalImagem(
+                              onPhotoSelected: (fotoPath) {
+                                atleta.imagemRegulamentoDoAtleta = fotoPath;
+                                if (atleta.imagemRegulamentoDoAtleta != null) {
+                                  setState(() {
+                                    fotoRegulamento = !fotoRegulamento;
+                                  });
+                                  print(
+                                      atleta.imagemAtestado! + " regulamento");
+                                }
+                              },
+                            );
                           },
                         );
                       },
@@ -506,19 +535,29 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     ),
 
                     TextFormFieldFoto(
+                      certo: fotoCpf,
                       hint: 'Foto cpf',
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (fotoCpf == false) {
                           return "Este campo é obrigatório!";
                         }
-                        atleta.imagemCpf = value;
                         return null;
                       },
                       onTap: () {
                         showModalBottomSheet<void>(
                           context: context,
                           builder: (BuildContext context) {
-                            return const ModalImagem();
+                            return ModalImagem(
+                              onPhotoSelected: (fotoPath) {
+                                atleta.imagemCpf = fotoPath;
+                                if (atleta.imagemCpf != null) {
+                                  setState(() {
+                                    fotoCpf = !fotoCpf;
+                                  });
+                                  print(atleta.imagemCpf! + " cpf");
+                                }
+                              },
+                            );
                           },
                         );
                       },
@@ -529,19 +568,29 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     ),
 
                     TextFormFieldFoto(
+                      certo: fotoRg,
                       hint: 'Foto rg',
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (fotoRg == false) {
                           return "Este campo é obrigatório!";
                         }
-                        atleta.imagemRg = value;
                         return null;
                       },
                       onTap: () {
                         showModalBottomSheet<void>(
                           context: context,
                           builder: (BuildContext context) {
-                            return const ModalImagem();
+                            return ModalImagem(
+                              onPhotoSelected: (fotoPath) {
+                                atleta.imagemRg = fotoPath;
+                                if (atleta.imagemRg != null) {
+                                  setState(() {
+                                    fotoRg = !fotoRg;
+                                  });
+                                  print(atleta.imagemRg! + " rg");
+                                }
+                              },
+                            );
                           },
                         );
                       },
@@ -552,19 +601,32 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     ),
 
                     TextFormFieldFoto(
+                      certo: fotoComprovanteResidencia,
                       hint: 'Foto comprovante residência',
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (fotoComprovanteResidencia == false) {
                           return "Este campo é obrigatório!";
                         }
-                        atleta.imagemComprovanteDeResidencia = value;
                         return null;
                       },
                       onTap: () {
                         showModalBottomSheet<void>(
                           context: context,
                           builder: (BuildContext context) {
-                            return const ModalImagem();
+                            return ModalImagem(
+                              onPhotoSelected: (fotoPath) {
+                                atleta.imagemComprovanteDeResidencia = fotoPath;
+                                if (atleta.imagemComprovanteDeResidencia !=
+                                    null) {
+                                  setState(() {
+                                    fotoComprovanteResidencia =
+                                        !fotoComprovanteResidencia;
+                                  });
+                                  print(atleta.imagemComprovanteDeResidencia! +
+                                      "residencia");
+                                }
+                              },
+                            );
                           },
                         );
                       },
@@ -626,7 +688,9 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                       hintText: 'Enviar',
                       cor: Colors.blue,
                       onTap: () {
-                        if (_formKey.currentState!.validate()) {}
+                        if (_formKey.currentState!.validate()) {
+                          CadastrarAtleta(atleta);
+                        }
                       },
                     ),
                     const SizedBox(
@@ -674,7 +738,9 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                             if (value == null || value.isEmpty) {
                               return "Este campo é obrigatório!";
                             }
-                            variavelModel = value;
+                            setState(() {
+                              va = value;
+                            });
                             return null;
                           },
                           decoration: InputDecoration(
@@ -690,7 +756,15 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                             filled: true,
                             fillColor: Colors.grey[200],
                           ),
-                          onChanged: (String? value) {},
+                          onChanged: (String? value) {
+                            if (value != null) {
+                              setState(() {
+                                telefones = telefones
+                                    .where((item) => item.value != value)
+                                    .toList();
+                              });
+                            }
+                          },
                           hint: const Text('Selecione uma opção'),
                         ),
                       ),
@@ -719,7 +793,25 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                       if (value == null || value.isEmpty) {
                         return "Este campo é obrigatório!";
                       }
-                      variavelModel = value;
+                      switch (va) {
+                        case "Numero Adicional":
+                          atleta.numeroDeCelularAdicional = value;
+                          break;
+                        case "Numero Residencial":
+                          atleta.numeroDeCelularResidencial = value;
+                          break;
+                        case "Numero Local de Trabalho":
+                          atleta.numeroDeCelularLocalTrabalho = value;
+                          break;
+                        case "Numero Pai":
+                          atleta.numeroDeCelularAdicionalPai = value;
+                          break;
+                        case "Numero Mae":
+                          atleta.numeroDeCelularAdicionalMae = value;
+                          break;
+                        default:
+                          print('Erro');
+                      }
                       return null;
                     },
                   ),
@@ -778,5 +870,49 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
             DateFormat('dd/MM/yyyy', 'pt_BR').format(picked);
       });
     }
+  }
+}
+
+CadastrarAtleta(Atleta atleta) {
+  final cadastroAtleta = <String, String>{
+    "DataNascimento": atleta.dataDeNascimento.toString(),
+    "NumeroCelular": atleta.numeroDoCelular.toString(),
+    "NumeroEmergencia": atleta.numeroDeEmergencia.toString(),
+    "Nacionalidade": atleta.nacionalidade.toString(),
+    "Naturalidade": atleta.naturalidade.toString(),
+    "Rg": atleta.rg.toString(),
+    "Cpf": atleta.cpf.toString(),
+    "Sexo": atleta.sexo.toString(),
+    "Cep": atleta.cep.toString(),
+    "Cidade": atleta.cidade.toString(),
+    "Bairro": atleta.bairro.toString(),
+    "Endereco": atleta.endereco.toString(),
+    "Estado": atleta.estado.toString(),
+    "ConvenioMedico": atleta.convenioMedico.toString(),
+    "Estilos": atleta.estilos.toString(),
+    "Prova": atleta.prova.toString(),
+    "NomeMae": atleta.nomeDaMae.toString(),
+    "NomePai": atleta.nomeDoPai.toString(),
+    "ClubeOrigem": atleta.clubeDeOrigem.toString(),
+    "AlergiaMedicamento": atleta.alergiaAMedicamentos.toString(),
+    "NumeroAdicional": atleta.numeroDeCelularAdicional.toString(),
+    "NumeroResidencial": atleta.numeroDeCelularResidencial.toString(),
+    "NumeroPai": atleta.numeroDeCelularAdicionalPai.toString(),
+    "NumeroMae": atleta.numeroDeCelularAdicionalMae.toString(),
+    //
+    "ImagemAtestado": atleta.numeroDoCelular.toString(),
+    "ImagemRegulamento": atleta.numeroDoCelular.toString(),
+    "ImagemComprovanteResidencia": atleta.numeroDoCelular.toString(),
+    "ImagemCpf": atleta.numeroDoCelular.toString(),
+    "ImagemRg": atleta.numeroDoCelular.toString(),
+  };
+  if (_auth.currentUser != null) {
+    db
+        .collection("Cadastro")
+        .doc(_auth.currentUser!.uid)
+        .set(cadastroAtleta)
+        .onError((e, _) => print("Error writing document: $e"));
+  } else {
+    print('Não Esta logado');
   }
 }

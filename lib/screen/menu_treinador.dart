@@ -56,27 +56,10 @@ class _MenuTreinadorAppState extends State<MenuTreinadorApp> {
         controller: pc,
         onPageChanged: setPaginaAtual,
         children: [
-          const CadastroApp(
-            isVisible: false,
-            menuItems: [
-              const DropdownMenuItem(value: "Atleta", child: Text("Atleta")),
-            ],
-          ),
           MeusUsers(
-            //cards: [
-            // CardPessoas(
-            //   nome: 'João Antônio',
-            //   telefone: '62262626262',
-            //   onTap: () async {
-            //     await Navigator.of(context).push(
-            //       MaterialPageRoute(
-            //           builder: (context) => const TelaExpandidaAtletaApp()),
-            //     );
-            //   },
-            // ),
-            // const CardPessoas(nome: 'Caio', telefone: '1699595994'),
-          //], 
-          titulo: 'Atletas', hintInput: 'Digite o nome do atleta..'),
+              visivel: true,
+              titulo: 'Atletas',
+              hintInput: 'Digite o nome do atleta..'),
           const CadastroPreTreinoApp(),
           TreinosApp(
             cards: [
@@ -106,10 +89,6 @@ class _MenuTreinadorAppState extends State<MenuTreinadorApp> {
         child: NavigationBar(
           indicatorColor: Colors.blueAccent,
           destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.mode_edit_outline_outlined),
-              label: 'Criar atleta',
-            ),
             NavigationDestination(
               icon: Icon(Icons.person_pin_outlined),
               label: 'Gerir atleta',

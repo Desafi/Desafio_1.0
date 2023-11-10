@@ -28,13 +28,11 @@ bool estaCarregando = false;
 FirebaseFirestore db = FirebaseFirestore.instance;
 
 class CadastroApp extends StatefulWidget {
-  final List<DropdownMenuItem<String>> menuItems;
-  final bool isVisible;
+  final List<DropdownMenuItem<String>>? menuItems;
 
   const CadastroApp({
     super.key,
-    required this.menuItems,
-    required this.isVisible,
+    this.menuItems,
   });
 
   @override
@@ -177,15 +175,12 @@ class _CadastroAppState extends State<CadastroApp> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Visibility(
-                      visible: widget.isVisible,
-                      child: BotaoPrincipal(
-                        hintText: "Cancelar",
-                        cor: Colors.amber,
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
+                    BotaoPrincipal(
+                      hintText: "Cancelar",
+                      cor: Colors.amber,
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
                     ),
                     const SizedBox(
                       height: 50,

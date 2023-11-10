@@ -8,11 +8,14 @@ void MensagemAwesome(
 ) {
   AwesomeDialog(
     context: context,
+    dismissOnTouchOutside: false,
     dialogType: DialogType.success,
     animType: AnimType.bottomSlide,
-    showCloseIcon: true,
+    showCloseIcon: false,
     title: titulo,
     desc: desc,
-    btnOkOnPress: () {},
+    btnOkOnPress: () {
+      Navigator.pop(context);
+    },
   ).show();
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class InputMostrar extends StatelessWidget {
   final String hintText;
 
-  const InputMostrar({
+   InputMostrar({
     super.key,
     required this.hintText,
   });

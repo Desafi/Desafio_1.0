@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:desafio/screen/cadastro.dart';
 import 'package:desafio/screen/tela_expandida_atleta.dart';
 import 'package:desafio/screen/tela_nao_encontrada.dart';
 import 'package:desafio/widget/card_pessoas.dart';
@@ -10,11 +11,13 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 class MeusUsers extends StatefulWidget {
   final String titulo;
   final String hintInput;
+  final bool visivel;
 
   const MeusUsers({
     super.key,
     required this.titulo,
     required this.hintInput,
+    required this.visivel,
   });
 
   @override
@@ -36,6 +39,24 @@ class _MeusUsersState extends State<MeusUsers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Visibility(
+        visible: widget.visivel,
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) => CadastroApp(
+                        menuItems: [
+                          const DropdownMenuItem(
+                              value: "Atleta", child: Text("Atleta")),
+                        ],
+                      )),
+            );
+          },
+          isExtended: true,
+          child: Icon(Icons.add),
+        ),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
@@ -46,6 +67,7 @@ class _MeusUsersState extends State<MeusUsers> {
                 const SizedBox(
                   height: 50,
                 ),
+
                 Center(
                   child: Text(
                     widget.titulo,
@@ -149,7 +171,7 @@ class _MeusUsersState extends State<MeusUsers> {
                       }
                     }
                   },
-                ),
+                ), //
               ],
             ),
           ),
@@ -158,4 +180,3 @@ class _MeusUsersState extends State<MeusUsers> {
     );
   }
 }
-

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class TextFormFieldFoto extends StatelessWidget {
   final String hint;
+  final bool certo;
   final Function()? onTap;
   final FormFieldValidator<String>? validator;
 
   const TextFormFieldFoto({
     super.key,
     required this.hint,
+    required this.certo,
     this.onTap,
     this.validator,
   });
@@ -18,6 +20,13 @@ class TextFormFieldFoto extends StatelessWidget {
         validator: validator,
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.image),
+          suffixIcon: certo != false
+              ? Icon(
+                  Icons.check,
+                  color: Colors.green,
+                  size: 40,
+                )
+              : null,
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(
               width: 1,

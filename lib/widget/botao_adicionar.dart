@@ -18,32 +18,26 @@ class BotaoAdicionar extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-          height: 50,
-          width: 250,
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          decoration: BoxDecoration(
-            color: cor,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.add),
+        height: 50,
+        width: 250,
+        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+        decoration: BoxDecoration(
+          color: cor,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Center(
+          child: Text(
+            hintText,
+            style: GoogleFonts.plusJakartaSans(
+              textStyle: const TextStyle(
                 color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
               ),
-              Text(
-                hintText,
-                style: GoogleFonts.plusJakartaSans(
-                  textStyle: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-              ),
-            ],
-          )),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

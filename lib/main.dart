@@ -237,26 +237,26 @@ VerificaTipo(String userId, BuildContext context) {
     final Map<String, dynamic> data =
         documentSnapshot.data() as Map<String, dynamic>;
     final String tipo = data["Tipo"];
-     switch (tipo) {
-    case 'Administrador':
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => AdmApp()), (route) => false);
-      break;
-    case 'Treinador':
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => MenuTreinadorApp()),
-          (route) => false);
+    switch (tipo) {
+      case 'Administrador':
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => AdmApp()),
+            (route) => false);
+        break;
+      case 'Treinador':
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => MenuTreinadorApp()),
+            (route) => false);
 
-      break;
-    case 'Atleta':
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => MenuAtletaApp()),
-          (route) => false);
-      break;
-  }
+        break;
+      case 'Atleta':
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => MenuAtletaApp()),
+            (route) => false);
+        break;
+    }
   });
 }
-
 
 Logar(BuildContext context) async {
   try {

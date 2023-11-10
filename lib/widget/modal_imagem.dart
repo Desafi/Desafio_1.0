@@ -6,8 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ModalImagem extends StatefulWidget {
+  final Function(String) onPhotoSelected;
+
   const ModalImagem({
     super.key,
+    required this.onPhotoSelected,
   });
 
   @override
@@ -24,6 +27,7 @@ class _ModalImagemState extends State<ModalImagem> {
     Firebase.initializeApp();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Container(
       height: 200,
@@ -42,6 +46,8 @@ class _ModalImagemState extends State<ModalImagem> {
                           MaterialPageRoute(
                             builder: (context) => PaginaCamera(cameras: value),
                           )));
+
+                  widget.onPhotoSelected(foto!.path);
 
                   // Reference ref =
                   //     storage.ref().child("images/${Uuid().v4()}.jpg");
@@ -85,6 +91,8 @@ class _ModalImagemState extends State<ModalImagem> {
                   final ImagePicker picker = ImagePicker();
                   final XFile? image =
                       await picker.pickImage(source: ImageSource.gallery);
+                  widget.onPhotoSelected(image!.path);
+
                 },
                 child: const Column(
                   children: [

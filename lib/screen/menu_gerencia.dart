@@ -42,6 +42,7 @@ class _MenuGerenciaState extends State<MenuGerencia> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: Color(0xFF42A5F5),
             title: const Text('Gerencie usuarios'),
             bottom: const TabBar(
               tabs: [
@@ -57,10 +58,13 @@ class _MenuGerenciaState extends State<MenuGerencia> {
           body: TabBarView(
             children: [
               MeusUsers(
+                  visivel: false,
                   titulo: 'Treinador',
                   hintInput: 'Digite o nome do treinador..'),
               MeusUsers(
-                  titulo: 'Atletas', hintInput: 'Digite o nome do atleta..'),
+                  visivel: false,
+                  titulo: 'Atletas',
+                  hintInput: 'Digite o nome do atleta..'),
             ],
           ),
         ),
