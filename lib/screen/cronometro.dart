@@ -1,20 +1,22 @@
 import 'dart:async';
+import 'package:desafio/widget/botao_cronometro.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+// void main() {
+//   runApp(const MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: CronometroApp(),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(
+//       home: CronometroApp(),
+//     );
+//   }
+// }
 
 class CronometroApp extends StatefulWidget {
   const CronometroApp({super.key});
@@ -24,6 +26,8 @@ class CronometroApp extends StatefulWidget {
 }
 
 class _CronometroAppState extends State<CronometroApp> {
+  bool enviar = false;
+  bool botaoRetomar = false;
   bool apareceBotoes = false;
   bool clicouVolta = false;
   bool cronometroRodando = false;
@@ -62,6 +66,14 @@ class _CronometroAppState extends State<CronometroApp> {
           }
         });
       }
+//terminar (minutos == 30 && segundos == 2 && milesegundos == 0)
+      if (segundos == 2 && milesegundos == 0) {
+        controlaBtn = false;
+        pausaCronometro = true;
+        enviar = true;
+        botaoRetomar = false;
+        fezVolta();
+      }
     });
   }
 
@@ -96,11 +108,11 @@ class _CronometroAppState extends State<CronometroApp> {
     milesegundosVolta = 0;
     segundosVolta = 0;
     minutosVolta = 0;
-    print(voltas);
   }
 
   void resetCronometro() {
     setState(() {
+      enviar = false;
       voltasGeral.clear();
       voltas.clear();
       milesegundos = 0;
@@ -113,6 +125,7 @@ class _CronometroAppState extends State<CronometroApp> {
       clicouVolta = false;
       pausaCronometro = false;
       controlaLista = false;
+      botaoRetomar = false;
       cronometro.cancel();
       cronometroVolta.cancel();
     });
@@ -292,6 +305,7 @@ class _CronometroAppState extends State<CronometroApp> {
                         setState(() {
                           controlaBtn = false;
                           pausaCronometro = true;
+                          botaoRetomar = true;
                         });
                       },
                       style: ElevatedButton.styleFrom(
@@ -312,76 +326,121 @@ class _CronometroAppState extends State<CronometroApp> {
               Visibility(
                 visible: pausaCronometro,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Enviando relatorio')),
+                        showModalBottomSheet<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              height: 200,
+                              color: Colors.white,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    const Text(
+                                      'Deseja Resetar o cronômetro? ',
+                                      style: TextStyle(fontSize: 24),
+                                    ),
+                                    const SizedBox(height: 8.0), //
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        BotaoCronometro(
+                                          cor: Colors.green,
+                                          hintText: "Sim",
+                                          icone: Icons.check,
+                                          onTap: () {
+                                            resetCronometro();
+                                            Navigator.pop(context);
+                                            setState(() {
+                                              controlaBtnIniciar = true;
+                                            });
+                                          },
+                                        ),
+                                        BotaoCronometro(
+                                          hintText: "Não",
+                                          cor: Colors.red,
+                                          icone: Icons.cancel,
+                                          onTap: () => Navigator.pop(context),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
                         );
-                        resetCronometro();
-                        setState(() {
-                          controlaBtnIniciar = true;
-                        });
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 69, 214, 33),
+                        backgroundColor: Colors.amber,
                         minimumSize: const Size(180.0, 60.0),
                         shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(15.0), // Borda arredondada
                         ),
                       ),
-                      child: const Text('Enviar',
+                      child: const Text('Resetar',
                           style: TextStyle(color: Colors.white, fontSize: 20)),
                     ),
-                    const SizedBox(height: 25.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            resetCronometro();
-                            setState(() {
-                              controlaBtnIniciar = true;
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.amber,
-                            minimumSize: const Size(180.0, 60.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  15.0), // Borda arredondada
-                            ),
-                          ),
-                          child: const Text('Resetar',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20)),
-                        ),
-                        const SizedBox(width: 16.0),
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              controlaBtn = true;
-                              pausaCronometro = false;
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(255, 0, 140, 255),
-                            minimumSize: const Size(180.0, 60.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                          ),
-                          child: const Text('Retomar',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20)),
-                        ),
-                      ],
-                    ),
+                    const SizedBox(height: 30.0), //
                   ],
                 ),
               ),
+
+              Visibility(
+                visible: botaoRetomar,
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      controlaBtn = true;
+                      botaoRetomar = false;
+
+                      pausaCronometro = false;
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 0, 140, 255),
+                    minimumSize: const Size(180.0, 60.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  ),
+                  child: const Text('Retomar',
+                      style: TextStyle(color: Colors.white, fontSize: 20)),
+                ),
+              ),
+              Visibility(
+                visible: enviar,
+                child: ElevatedButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Enviando relatorio')),
+                    );
+                    resetCronometro();
+                    setState(() {
+                      controlaBtnIniciar = true;
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 69, 214, 33),
+                    minimumSize: const Size(180.0, 60.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(15.0), // Borda arredondada
+                    ),
+                  ),
+                  child: const Text('Enviar',
+                      style: TextStyle(color: Colors.white, fontSize: 20)),
+                ),
+              )
             ],
           ),
         ),

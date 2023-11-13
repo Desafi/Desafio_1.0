@@ -120,7 +120,9 @@ class _MeusUsersState extends State<MeusUsers> {
                                   .get();
 
                               existe = querySnapshot.docs.isNotEmpty;
-                              if (existe!) {
+                              print(existe);
+
+                              if (existe == true) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -128,11 +130,12 @@ class _MeusUsersState extends State<MeusUsers> {
                                             TelaExpandidaAtletaApp(
                                               emailUser: user['Email'],
                                             )));
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NaoEncontrado()));
                               }
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NaoEncontrado()));
                             }
                           });
                     } else {
@@ -151,7 +154,7 @@ class _MeusUsersState extends State<MeusUsers> {
                                     .get();
 
                                 existe = querySnapshot.docs.isNotEmpty;
-                                if (existe!) {
+                                if (existe == true) {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -159,11 +162,13 @@ class _MeusUsersState extends State<MeusUsers> {
                                               TelaExpandidaAtletaApp(
                                                 emailUser: user['Email'],
                                               )));
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              NaoEncontrado()));
                                 }
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => NaoEncontrado()));
                               }
                             });
                       } else {

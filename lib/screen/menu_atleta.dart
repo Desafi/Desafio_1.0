@@ -41,9 +41,17 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
   @override
   void initState() {
     super.initState();
-    // VerificaCadastro(context);
-
+    verificaCadastroAtleta();
     pc = PageController(initialPage: paginaAtual);
+  }
+
+  Future<void> verificaCadastroAtleta() async {
+    if (await VerificaCadastro(context) == false) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => CadastroAtleta()),
+        (route) => false,
+      );
+    }
   }
 
   setPaginaAtual(pagina) {
@@ -115,20 +123,13 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
   }
 }
 
-VerificaCadastro(BuildContext context) {
+Future<bool> VerificaCadastro(BuildContext context) async {
   var user = _auth.currentUser;
-  print(user!.uid);
-  db
-      .collection('Cadastro')
-      .doc(user.uid)
-      .get()
-      .then((DocumentSnapshot documentSnapshot) {
-    if (documentSnapshot.exists) {
-      print('existe');
-    } else {
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => CadastroAtleta()),
-          (route) => false);
-    }
-  });
+
+  var documentSnapshot = await db.collection('Cadastro').doc(user!.uid).get();
+
+  if (documentSnapshot.exists) {
+    return true;
+  }
+  return false;
 }

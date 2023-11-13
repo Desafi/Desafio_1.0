@@ -1,6 +1,10 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:desafio/main.dart';
 import 'package:desafio/model/atleta.dart';
+import 'package:desafio/screen/menu_atleta.dart';
 import 'package:desafio/widget/botao_adicionar.dart';
+import 'package:desafio/widget/botao_loader.dart';
 import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/drop_down_estados.dart';
 import 'package:desafio/widget/modal_imagem.dart';
@@ -16,8 +20,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 
-void main() {
+void main() async {
   runApp(const MaterialApp(
     localizationsDelegates: [
       GlobalMaterialLocalizations.delegate,
@@ -45,6 +50,8 @@ String? va;
 FirebaseFirestore db = FirebaseFirestore.instance;
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseStorage storage = FirebaseStorage.instance;
+
+bool estaCarregando = false;
 
 class CadastroAtleta extends StatefulWidget {
   const CadastroAtleta({super.key});
@@ -86,7 +93,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
   TextEditingController txtCep = TextEditingController();
 
   Atleta atleta = Atleta("", "", "", "", "", "", "", "", "", "", "", "", "", "",
-      "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+      "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
 
   @override
   Widget build(BuildContext context) {
@@ -126,9 +133,9 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         keyboardType: TextInputType.datetime,
                         controller: _dateController,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Este campo é obrigatório!";
-                          }
+                          // if (value == null || value.isEmpty) {
+                          //   return "Este campo é obrigatório!";
+                          // }
                           atleta.dataDeNascimento = value;
                           return null;
                         },
@@ -148,7 +155,6 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                             color: Colors.black54,
                           ),
                         ),
-                        readOnly: true,
                         onTap: () {
                           _selectDate();
                         }),
@@ -410,9 +416,6 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     ),
                     TextFormFieldCadastro(
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Este campo é obrigatório!";
-                        }
                         atleta.nomeDaMae = value;
                         return null;
                       },
@@ -425,9 +428,6 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
 
                     TextFormFieldCadastro(
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Este campo é obrigatório!";
-                        }
                         atleta.nomeDoPai = value;
                         return null;
                       },
@@ -440,9 +440,6 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
 
                     TextFormFieldCadastro(
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Este campo é obrigatório!";
-                        }
                         atleta.clubeDeOrigem = value;
                         return null;
                       },
@@ -454,9 +451,17 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     ),
                     TextFormFieldCadastro(
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Este campo é obrigatório!";
-                        }
+                        atleta.localdetrabalho = value;
+                        return null;
+                      },
+                      labelText: 'Local de trabalho',
+                    ),
+
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormFieldCadastro(
+                      validator: (value) {
                         atleta.alergiaAMedicamentos = value;
                         return null;
                       },
@@ -485,7 +490,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                 atleta.imagemAtestado = fotoPath;
                                 if (atleta.imagemAtestado != null) {
                                   setState(() {
-                                    fotoAtestado = !fotoAtestado;
+                                    fotoAtestado = true;
                                   });
                                   print(atleta.imagemAtestado! + " atestado");
                                 }
@@ -518,7 +523,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                 atleta.imagemRegulamentoDoAtleta = fotoPath;
                                 if (atleta.imagemRegulamentoDoAtleta != null) {
                                   setState(() {
-                                    fotoRegulamento = !fotoRegulamento;
+                                    fotoRegulamento = true;
                                   });
                                   print(
                                       atleta.imagemAtestado! + " regulamento");
@@ -552,7 +557,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                 atleta.imagemCpf = fotoPath;
                                 if (atleta.imagemCpf != null) {
                                   setState(() {
-                                    fotoCpf = !fotoCpf;
+                                    fotoCpf = true;
                                   });
                                   print(atleta.imagemCpf! + " cpf");
                                 }
@@ -585,7 +590,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                 atleta.imagemRg = fotoPath;
                                 if (atleta.imagemRg != null) {
                                   setState(() {
-                                    fotoRg = !fotoRg;
+                                    fotoRg = true;
                                   });
                                   print(atleta.imagemRg! + " rg");
                                 }
@@ -619,8 +624,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                 if (atleta.imagemComprovanteDeResidencia !=
                                     null) {
                                   setState(() {
-                                    fotoComprovanteResidencia =
-                                        !fotoComprovanteResidencia;
+                                    fotoComprovanteResidencia = true;
                                   });
                                   print(atleta.imagemComprovanteDeResidencia! +
                                       "residencia");
@@ -683,16 +687,46 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     const SizedBox(
                       height: 30,
                     ),
-
-                    BotaoPrincipal(
-                      hintText: 'Enviar',
-                      cor: Colors.blue,
-                      onTap: () {
-                        if (_formKey.currentState!.validate()) {
-                          CadastrarAtleta(atleta);
-                        }
-                      },
+                    BotaoLoader(
+                      hintText: estaCarregando
+                          ? CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              "Enviar",
+                              style: GoogleFonts.plusJakartaSans(
+                                textStyle: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                      cor: Colors.blueAccent,
+                      onTap: estaCarregando
+                          ? null
+                          : () async {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  estaCarregando = true;
+                                });
+                                if (await VerificaCadastro(context) == false) {
+                                  await CadastrarAtleta(atleta, context);
+                                  setState(() {
+                                    estaCarregando = false;
+                                  });
+                                } else {
+                                  await FirebaseAuth.instance.signOut();
+                                  setState(() {
+                                    estaCarregando = false;
+                                  });
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginApp()),
+                                      (route) => false);
+                                }
+                              }
+                            },
                     ),
+
                     const SizedBox(
                       height: 30,
                     ),
@@ -865,16 +899,30 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
         lastDate: DateTime(2024));
     if (picked != null) {
       setState(() {
-        _dateController.text = DateFormat('dd/MM/yyyy', 'pt_BR').format(picked);
-        atleta.dataDeNascimento =
-            DateFormat('dd/MM/yyyy', 'pt_BR').format(picked);
+        _dateController.text = DateFormat(
+          'dd/MM/yyyy',
+        ).format(picked);
+        atleta.dataDeNascimento = DateFormat(
+          'dd/MM/yyyy',
+        ).format(picked);
       });
     }
   }
 }
 
-CadastrarAtleta(Atleta atleta) {
+CadastrarAtleta(Atleta atleta, BuildContext context) async {
+  List<String> listaImages = [
+    atleta.imagemAtestado.toString(),
+    atleta.imagemRegulamentoDoAtleta.toString(),
+    atleta.imagemComprovanteDeResidencia.toString(),
+    atleta.imagemCpf.toString(),
+    atleta.imagemRg.toString()
+  ];
+
+  Map<String, String> imageUrlMap = await saveImagesToStorage(listaImages);
+
   final cadastroAtleta = <String, String>{
+    "Email": _auth.currentUser!.email.toString(),
     "DataNascimento": atleta.dataDeNascimento.toString(),
     "NumeroCelular": atleta.numeroDoCelular.toString(),
     "NumeroEmergencia": atleta.numeroDeEmergencia.toString(),
@@ -899,20 +947,62 @@ CadastrarAtleta(Atleta atleta) {
     "NumeroResidencial": atleta.numeroDeCelularResidencial.toString(),
     "NumeroPai": atleta.numeroDeCelularAdicionalPai.toString(),
     "NumeroMae": atleta.numeroDeCelularAdicionalMae.toString(),
-    //
-    "ImagemAtestado": atleta.numeroDoCelular.toString(),
-    "ImagemRegulamento": atleta.numeroDoCelular.toString(),
-    "ImagemComprovanteResidencia": atleta.numeroDoCelular.toString(),
-    "ImagemCpf": atleta.numeroDoCelular.toString(),
-    "ImagemRg": atleta.numeroDoCelular.toString(),
+    "ImagemAtestado": imageUrlMap["imagemAtestado"].toString(),
+    "ImagemRegulamento": imageUrlMap["imagemRegulamentoDoAtleta"].toString(),
+    "ImagemComprovanteResidencia":
+        imageUrlMap["imagemComprovanteDeResidencia"].toString(),
+    "ImagemCpf": imageUrlMap["imagemCpf"].toString(),
+    "ImagemRg": imageUrlMap["imagemRg"].toString(),
   };
+
   if (_auth.currentUser != null) {
-    db
-        .collection("Cadastro")
-        .doc(_auth.currentUser!.uid)
-        .set(cadastroAtleta)
-        .onError((e, _) => print("Error writing document: $e"));
+    try {
+      await db
+          .collection("Cadastro")
+          .doc(_auth.currentUser!.uid)
+          .set(cadastroAtleta)
+          .onError((e, _) => print("Error writing document: $e"));
+
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => MenuAtletaApp()),
+          (route) => false);
+    } catch (e) {
+      print('Erro' + e.toString());
+    }
   } else {
     print('Não Esta logado');
   }
+}
+
+Future<Map<String, String>> saveImagesToStorage(
+    List<String> listaImagen) async {
+  Map<String, String> imageUrlMap = {};
+  var valor = 0;
+
+  for (String imagePath in listaImagen) {
+    List<String> nomes = [
+      "imagemAtestado",
+      "imagemRegulamentoDoAtleta",
+      "imagemComprovanteDeResidencia",
+      "imagemCpf",
+      "imagemRg"
+    ];
+
+    final Reference storageReference =
+        FirebaseStorage.instance.ref().child("images/${Uuid().v4()}.jpg");
+
+    File imageFile = File(imagePath);
+
+    UploadTask uploadTask = storageReference.putFile(imageFile);
+
+    await uploadTask.whenComplete(() => null);
+
+    String imageUrl = await storageReference.getDownloadURL();
+
+    String imageName = nomes[valor].split('/').last;
+
+    imageUrlMap[imageName] = imageUrl;
+    valor++;
+  }
+  return imageUrlMap;
 }

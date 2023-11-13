@@ -92,7 +92,6 @@ class _ModalImagemState extends State<ModalImagem> {
                   final XFile? image =
                       await picker.pickImage(source: ImageSource.gallery);
                   widget.onPhotoSelected(image!.path);
-
                 },
                 child: const Column(
                   children: [

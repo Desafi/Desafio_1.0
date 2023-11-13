@@ -19,7 +19,8 @@ class Atleta {
   String? prova;
   String? nomeDaMae;
   String? nomeDoPai;
-  String? clubeDeOrigem;
+String? clubeDeOrigem;
+String? localdetrabalho;
   String? alergiaAMedicamentos;
   String? numeroDeCelularAdicional;
   String? numeroDeCelularResidencial;
@@ -53,6 +54,7 @@ class Atleta {
       this.nomeDaMae,
       this.nomeDoPai,
       this.clubeDeOrigem,
+      this.localdetrabalho,
       this.alergiaAMedicamentos,
       this.numeroDeCelularAdicional,
       this.numeroDeCelularResidencial,
@@ -60,6 +62,7 @@ class Atleta {
       this.numeroDeCelularAdicionalPai,
       this.numeroDeCelularAdicionalMae,
       this.imagemAtestado,
+
       this.imagemRegulamentoDoAtleta,
       this.imagemComprovanteDeResidencia,
       this.imagemCpf,

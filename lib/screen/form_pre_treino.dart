@@ -45,6 +45,9 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
     List<DropdownMenuItem<String>> menuItems = [
       const DropdownMenuItem(value: "Crawl", child: Text("Crawl")),
       const DropdownMenuItem(value: "Costas", child: Text("Costas")),
+      const DropdownMenuItem(value: "Peito", child: Text("Peito")),
+      const DropdownMenuItem(value: "Borboleta", child: Text("Borboleta")),
+      const DropdownMenuItem(value: "Medley", child: Text("Medley")),
     ];
 
     final formKey = GlobalKey<FormState>();
