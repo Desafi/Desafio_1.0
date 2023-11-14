@@ -48,7 +48,7 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
   Future<void> verificaCadastroAtleta() async {
     if (await VerificaCadastro(context) == false) {
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => CadastroAtleta()),
+        MaterialPageRoute(builder: (context) => const CadastroAtleta()),
         (route) => false,
       );
     }

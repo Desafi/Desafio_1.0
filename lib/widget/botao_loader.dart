@@ -5,7 +5,7 @@ class BotaoLoader extends StatelessWidget {
   final Color cor;
   final Function()? onTap;
 
-  BotaoLoader({
+  const BotaoLoader({
     super.key,
     required this.hintText,
     required this.cor,

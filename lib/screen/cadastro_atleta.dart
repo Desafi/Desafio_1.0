@@ -5,7 +5,6 @@ import 'package:desafio/model/atleta.dart';
 import 'package:desafio/screen/menu_atleta.dart';
 import 'package:desafio/widget/botao_adicionar.dart';
 import 'package:desafio/widget/botao_loader.dart';
-import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/drop_down_estados.dart';
 import 'package:desafio/widget/modal_imagem.dart';
 import 'package:desafio/widget/scaffolds.dart';
@@ -492,7 +491,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                   setState(() {
                                     fotoAtestado = true;
                                   });
-                                  print(atleta.imagemAtestado! + " atestado");
+                                  print("${atleta.imagemAtestado!} atestado");
                                 }
                               },
                             );
@@ -526,7 +525,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                     fotoRegulamento = true;
                                   });
                                   print(
-                                      atleta.imagemAtestado! + " regulamento");
+                                      "${atleta.imagemAtestado!} regulamento");
                                 }
                               },
                             );
@@ -559,7 +558,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                   setState(() {
                                     fotoCpf = true;
                                   });
-                                  print(atleta.imagemCpf! + " cpf");
+                                  print("${atleta.imagemCpf!} cpf");
                                 }
                               },
                             );
@@ -592,7 +591,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                   setState(() {
                                     fotoRg = true;
                                   });
-                                  print(atleta.imagemRg! + " rg");
+                                  print("${atleta.imagemRg!} rg");
                                 }
                               },
                             );
@@ -626,8 +625,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                   setState(() {
                                     fotoComprovanteResidencia = true;
                                   });
-                                  print(atleta.imagemComprovanteDeResidencia! +
-                                      "residencia");
+                                  print("${atleta.imagemComprovanteDeResidencia!}residencia");
                                 }
                               },
                             );
@@ -664,7 +662,6 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                         Visibility(
                           visible: camposAdicionais.isNotEmpty,
                           child: ElevatedButton(
-                              child: Text('Apagar ultimo número'),
                               style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all(Colors.red)),
@@ -673,7 +670,8 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                 setState(() {
                                   camposAdicionais;
                                 });
-                              }),
+                              },
+                              child: const Text('Apagar ultimo número')),
                         ),
                       ],
                     ),
@@ -689,7 +687,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     ),
                     BotaoLoader(
                       hintText: estaCarregando
-                          ? CircularProgressIndicator(color: Colors.white)
+                          ? const CircularProgressIndicator(color: Colors.white)
                           : Text(
                               "Enviar",
                               style: GoogleFonts.plusJakartaSans(
@@ -720,7 +718,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                   });
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
-                                          builder: (context) => LoginApp()),
+                                          builder: (context) => const LoginApp()),
                                       (route) => false);
                                 }
                               }
@@ -748,7 +746,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
           elevation: 5,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
-            side: BorderSide(color: Colors.black, width: 1),
+            side: const BorderSide(color: Colors.black, width: 1),
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -964,10 +962,10 @@ CadastrarAtleta(Atleta atleta, BuildContext context) async {
           .onError((e, _) => print("Error writing document: $e"));
 
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => MenuAtletaApp()),
+          MaterialPageRoute(builder: (context) => const MenuAtletaApp()),
           (route) => false);
     } catch (e) {
-      print('Erro' + e.toString());
+      print('Erro$e');
     }
   } else {
     print('Não Esta logado');
@@ -989,7 +987,7 @@ Future<Map<String, String>> saveImagesToStorage(
     ];
 
     final Reference storageReference =
-        FirebaseStorage.instance.ref().child("images/${Uuid().v4()}.jpg");
+        FirebaseStorage.instance.ref().child("images/${const Uuid().v4()}.jpg");
 
     File imageFile = File(imagePath);
 

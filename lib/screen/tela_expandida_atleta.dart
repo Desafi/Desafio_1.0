@@ -21,9 +21,9 @@ class TelaExpandidaAtletaApp extends StatefulWidget {
   final String emailUser;
 
   const TelaExpandidaAtletaApp({
-    Key? key,
+    super.key,
     required this.emailUser,
-  }) : super(key: key);
+  });
 
   @override
   State<TelaExpandidaAtletaApp> createState() => _TelaExpandidaAtletaAppState();
@@ -56,37 +56,37 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
                 ),
               ),
               const SizedBox(height: 20),
-              InputMostrar(hintText: "Nome Completo"),
+              const InputMostrar(hintText: "Nome Completo"),
               const SizedBox(height: 10),
-              InputMostrar(hintText: "E-mail"),
+              const InputMostrar(hintText: "E-mail"),
               const SizedBox(height: 10),
-              InputMostrar(hintText: "Data de Nascimento"),
+              const InputMostrar(hintText: "Data de Nascimento"),
               const SizedBox(height: 10),
-              InputMostrar(hintText: "Número de Celular"),
+              const InputMostrar(hintText: "Número de Celular"),
               const SizedBox(height: 10),
-              InputMostrar(hintText: "Número de Emergência"),
+              const InputMostrar(hintText: "Número de Emergência"),
               const SizedBox(height: 10),
-              InputMostrar(hintText: "Nacionalidade"),
+              const InputMostrar(hintText: "Nacionalidade"),
               const SizedBox(height: 10),
-              InputMostrar(hintText: "Naturalidade"),
+              const InputMostrar(hintText: "Naturalidade"),
               const SizedBox(height: 10),
-              InputMostrar(hintText: "RG"),
+              const InputMostrar(hintText: "RG"),
               const SizedBox(height: 10),
-              InputMostrar(hintText: "CPF"),
+              const InputMostrar(hintText: "CPF"),
               const SizedBox(height: 10),
-              InputMostrar(hintText: "Sexo"),
+              const InputMostrar(hintText: "Sexo"),
               const SizedBox(height: 10),
-              InputMostrar(hintText: "CEP"),
+              const InputMostrar(hintText: "CEP"),
               const SizedBox(height: 10),
-              InputMostrar(hintText: "Bairro"),
+              const InputMostrar(hintText: "Bairro"),
               const SizedBox(height: 10),
-              InputMostrar(hintText: "Endereço"),
+              const InputMostrar(hintText: "Endereço"),
               const SizedBox(height: 10),
-              InputMostrar(hintText: "Convênio médico"),
+              const InputMostrar(hintText: "Convênio médico"),
               const SizedBox(height: 10),
-              InputMostrar(hintText: "Estilos"),
+              const InputMostrar(hintText: "Estilos"),
               const SizedBox(height: 10),
-              InputMostrar(hintText: "Prova"),
+              const InputMostrar(hintText: "Prova"),
               const SizedBox(height: 10),
               InputMostrarFoto(
                   hintText: "Imagem Atestado",
@@ -118,7 +118,7 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
                     : "Exibir Mais Informações"),
               ),
               if (_showMoreInfo)
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 10),

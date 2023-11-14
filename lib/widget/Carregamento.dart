@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Carregamento extends StatelessWidget {
-  Carregamento({
-    Key? key,
-  }) : super(key: key);
+  const Carregamento({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

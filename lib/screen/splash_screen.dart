@@ -5,15 +5,19 @@ import 'package:lottie/lottie.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class MyAppSplash extends StatelessWidget {
+  const MyAppSplash({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: SplashScreen(),
     );
   }
 }
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -37,10 +41,10 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
       splash: Lottie.asset('assets/images/carregamento.json'),
-      nextScreen: LoginApp(),
+      nextScreen: const LoginApp(),
       splashIconSize: 250,
       duration: 3000,
-      backgroundColor: Color.fromARGB(255, 86, 97, 255),
+      backgroundColor: const Color.fromARGB(255, 86, 97, 255),
       splashTransition: SplashTransition.scaleTransition,
     );
   }

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:desafio/widget/botao_cronometro.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 // void main() {
 //   runApp(const MyApp());

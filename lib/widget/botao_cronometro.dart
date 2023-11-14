@@ -7,7 +7,7 @@ class BotaoCronometro extends StatelessWidget {
   final Color? cor;
   final Function()? onTap;
 
-  BotaoCronometro({
+  const BotaoCronometro({
     super.key,
     required this.hintText,
     required this.cor,

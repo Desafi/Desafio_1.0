@@ -1,11 +1,8 @@
-import 'package:desafio/screen/cadastro.dart';
 import 'package:desafio/screen/form_pre_treino.dart';
 import 'package:desafio/screen/Treinos.dart';
 import 'package:desafio/screen/meus_users.dart';
 import 'package:desafio/screen/perfil.dart';
-import 'package:desafio/screen/tela_expandida_atleta.dart';
 import 'package:desafio/screen/treino_expandido.dart';
-import 'package:desafio/widget/card_pessoas.dart';
 import 'package:desafio/widget/card_treinos.dart';
 import 'package:flutter/material.dart';
 
@@ -56,7 +53,7 @@ class _MenuTreinadorAppState extends State<MenuTreinadorApp> {
         controller: pc,
         onPageChanged: setPaginaAtual,
         children: [
-          MeusUsers(
+          const MeusUsers(
               visivel: true,
               titulo: 'Atletas',
               hintInput: 'Digite o nome do atleta..'),

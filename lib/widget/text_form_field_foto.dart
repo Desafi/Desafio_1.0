@@ -21,7 +21,7 @@ class TextFormFieldFoto extends StatelessWidget {
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.image),
           suffixIcon: certo != false
-              ? Icon(
+              ? const Icon(
                   Icons.check,
                   color: Colors.green,
                   size: 40,

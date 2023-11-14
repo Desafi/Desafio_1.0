@@ -42,7 +42,7 @@ class _MenuGerenciaState extends State<MenuGerencia> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Color(0xFF42A5F5),
+            backgroundColor: const Color(0xFF42A5F5),
             title: const Text('Gerencie usuarios'),
             bottom: const TabBar(
               tabs: [
@@ -55,7 +55,7 @@ class _MenuGerenciaState extends State<MenuGerencia> {
               ],
             ),
           ),
-          body: TabBarView(
+          body: const TabBarView(
             children: [
               MeusUsers(
                   visivel: false,

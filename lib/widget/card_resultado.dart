@@ -5,10 +5,10 @@ class CardTreino extends StatelessWidget {
   final String conteudo;
 
   const CardTreino({
-    Key? key,
+    super.key,
     required this.hint,
     required this.conteudo,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

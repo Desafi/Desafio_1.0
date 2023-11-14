@@ -32,7 +32,7 @@ class MeuPerfilApp extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "Perfil",
                       style: TextStyle(
                         fontSize: 35,
@@ -79,7 +79,7 @@ class MeuPerfilApp extends StatelessWidget {
                       ),
                       BotaoUI(
                         hintText: "Editar",
-                        icone: Icon(
+                        icone: const Icon(
                           Icons.edit_outlined,
                           size: 25,
                         ),
@@ -90,7 +90,7 @@ class MeuPerfilApp extends StatelessWidget {
                       ),
                       BotaoUI(
                         hintText: "Sair",
-                        icone: Icon(
+                        icone: const Icon(
                           Icons.exit_to_app,
                           size: 25,
                         ),
@@ -99,7 +99,7 @@ class MeuPerfilApp extends StatelessWidget {
                           await FirebaseAuth.instance.signOut();
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) => LoginApp()),
+                                  builder: (context) => const LoginApp()),
                               (route) => false);
                         },
                       ),

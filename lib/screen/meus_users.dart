@@ -45,16 +45,16 @@ class _MeusUsersState extends State<MeusUsers> {
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                  builder: (context) => CadastroApp(
+                  builder: (context) => const CadastroApp(
                         menuItems: [
-                          const DropdownMenuItem(
+                          DropdownMenuItem(
                               value: "Atleta", child: Text("Atleta")),
                         ],
                       )),
             );
           },
           isExtended: true,
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         ),
       ),
       body: SingleChildScrollView(
@@ -94,7 +94,7 @@ class _MeusUsersState extends State<MeusUsers> {
                   height: 30,
                 ),
                 FirestoreListView<Map<String, dynamic>>(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   pageSize: 3,
                   shrinkWrap: true,
                   loadingBuilder: (context) => LoadingAnimationWidget.inkDrop(
@@ -120,7 +120,6 @@ class _MeusUsersState extends State<MeusUsers> {
                                   .get();
 
                               existe = querySnapshot.docs.isNotEmpty;
-                              print(existe);
 
                               if (existe == true) {
                                 Navigator.push(
@@ -134,7 +133,7 @@ class _MeusUsersState extends State<MeusUsers> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => NaoEncontrado()));
+                                        builder: (context) => const NaoEncontrado()));
                               }
                             }
                           });
@@ -167,7 +166,7 @@ class _MeusUsersState extends State<MeusUsers> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              NaoEncontrado()));
+                                              const NaoEncontrado()));
                                 }
                               }
                             });

@@ -16,7 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  runApp(MyAppSplash());
+  runApp(const MyAppSplash());
 }
 
 String mensagem = '';
@@ -192,7 +192,7 @@ class _LoginAppState extends State<LoginApp> {
                       ),
                       BotaoLoader(
                         hintText: estaCarregando
-                            ? CircularProgressIndicator(color: Colors.white)
+                            ? const CircularProgressIndicator(color: Colors.white)
                             : Text(
                                 "Entrar",
                                 style: GoogleFonts.plusJakartaSans(
@@ -240,18 +240,18 @@ VerificaTipo(String userId, BuildContext context) {
     switch (tipo) {
       case 'Administrador':
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => AdmApp()),
+            MaterialPageRoute(builder: (context) => const AdmApp()),
             (route) => false);
         break;
       case 'Treinador':
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => MenuTreinadorApp()),
+            MaterialPageRoute(builder: (context) => const MenuTreinadorApp()),
             (route) => false);
 
         break;
       case 'Atleta':
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => MenuAtletaApp()),
+            MaterialPageRoute(builder: (context) => const MenuAtletaApp()),
             (route) => false);
         break;
     }

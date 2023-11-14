@@ -8,13 +8,13 @@ class CardTreinos extends StatelessWidget {
 
 
   const CardTreinos({
-    Key? key,
+    super.key,
     this.nome,
     required this.estilo,
     required this.data,
     this.onTap,
 
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

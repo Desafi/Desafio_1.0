@@ -1,17 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:desafio/screen/cronometro.dart';
+import 'package:desafio/screen/cadastro.dart';
 import 'package:desafio/widget/botao_principal.dart';
-import 'package:desafio/widget/carregamento.dart';
+import 'package:desafio/widget/scaffolds.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:desafio/model/preTreino.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:intl/intl.dart';
 
 // void main() {
 //   runApp(const MyApp());
 // }
 
 String? selectValue;
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 // class MyApp extends StatelessWidget {
 //   const MyApp({super.key});
@@ -32,12 +34,14 @@ class CadastroPreTreinoApp extends StatefulWidget {
   State<CadastroPreTreinoApp> createState() => _CadastroPreTreinoAppState();
 }
 
-List<String> _kOptions = <String>[];
-List<String> pesquisa = [];
+List<Map<String, String>> _kOptions = [];
+
 FirebaseFirestore db = FirebaseFirestore.instance;
+
 bool carregando = false;
 
 class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
+  final SearchController _searchController = SearchController();
   CadastroPreTreino cadastro = CadastroPreTreino("", "", "", "");
 
   @override
@@ -51,16 +55,6 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
     ];
 
     final formKey = GlobalKey<FormState>();
-
-    // void filterSearchResults(String query) {
-    //   setState(() {
-    //     pesquisa = _kOptions
-    //         .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-    //         .toList();
-
-    //     print(pesquisa);
-    //   });
-    // }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -94,42 +88,88 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                   const SizedBox(
                     height: 50,
                   ),
+
                   //Pesquisar
-                  SearchAnchor(builder:
-                      (BuildContext context, SearchController controller) {
-                    return SearchBar(
-                      hintText: "Selecione o atleta",
-                      controller: controller,
-                      padding: const MaterialStatePropertyAll<EdgeInsets>(
-                          EdgeInsets.symmetric(horizontal: 16.0)),
-                      onTap: () async {
-                        controller.openView();
-                        await PesquisaAtleta();
-                      },
-                      onChanged: (text) => print(text),
-                      leading: const Icon(Icons.search),
-                    );
-                  }, suggestionsBuilder:
-                      (BuildContext context, SearchController controller) {
-                    return List<Widget>.generate(_kOptions.length, (int index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            radius: 30,
-                            backgroundImage:
-                                AssetImage('assets/images/person.jpg'),
-                          ),
-                          title: Text(
-                            _kOptions[index],
-                          ),
-                          onTap: () {
-                            controller.closeView(_kOptions[index]);
-                          },
+                  SearchAnchor(
+                    isFullScreen: true,
+                    searchController: _searchController,
+                    builder: (BuildContext context,
+                        SearchController searchController) {
+                      return SearchBar(
+                        hintText: "Selecione o atleta",
+                        controller: searchController,
+                        padding: const MaterialStatePropertyAll<EdgeInsets>(
+                          EdgeInsets.symmetric(horizontal: 16.0),
                         ),
+                        onTap: () async {
+                          searchController.openView();
+                          await PegarInformacaoAtleta();
+                        },
+                        leading: const Icon(Icons.search),
                       );
-                    });
-                  }),
+                    },
+                    suggestionsBuilder:
+                        (BuildContext context, SearchController controller) {
+                      if (controller.text.isEmpty) {
+                        if (_kOptions.length < 0) {
+                          return <Widget>[
+                            const Center(
+                                child: Text('No search history.',
+                                    style: TextStyle(color: Colors.amber)))
+                          ];
+                        } else {
+                          return List<Widget>.generate(_kOptions.length,
+                              (int index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                leading: const CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage:
+                                      AssetImage('assets/images/person.jpg'),
+                                ),
+                                title: Text(
+                                  _kOptions[index]["Nome"].toString(),
+                                ),
+                                onTap: () {
+                                  controller.closeView(
+                                      _kOptions[index]["Email"].toString());
+                                },
+                              ),
+                            );
+                          });
+                        }
+                      } else {
+                        var pesquisa = controller.text.toLowerCase();
+
+                        List<Map<String, String>> filteredOptions =
+                            _kOptions.where((option) {
+                          String nome = option["Nome"].toString().toLowerCase();
+                          return nome.contains(pesquisa);
+                        }).toList();
+                        return List<Widget>.generate(filteredOptions.length,
+                            (int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              leading: const CircleAvatar(
+                                radius: 30,
+                                backgroundImage:
+                                    AssetImage('assets/images/person.jpg'),
+                              ),
+                              title: Text(
+                                filteredOptions[index]["Nome"].toString(),
+                              ),
+                              onTap: () {
+                                controller.closeView(
+                                    filteredOptions[index]["Email"].toString());
+                              },
+                            ),
+                          );
+                        });
+                      }
+                    },
+                  ),
 
                   const SizedBox(
                     height: 30,
@@ -195,13 +235,46 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                     cor: Colors.blueAccent,
                     onTap: () {
                       if (formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Processing Data')),
-                        );
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => const CronometroApp()),
-                        );
+                        db
+                            .collection("Usuarios")
+                            .where("Email", isEqualTo: _searchController.text)
+                            .limit(1)
+                            .get()
+                            .then((querySnapshot) {
+                          if (querySnapshot.docs.isEmpty) {
+                            //Email nao existe
+                            Mensagem(context, "E-mail não existe", Colors.red);
+                          } else {
+                            var userData = querySnapshot.docs[0].id;
+                            try {
+                              final formPreTreino = <String, dynamic>{
+                                "EmailAplicante": _auth.currentUser!.email,
+                                "FrequenciaInicio": cadastro.frequenciaCardiaca,
+                                "FrequenciaFinal": "",
+                                "TempoVoltas": "",
+                                "TipoNado": cadastro.estiloTreino,
+                                "DataTreino": Data(),
+                              };
+
+                              db
+                                  .collection("Treinos")
+                                  .doc(userData)
+                                  .collection("TreinoAtleta")
+                                  .doc()
+                                  .set(formPreTreino);
+                            } catch (e) {
+                              Mensagem(
+                                  context,
+                                  "Ocorreu um erro ao cadastrar, tente novamente mais tarde",
+                                  Colors.red);
+                            }
+                          }
+                        });
+
+                        // Navigator.of(context).push(
+                        //   MaterialPageRoute(
+                        //       builder: (context) => const CronometroApp()),
+                        // );
                       }
                     },
                   ),
@@ -218,12 +291,25 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
   }
 }
 
-PesquisaAtleta() async {
+PegarInformacaoAtleta() async {
   QuerySnapshot atletasQuery =
       await db.collection('Usuarios').where('Tipo', isEqualTo: 'Atleta').get();
   _kOptions.clear();
-  atletasQuery.docs.forEach((doc) {
+  for (var doc in atletasQuery.docs) {
     String nomeAtleta = doc['Nome'];
-    _kOptions.add(nomeAtleta);
-  });
+    String emailAtleta = doc['Email'];
+
+    Map<String, String> atletaMap = {
+      'Nome': nomeAtleta,
+      'Email': emailAtleta,
+    };
+
+    _kOptions.add(atletaMap);
+  }
+}
+
+String DataAgora() {
+  DateTime agora = DateTime.now();
+  String formato = DateFormat('dd-MM-yyyy - kk:mm:ss').format(agora);
+  return formato.toString();
 }

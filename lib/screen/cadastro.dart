@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/helper/Define.dart';
@@ -142,7 +141,7 @@ class _CadastroAppState extends State<CadastroApp> {
                     ),
                     BotaoLoader(
                       hintText: estaCarregando
-                          ? CircularProgressIndicator(color: Colors.white)
+                          ? const CircularProgressIndicator(color: Colors.white)
                           : Text(
                               "Cadastrar",
                               style: GoogleFonts.plusJakartaSans(
@@ -163,7 +162,7 @@ class _CadastroAppState extends State<CadastroApp> {
                                 });
 
                                 cadastro.senha = _GerarSenha();
-                                await Registrar(cadastro.email, cadastro.senha,
+                                await registrar(cadastro.email, cadastro.senha,
                                     cadastro.tipo, cadastro.nome, context);
 
                                 setState(() {
@@ -196,7 +195,7 @@ class _CadastroAppState extends State<CadastroApp> {
   }
 }
 
-Registrar(String email, String senha, String tipo, String nome,
+registrar(String email, String senha, String tipo, String nome,
     BuildContext context) async {
   try {
     final UserCredential userCredential = await _auth
@@ -205,7 +204,7 @@ Registrar(String email, String senha, String tipo, String nome,
     //Pega hora atual
     final dataAtual = Data();
     //Cadastra os dados no banco
-    await _CadastraBanco(userId, nome, email, tipo, dataAtual, context);
+    await _cadastraBanco(userId, nome, email, tipo, dataAtual, context);
 
     //Envia a senha para o email cadastrado
     await _EnviarEmail(email, senha, context);
@@ -223,7 +222,7 @@ Registrar(String email, String senha, String tipo, String nome,
   }
 }
 
-_CadastraBanco(String userId, String nome, String email, String tipo,
+_cadastraBanco(String userId, String nome, String email, String tipo,
     String data, BuildContext context) {
   try {
     final user = <String, dynamic>{
@@ -244,16 +243,16 @@ _EnviarEmail(String email, String senha, BuildContext context) async {
   final smtpServer = gmail(username, password);
 
   final message = Message()
-    ..from = Address(username, 'Unaqua')
+    ..from = const Address(username, 'Unaqua')
     ..recipients.add(email)
     ..subject = 'Senha da Unaqua'
     ..text =
         'Sua senha para entrar no aplicativo é: $senha, troque ela assim que possivel!';
   try {
-    final sendReport = await send(message, smtpServer);
+    await send(message, smtpServer);
     MensagemAwesome(context, "Sucesso",
         "Sucesso ao cadastrar, verifique o e-mail para mais informações!!");
-  } on MailerException catch (e) {
+  } on MailerException {
     Mensagem(context, "Erro ao enviar e-mail, contate o suporte", Colors.red);
   }
 }

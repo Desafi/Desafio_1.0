@@ -7,7 +7,7 @@ class BotaoUI extends StatelessWidget {
   final Color? cor;
   final Function()? onTap;
 
-  BotaoUI({
+  const BotaoUI({
     super.key,
     required this.hintText,
     required this.icone,

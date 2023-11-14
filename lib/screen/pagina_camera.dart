@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class PaginaCamera extends StatefulWidget {
   final List<CameraDescription>? cameras;
-  const PaginaCamera({Key? key, required this.cameras}) : super(key: key);
+  const PaginaCamera({super.key, required this.cameras});
 
   @override
   State<PaginaCamera> createState() => _PaginaCamera();
@@ -67,7 +67,7 @@ class _PaginaCamera extends State<PaginaCamera> {
         body: Column(
           children: [
             Expanded(
-              child: Container(
+              child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 child: pictureFile == null

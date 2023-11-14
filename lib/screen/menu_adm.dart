@@ -23,6 +23,8 @@ import 'package:flutter/material.dart';
 // }
 
 class AdmApp extends StatefulWidget {
+  const AdmApp({super.key});
+
   @override
   _AdmAppState createState() => _AdmAppState();
 }
@@ -38,7 +40,7 @@ class _AdmAppState extends State<AdmApp> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 200,
@@ -50,7 +52,7 @@ class _AdmAppState extends State<AdmApp> {
                           color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 9,
                           blurRadius: 8,
-                          offset: Offset(0, 8),
+                          offset: const Offset(0, 8),
                         )
                       ]),
                   child: Card(
@@ -58,10 +60,10 @@ class _AdmAppState extends State<AdmApp> {
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     color: Colors.white,
-                    child: Column(
+                    child: const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const CircleAvatar(
+                        CircleAvatar(
                           radius: 50,
                           backgroundImage:
                               AssetImage('assets/images/person.jpg'),
@@ -79,31 +81,31 @@ class _AdmAppState extends State<AdmApp> {
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
-                Text(
+                const SizedBox(height: 30),
+                const Text(
                   'Selecione',
                   style: TextStyle(fontSize: 24),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 CardAdm(
                   titulo: 'Crie um usuário',
                   icone: Icons.add,
                   onTap: () async {
                     await Navigator.of(context).push(
                       MaterialPageRoute(
-                          builder: (context) => CadastroApp(
+                          builder: (context) => const CadastroApp(
                                 menuItems: [
-                                  const DropdownMenuItem(
+                                  DropdownMenuItem(
                                       value: "Treinador",
                                       child: Text("Treinador")),
-                                  const DropdownMenuItem(
+                                  DropdownMenuItem(
                                       value: "Atleta", child: Text("Atleta")),
                                 ],
                               )),
                     );
                   },
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 CardAdm(
                   titulo: 'Gerenciar usuários',
                   icone: Icons.manage_accounts,
@@ -114,14 +116,14 @@ class _AdmAppState extends State<AdmApp> {
                     );
                   },
                 ),
-                SizedBox(height: 80),
+                const SizedBox(height: 80),
                 BotaoPrincipal(
                   hintText: 'Sair',
                   cor: Colors.red[400],
                   onTap: () async {
                     await FirebaseAuth.instance.signOut();
                     Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => LoginApp()),
+                        MaterialPageRoute(builder: (context) => const LoginApp()),
                         (route) => false);
                   },
                 ),

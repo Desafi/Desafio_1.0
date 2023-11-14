@@ -5,7 +5,7 @@ class CardAdm extends StatelessWidget {
   final IconData icone;
   final Function()? onTap;
 
-  CardAdm({
+  const CardAdm({
     super.key,
     required this.titulo,
     required this.icone,
@@ -18,13 +18,13 @@ class CardAdm extends StatelessWidget {
       onTap: onTap,
       child: Card(
         elevation: 10,
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 80,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
               Icon(
@@ -32,12 +32,12 @@ class CardAdm extends StatelessWidget {
                 size: 40,
                 color: Colors.green,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 40,
               ),
               Text(
                 titulo,
-                style: TextStyle(fontSize: 22),
+                style: const TextStyle(fontSize: 22),
               )
             ],
           ),
