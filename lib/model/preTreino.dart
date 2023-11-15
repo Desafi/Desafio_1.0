@@ -1,9 +1,10 @@
 class CadastroPreTreino {
   String? nome;
-  String? frequenciaCardiaca;
+  String? frequenciaCardiacaInicio;
+  String? frequenciaCardiacaFinal;
   String? estiloTreino;
   String? dataTreino;
 
   CadastroPreTreino(
-      this.nome, this.frequenciaCardiaca, this.estiloTreino, this.dataTreino);
+      this.nome, this.frequenciaCardiacaInicio,this.frequenciaCardiacaFinal, this.estiloTreino, this.dataTreino);
 }

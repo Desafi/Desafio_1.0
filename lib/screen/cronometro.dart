@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:desafio/widget/botao_cronometro.dart';
+import 'package:desafio/widget/scaffolds.dart';
+import 'package:desafio/widget/text_form_field_cadastro.dart';
 import 'package:flutter/material.dart';
 
 // void main() {
@@ -25,8 +27,11 @@ class CronometroApp extends StatefulWidget {
 }
 
 class _CronometroAppState extends State<CronometroApp> {
+  TextEditingController frequenciaController = TextEditingController();
+
   bool enviar = false;
   bool botaoRetomar = false;
+  bool formFrequencia = false;
   bool apareceBotoes = false;
   bool clicouVolta = false;
   bool cronometroRodando = false;
@@ -71,6 +76,7 @@ class _CronometroAppState extends State<CronometroApp> {
         pausaCronometro = true;
         enviar = true;
         botaoRetomar = false;
+        formFrequencia = true;
         fezVolta();
       }
     });
@@ -124,6 +130,7 @@ class _CronometroAppState extends State<CronometroApp> {
       clicouVolta = false;
       pausaCronometro = false;
       controlaLista = false;
+      formFrequencia = false;
       botaoRetomar = false;
       cronometro.cancel();
       cronometroVolta.cancel();
@@ -416,13 +423,32 @@ class _CronometroAppState extends State<CronometroApp> {
                       style: TextStyle(color: Colors.white, fontSize: 20)),
                 ),
               ),
+
+              Visibility(
+                visible: formFrequencia,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        "O treino foi concluido, envie para continuar!!",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      const SizedBox(height: 10.0),
+                      TextFormFieldCadastro(
+                        labelText: "Frequência final",
+                        formController: frequenciaController,
+                      ),
+                      const SizedBox(height: 30.0),
+                    ],
+                  ),
+                ),
+              ),
+
               Visibility(
                 visible: enviar,
                 child: ElevatedButton(
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Enviando relatorio')),
-                    );
                     resetCronometro();
                     setState(() {
                       controlaBtnIniciar = true;

@@ -491,7 +491,6 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                   setState(() {
                                     fotoAtestado = true;
                                   });
-                                  print("${atleta.imagemAtestado!} atestado");
                                 }
                               },
                             );
@@ -524,8 +523,6 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                   setState(() {
                                     fotoRegulamento = true;
                                   });
-                                  print(
-                                      "${atleta.imagemAtestado!} regulamento");
                                 }
                               },
                             );
@@ -558,7 +555,6 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                   setState(() {
                                     fotoCpf = true;
                                   });
-                                  print("${atleta.imagemCpf!} cpf");
                                 }
                               },
                             );
@@ -591,7 +587,6 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                   setState(() {
                                     fotoRg = true;
                                   });
-                                  print("${atleta.imagemRg!} rg");
                                 }
                               },
                             );
@@ -625,7 +620,6 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                   setState(() {
                                     fotoComprovanteResidencia = true;
                                   });
-                                  print("${atleta.imagemComprovanteDeResidencia!}residencia");
                                 }
                               },
                             );
@@ -718,7 +712,8 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                   });
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
-                                          builder: (context) => const LoginApp()),
+                                          builder: (context) =>
+                                              const LoginApp()),
                                       (route) => false);
                                 }
                               }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/screen/cadastro.dart';
+import 'package:desafio/screen/cronometro.dart';
 import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/scaffolds.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -42,7 +43,7 @@ bool carregando = false;
 
 class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
   final SearchController _searchController = SearchController();
-  CadastroPreTreino cadastro = CadastroPreTreino("", "", "", "");
+  CadastroPreTreino cadastro = CadastroPreTreino("", "", "", "", "");
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +194,7 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                       if (value == null || value.isEmpty) {
                         return "Este campo é obrigatório!";
                       }
-                      cadastro.frequenciaCardiaca = value;
+                      cadastro.frequenciaCardiacaInicio = value;
                       return null;
                     },
                   ),
@@ -249,7 +250,8 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                             try {
                               final formPreTreino = <String, dynamic>{
                                 "EmailAplicante": _auth.currentUser!.email,
-                                "FrequenciaInicio": cadastro.frequenciaCardiaca,
+                                "FrequenciaInicio":
+                                    cadastro.frequenciaCardiacaInicio,
                                 "FrequenciaFinal": "",
                                 "TempoVoltas": "",
                                 "TipoNado": cadastro.estiloTreino,
@@ -271,10 +273,10 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                           }
                         });
 
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //       builder: (context) => const CronometroApp()),
-                        // );
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => const CronometroApp()),
+                        );
                       }
                     },
                   ),
