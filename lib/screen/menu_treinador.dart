@@ -59,24 +59,6 @@ class _MenuTreinadorAppState extends State<MenuTreinadorApp> {
               hintInput: 'Digite o nome do atleta..'),
           const CadastroPreTreinoApp(),
           TreinosApp(
-            cards: [
-              CardTreinos(
-                nome: "João Antonio",
-                estilo: "Borboleta",
-                data: "11/05/2023",
-                onTap: () async {
-                  await Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) => const TreinoExpandidoApp()),
-                  );
-                },
-              ),
-              const CardTreinos(
-                nome: "Aluizio",
-                estilo: "Crawl",
-                data: "12/05/2023",
-              ),
-            ],
             titulo: "Treinos",
           ),
           const MeuPerfilApp(),

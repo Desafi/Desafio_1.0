@@ -133,7 +133,8 @@ class _MeusUsersState extends State<MeusUsers> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const NaoEncontrado()));
+                                        builder: (context) =>
+                                            const NaoEncontrado()));
                               }
                             }
                           });

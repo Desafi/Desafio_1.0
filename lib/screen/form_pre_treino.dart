@@ -246,37 +246,51 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                             //Email nao existe
                             Mensagem(context, "E-mail não existe", Colors.red);
                           } else {
-                            var userData = querySnapshot.docs[0].id;
-                            try {
-                              final formPreTreino = <String, dynamic>{
-                                "EmailAplicante": _auth.currentUser!.email,
-                                "FrequenciaInicio":
-                                    cadastro.frequenciaCardiacaInicio,
-                                "FrequenciaFinal": "",
-                                "TempoVoltas": "",
-                                "TipoNado": cadastro.estiloTreino,
-                                "DataTreino": Data(),
-                              };
+                            var userId = querySnapshot.docs[0].id;
+                            var userData = querySnapshot.docs[0].data();
+                            String nome = userData["Nome"];
+                            String email = userData["Email"];
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => CronometroApp(
+                                      emailAtleta: email,
+                                      nomeAtleta: nome,
+                                      uidAtleta: userId,
+                                      emailAplicante:
+                                          _auth.currentUser!.email.toString(),
+                                      frequenciaInicio: cadastro
+                                          .frequenciaCardiacaInicio
+                                          .toString(),
+                                      estiloTreino:
+                                          cadastro.estiloTreino.toString())),
+                            );
+                            _searchController.text = "";
+                            // try {
+                            //   final formPreTreino = <String, dynamic>{
+                            //     "EmailAplicante": _auth.currentUser!.email,
+                            //     "FrequenciaInicio":
+                            //         cadastro.frequenciaCardiacaInicio,
+                            //     "FrequenciaFinal": "",
+                            //     "TempoVoltas": "",
+                            //     "TempoGeral": "",
+                            //     "TipoNado": cadastro.estiloTreino,
+                            //     "DataTreino": Data(),
+                            //   };
 
-                              db
-                                  .collection("Treinos")
-                                  .doc(userData)
-                                  .collection("TreinoAtleta")
-                                  .doc()
-                                  .set(formPreTreino);
-                            } catch (e) {
-                              Mensagem(
-                                  context,
-                                  "Ocorreu um erro ao cadastrar, tente novamente mais tarde",
-                                  Colors.red);
-                            }
+                            //   db
+                            //       .collection("Treinos")
+                            //       .doc(userData)
+                            //       .collection("TreinoAtleta")
+                            //       .doc()
+                            //       .set(formPreTreino);
+                            // } catch (e) {
+                            //   Mensagem(
+                            //       context,
+                            //       "Ocorreu um erro ao cadastrar, tente novamente mais tarde",
+                            //       Colors.red);
+                            // }
                           }
                         });
-
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => const CronometroApp()),
-                        );
                       }
                     },
                   ),

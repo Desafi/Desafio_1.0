@@ -7,7 +7,7 @@ class InputMostrarFoto extends StatelessWidget {
   const InputMostrarFoto({
     super.key,
     required this.hintText,
-    required this.showImageFunction, // Adicione este parâmetro
+    required this.showImageFunction, 
   });
 
   @override

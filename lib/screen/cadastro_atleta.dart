@@ -37,7 +37,7 @@ void main() async {
 
 String? valorSexo;
 String? valorEstado;
-
+String? nomeCompleto;
 int index = 0;
 
 bool fotoAtestado = false;
@@ -60,6 +60,20 @@ class CadastroAtleta extends StatefulWidget {
 }
 
 class _CadastroAtletaAppState extends State<CadastroAtleta> {
+  @override
+  void initState() {
+    db
+        .collection("Usuarios")
+        .doc(_auth.currentUser!.uid)
+        .get()
+        .then((querySnapshot) {
+      setState(() {
+        nomeCompleto = querySnapshot.data()?['Nome'];
+      });
+    });
+    super.initState();
+  }
+
   TextEditingController cidadeController = TextEditingController();
   TextEditingController bairroController = TextEditingController();
   TextEditingController estadoController = TextEditingController();
@@ -92,7 +106,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
   TextEditingController txtCep = TextEditingController();
 
   Atleta atleta = Atleta("", "", "", "", "", "", "", "", "", "", "", "", "", "",
-      "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+      "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","","");
 
   @override
   Widget build(BuildContext context) {
@@ -915,6 +929,7 @@ CadastrarAtleta(Atleta atleta, BuildContext context) async {
   Map<String, String> imageUrlMap = await saveImagesToStorage(listaImages);
 
   final cadastroAtleta = <String, String>{
+    "NomeCompleto": nomeCompleto.toString(),
     "Email": _auth.currentUser!.email.toString(),
     "DataNascimento": atleta.dataDeNascimento.toString(),
     "NumeroCelular": atleta.numeroDoCelular.toString(),

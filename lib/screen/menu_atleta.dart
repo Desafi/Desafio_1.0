@@ -66,18 +66,8 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
       body: PageView(
         controller: pc,
         onPageChanged: setPaginaAtual,
-        children: const [
+        children: [
           TreinosApp(
-            cards: [
-              CardTreinos(
-                estilo: "Borboleta",
-                data: "11/05/2023",
-              ),
-              CardTreinos(
-                estilo: "Crawl",
-                data: "12/05/2023",
-              ),
-            ],
             titulo: "Meus Treinos",
           ),
           DesempenhoApp(),

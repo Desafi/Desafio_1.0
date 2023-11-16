@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CardTreinos extends StatelessWidget {
   final String? nome;
@@ -6,14 +7,12 @@ class CardTreinos extends StatelessWidget {
   final String data;
   final Function()? onTap;
 
-
   const CardTreinos({
     super.key,
     this.nome,
     required this.estilo,
     required this.data,
     this.onTap,
-
   });
 
   @override
@@ -34,22 +33,24 @@ class CardTreinos extends StatelessWidget {
                 radius: 40,
                 backgroundImage: AssetImage('assets/images/person.jpg'),
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Visibility(
-                      visible: nome != null,
-                      child: Text('Nome: $nome', style: const TextStyle(fontSize: 16))),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text('Estilo de treino: $estilo',
-                      style: const TextStyle(fontSize: 16)),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text('Data do treino: $data', style: const TextStyle(fontSize: 16)),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Text(nome.toString(),
+                        style: GoogleFonts.poppins(
+                            fontSize: 18, fontWeight: FontWeight.w400)),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text('Estilo: $estilo',
+                        style: const TextStyle(fontSize: 16)),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(data, style: const TextStyle(fontSize: 11)),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 20,

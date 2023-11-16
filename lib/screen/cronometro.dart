@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:desafio/model/preTreino.dart';
+import 'package:desafio/screen/cadastro.dart';
 import 'package:desafio/widget/botao_cronometro.dart';
 import 'package:desafio/widget/scaffolds.dart';
 import 'package:desafio/widget/text_form_field_cadastro.dart';
@@ -20,14 +22,30 @@ import 'package:flutter/material.dart';
 // }
 
 class CronometroApp extends StatefulWidget {
-  const CronometroApp({super.key});
+  final String uidAtleta;
+  final String nomeAtleta;
+  final String emailAtleta;
+  final String emailAplicante;
+  final String frequenciaInicio;
+  final String estiloTreino;
+
+  CronometroApp({
+    required this.uidAtleta,
+    required this.nomeAtleta,
+    required this.emailAtleta,
+    required this.emailAplicante,
+    required this.frequenciaInicio,
+    required this.estiloTreino,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<CronometroApp> createState() => _CronometroAppState();
 }
 
 class _CronometroAppState extends State<CronometroApp> {
-  TextEditingController frequenciaController = TextEditingController();
+  CadastroPreTreino cadastro = CadastroPreTreino("", "", "", "", "");
+  final formKey = GlobalKey<FormState>();
 
   bool enviar = false;
   bool botaoRetomar = false;
@@ -69,16 +87,16 @@ class _CronometroAppState extends State<CronometroApp> {
             segundos = 0;
           }
         });
+        if (segundos == 5 && milesegundos == 0) {
+          controlaBtn = false;
+          pausaCronometro = true;
+          enviar = true;
+          botaoRetomar = false;
+          formFrequencia = true;
+          fezVolta();
+        }
       }
 //terminar (minutos == 30 && segundos == 2 && milesegundos == 0)
-      if (segundos == 2 && milesegundos == 0) {
-        controlaBtn = false;
-        pausaCronometro = true;
-        enviar = true;
-        botaoRetomar = false;
-        formFrequencia = true;
-        fezVolta();
-      }
     });
   }
 
@@ -140,333 +158,391 @@ class _CronometroAppState extends State<CronometroApp> {
   final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[300],
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "${minutos.toString().padLeft(2, '0')}:${segundos.toString().padLeft(2, '0')}.${milesegundos.toString().padLeft(2, '0')}",
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 50.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                "${minutosVolta.toString().padLeft(2, '0')}:${segundosVolta.toString().padLeft(2, '0')}.${milesegundosVolta.toString().padLeft(2, '0')}",
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.w200,
-                ),
-              ),
-              const SizedBox(height: 25.0),
-              if (clicouVolta)
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Volta',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'Tempo das voltas',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'Tempo geral',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.grey[300],
+        body: Center(
+          child: Form(
+            key: formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "${minutos.toString().padLeft(2, '0')}:${segundos.toString().padLeft(2, '0')}.${milesegundos.toString().padLeft(2, '0')}",
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 50.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              const SizedBox(height: 25.0),
-              // Containerlista
-              Visibility(
-                visible: controlaLista,
-                child: Container(
-                  width: 400.0,
-                  height: 400.0,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFD3D3D3),
-                    borderRadius: BorderRadius.circular(8.0),
+                  Text(
+                    "${minutosVolta.toString().padLeft(2, '0')}:${segundosVolta.toString().padLeft(2, '0')}.${milesegundosVolta.toString().padLeft(2, '0')}",
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.w200,
+                    ),
                   ),
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      controller: _scrollController,
-                      itemCount: voltasGeral.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          crossAxisAlignment:
-                              CrossAxisAlignment.start, // Alinhar à esquerda
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 35.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('${index + 1}',
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.bold)),
-                                  Text('${voltas[index]}',
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.bold)),
-                                  Text('${voltasGeral[index]}',
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
+                  const SizedBox(height: 25.0),
+                  if (clicouVolta)
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Volta',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
                             ),
-                            const SizedBox(
-                                height: 8.0), // Espaço entre os itens da lista
-                          ],
-                        );
-                      }),
-                ),
-              ),
-
-              Visibility(
-                visible: controlaBtnIniciar,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        iniciaCronometro();
-                        iniciaCronometroVolta();
-                        setState(() {
-                          apareceBotoes = true;
-                          controlaBtnIniciar = false;
-                          controlaLista = false;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amber,
-                        minimumSize: const Size(180.0, 60.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(15.0), // Borda arredondada
-                        ),
+                          ),
+                          Text(
+                            'Tempo das voltas',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'Tempo geral',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      child: const Text('Iniciar',
-                          style: TextStyle(color: Colors.white, fontSize: 20)),
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 25.0),
-
-              Visibility(
-                visible: controlaBtn,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        fezVolta();
-                        setState(() {
-                          clicouVolta = true;
-                          controlaLista = true;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amber,
-                        minimumSize: const Size(180.0, 60.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(15.0), // Borda arredondada
-                        ),
+                  const SizedBox(height: 25.0),
+                  // Containerlista
+                  Visibility(
+                    visible: controlaLista,
+                    child: Container(
+                      width: 400.0,
+                      height: 400.0,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFD3D3D3),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
-                      child: const Text('Volta',
-                          style: TextStyle(color: Colors.white, fontSize: 20)),
-                    ),
-                    const SizedBox(width: 15.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          controlaBtn = false;
-                          pausaCronometro = true;
-                          botaoRetomar = true;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 255, 0, 0),
-                        minimumSize: const Size(180.0, 60.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(15.0), // Borda arredondada
-                        ),
-                      ),
-                      child: const Text('Parar',
-                          style: TextStyle(color: Colors.white, fontSize: 20)),
-                    ),
-                  ],
-                ),
-              ),
-
-              Visibility(
-                visible: pausaCronometro,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        showModalBottomSheet<void>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Container(
-                              height: 200,
-                              color: Colors.white,
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    const Text(
-                                      'Deseja Resetar o cronômetro? ',
-                                      style: TextStyle(fontSize: 24),
-                                    ),
-                                    const SizedBox(height: 8.0), //
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        BotaoCronometro(
-                                          cor: Colors.green,
-                                          hintText: "Sim",
-                                          icone: Icons.check,
-                                          onTap: () {
-                                            resetCronometro();
-                                            Navigator.pop(context);
-                                            setState(() {
-                                              controlaBtnIniciar = true;
-                                            });
-                                          },
-                                        ),
-                                        BotaoCronometro(
-                                          hintText: "Não",
-                                          cor: Colors.red,
-                                          icone: Icons.cancel,
-                                          onTap: () => Navigator.pop(context),
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          controller: _scrollController,
+                          itemCount: voltasGeral.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment
+                                  .start, // Alinhar à esquerda
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 35.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('${index + 1}',
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold)),
+                                      Text('${voltas[index]}',
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold)),
+                                      Text('${voltasGeral[index]}',
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
                                 ),
-                              ),
+                                const SizedBox(
+                                    height:
+                                        8.0), // Espaço entre os itens da lista
+                              ],
+                            );
+                          }),
+                    ),
+                  ),
+
+                  Visibility(
+                    visible: controlaBtnIniciar,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            iniciaCronometro();
+                            iniciaCronometroVolta();
+                            setState(() {
+                              apareceBotoes = true;
+                              controlaBtnIniciar = false;
+                              controlaLista = false;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.amber,
+                            minimumSize: const Size(180.0, 60.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  15.0), // Borda arredondada
+                            ),
+                          ),
+                          child: const Text('Iniciar',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 25.0),
+
+                  Visibility(
+                    visible: controlaBtn,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            fezVolta();
+                            setState(() {
+                              clicouVolta = true;
+                              controlaLista = true;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.amber,
+                            minimumSize: const Size(180.0, 60.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  15.0), // Borda arredondada
+                            ),
+                          ),
+                          child: const Text('Volta',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20)),
+                        ),
+                        const SizedBox(width: 15.0),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              controlaBtn = false;
+                              pausaCronometro = true;
+                              botaoRetomar = true;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 255, 0, 0),
+                            minimumSize: const Size(180.0, 60.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  15.0), // Borda arredondada
+                            ),
+                          ),
+                          child: const Text('Parar',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20)),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Visibility(
+                    visible: pausaCronometro,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            showModalBottomSheet<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  height: 200,
+                                  color: Colors.white,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        const Text(
+                                          'Deseja Resetar o cronômetro? ',
+                                          style: TextStyle(fontSize: 24),
+                                        ),
+                                        const SizedBox(height: 8.0), //
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            BotaoCronometro(
+                                              cor: Colors.green,
+                                              hintText: "Sim",
+                                              icone: Icons.check,
+                                              onTap: () {
+                                                resetCronometro();
+                                                Navigator.pop(context);
+                                                setState(() {
+                                                  controlaBtnIniciar = true;
+                                                });
+                                              },
+                                            ),
+                                            BotaoCronometro(
+                                              hintText: "Não",
+                                              cor: Colors.red,
+                                              icone: Icons.cancel,
+                                              onTap: () =>
+                                                  Navigator.pop(context),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
                             );
                           },
-                        );
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.amber,
+                            minimumSize: const Size(180.0, 60.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  15.0), // Borda arredondada
+                            ),
+                          ),
+                          child: const Text('Resetar',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20)),
+                        ),
+                        const SizedBox(height: 30.0), //
+                      ],
+                    ),
+                  ),
+
+                  Visibility(
+                    visible: botaoRetomar,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          controlaBtn = true;
+                          botaoRetomar = false;
+
+                          pausaCronometro = false;
+                        });
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amber,
+                        backgroundColor: const Color.fromARGB(255, 0, 140, 255),
+                        minimumSize: const Size(180.0, 60.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                      ),
+                      child: const Text('Retomar',
+                          style: TextStyle(color: Colors.white, fontSize: 20)),
+                    ),
+                  ),
+
+                  Visibility(
+                    visible: formFrequencia,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            "O treino foi concluido, envie para continuar!!",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          const SizedBox(height: 10.0),
+                          TextFormFieldCadastro(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Este campo é obrigatório!";
+                              }
+                              cadastro.frequenciaCardiacaFinal = value;
+                              return null;
+                            },
+                            labelText: "Frequência final",
+                          ),
+                          const SizedBox(height: 30.0),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Visibility(
+                    visible: enviar,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          // print(cadastro.frequenciaCardiacaFinal);
+                          // print(voltasGeral);
+                          // print(voltas);
+
+                          // print(widget.emailAplicante);
+                          // print(widget.uidAtleta);
+                          // print(widget.estiloTreino);
+                          // print(widget.frequenciaInicio);
+
+                          try {
+                            final formPreTreino = <String, dynamic>{
+                              "EmailAtleta": widget.emailAtleta,
+                              "NomeAtleta": widget.nomeAtleta,
+                              "EmailAplicante": widget.emailAplicante,
+                              "FrequenciaInicio": widget.frequenciaInicio,
+                              "FrequenciaFinal":
+                                  cadastro.frequenciaCardiacaFinal,
+                              "TempoVoltas": voltas,
+                              "TempoGeral": voltasGeral,
+                              "TipoNado": widget.estiloTreino,
+                              "DataTreino": Data(),
+                            };
+
+                            db
+                                .collection("Treinos")
+                                .doc(widget.uidAtleta)
+                                .collection("TreinoAtleta")
+                                .doc()
+                                .set(formPreTreino);
+                          } catch (e) {
+                            Mensagem(
+                                context,
+                                "Ocorreu um erro ao cadastrar, tente novamente mais tarde",
+                                Colors.red);
+                          }
+
+                          resetCronometro();
+                          setState(() {
+                            controlaBtnIniciar = true;
+                          });
+                          Navigator.pop(context);
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 69, 214, 33),
                         minimumSize: const Size(180.0, 60.0),
                         shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(15.0), // Borda arredondada
                         ),
                       ),
-                      child: const Text('Resetar',
+                      child: const Text('Enviar',
                           style: TextStyle(color: Colors.white, fontSize: 20)),
                     ),
-                    const SizedBox(height: 30.0), //
-                  ],
-                ),
+                  )
+                ],
               ),
-
-              Visibility(
-                visible: botaoRetomar,
-                child: ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      controlaBtn = true;
-                      botaoRetomar = false;
-
-                      pausaCronometro = false;
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 0, 140, 255),
-                    minimumSize: const Size(180.0, 60.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                  ),
-                  child: const Text('Retomar',
-                      style: TextStyle(color: Colors.white, fontSize: 20)),
-                ),
-              ),
-
-              Visibility(
-                visible: formFrequencia,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        "O treino foi concluido, envie para continuar!!",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      const SizedBox(height: 10.0),
-                      TextFormFieldCadastro(
-                        labelText: "Frequência final",
-                        formController: frequenciaController,
-                      ),
-                      const SizedBox(height: 30.0),
-                    ],
-                  ),
-                ),
-              ),
-
-              Visibility(
-                visible: enviar,
-                child: ElevatedButton(
-                  onPressed: () {
-                    resetCronometro();
-                    setState(() {
-                      controlaBtnIniciar = true;
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 69, 214, 33),
-                    minimumSize: const Size(180.0, 60.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(15.0), // Borda arredondada
-                    ),
-                  ),
-                  child: const Text('Enviar',
-                      style: TextStyle(color: Colors.white, fontSize: 20)),
-                ),
-              )
-            ],
+            ),
           ),
         ),
       ),
