@@ -48,29 +48,6 @@ class _ModalImagemState extends State<ModalImagem> {
                           )));
 
                   widget.onPhotoSelected(foto!.path);
-
-                  // Reference ref =
-                  //     storage.ref().child("images/${Uuid().v4()}.jpg");
-
-                  // Reference reference = FirebaseStorage.instance.ref();
-                  // Reference referenceDirImages = reference.child('images');
-
-                  // Reference referenceImageToUpload =
-                  //     referenceDirImages.child(Uuid().v4());
-
-                  // try {
-                  //   await referenceImageToUpload.putFile(File(foto!.path));
-
-                  //   imageUrl = await referenceImageToUpload.getDownloadURL();
-                  // } catch (e) {
-                  //   // ...
-                  // }
-
-                  // Reference ref =
-                  //     storage.ref().child("images/${Uuid().v4()}.jpg");
-                  // await ref.putFile(File(foto!.path));
-                  // String imageUrl = await ref.getDownloadURL();
-                  // print("URL da imagem: $imageUrl");
                 },
                 child: const Column(
                   children: [

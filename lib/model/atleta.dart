@@ -28,6 +28,7 @@ class Atleta {
   String? numeroDeCelularAdicionalPai;
   String? numeroDeCelularAdicionalMae;
   String? imagemAtestado;
+  String? imagemAtleta;
   String? imagemRegulamentoDoAtleta;
   String? imagemComprovanteDeResidencia;
   String? imagemCpf;
@@ -63,8 +64,10 @@ class Atleta {
       this.numeroDeCelularAdicionalPai,
       this.numeroDeCelularAdicionalMae,
       this.imagemAtestado,
+      this.imagemAtleta,
       this.imagemRegulamentoDoAtleta,
       this.imagemComprovanteDeResidencia,
       this.imagemCpf,
-      this.imagemRg);
+      this.imagemRg
+      );
 }

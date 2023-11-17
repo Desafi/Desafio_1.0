@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:desafio/screen/cadastro_atleta.dart';
 import 'package:desafio/widget/card_resultado.dart';
 import 'package:desafio/widget/card_treinos.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,13 +36,15 @@ class TreinosApp extends StatefulWidget {
 }
 
 FirebaseAuth _auth = FirebaseAuth.instance;
+FirebaseFirestore db = FirebaseFirestore.instance;
 
 final atletaQuery = FirebaseFirestore.instance
     .collection('Treinos')
     .doc(_auth.currentUser!.uid)
     .collection("TreinoAtleta");
 
-final treinadorQuery = FirebaseFirestore.instance.collection('Treinos').doc().collection("TreinoAtleta");
+final treinadorQuery =
+    FirebaseFirestore.instance.collectionGroup("TreinoAtleta");
 
 class _TreinosAppState extends State<TreinosApp> {
   @override
@@ -145,16 +148,29 @@ class _TreinosAppState extends State<TreinosApp> {
                 const SizedBox(
                   height: 40,
                 ),
+                // StreamBuilder(
+                //   stream: FirebaseFirestore.instance
+                //       .collection('Treinos')
+                //       .snapshots(),
+                //   builder: (context, snapshot) {
+                //     Map<String, dynamic> usersnapshot.data!.data();
+                //     // Map<String, dynamic> user = snapshot.data();
+                //     print(user);
+                //     return CardTreinos(
+                //       nome: user['NomeAtleta'],
+                //       data: user['DataTreino'],
+                //       estilo: user['TipoNado'],
+                //     );
+                //   },
+                // ),
                 FirestoreListView<Map<String, dynamic>>(
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
-                  query: treinadorQuery,
-                  // widget.titulo == "Meus Treinos"
-                  //     ? atletaQuery
-                  //     : treinadorQuery,
+                  query: widget.titulo == "Meus Treinos"
+                      ? atletaQuery
+                      : treinadorQuery,
                   itemBuilder: (context, snapshot) {
                     Map<String, dynamic> user = snapshot.data();
-                    print(user);
                     return CardTreinos(
                       nome: user['NomeAtleta'],
                       data: user['DataTreino'],

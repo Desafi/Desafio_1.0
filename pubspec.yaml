@@ -54,7 +54,6 @@ dependencies:
   firebase_ui_firestore: ^1.5.13
   uuid: ^3.0.4
   firebase_storage: ^11.4.0
-
   
 dev_dependencies:
   flutter_test:
@@ -85,6 +84,7 @@ flutter:
      - assets/images/imagemGrafico.jpg
      - assets/images/carregamento.json
      - assets/images/animacao.json
+     - assets/images/lupaVazio.json
      
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

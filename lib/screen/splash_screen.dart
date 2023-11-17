@@ -22,17 +22,13 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-String? tipo;
-
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
-        setState(() {
-          tipo = VerificaTipo(user.uid, context);
-        });
+        VerificaTipo(user.uid, context);
       }
     });
   }

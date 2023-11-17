@@ -12,9 +12,9 @@ class InputMostrar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return TextFormField(
       enabled: false,
+      initialValue: valor,
       decoration: InputDecoration(
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(
@@ -30,6 +30,7 @@ class InputMostrar extends StatelessWidget {
           color: Colors.black54,
         ),
       ),
+      style: TextStyle(color: Colors.black87),
     );
   }
 }

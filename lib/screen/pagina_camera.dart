@@ -12,6 +12,8 @@ class PaginaCamera extends StatefulWidget {
 
 bool botaoFoto = true;
 bool botoesSelecionar = false;
+bool flash = false;
+bool cameraInvertida = false;
 
 class _PaginaCamera extends State<PaginaCamera> {
   XFile? pictureFile;
@@ -61,6 +63,8 @@ class _PaginaCamera extends State<PaginaCamera> {
               onPressed: () {
                 Navigator.pop(context);
                 pictureFile = null;
+                botoesSelecionar = false;
+                botaoFoto = true;
               }),
           title: const Text("Camera"),
         ),
@@ -74,6 +78,7 @@ class _PaginaCamera extends State<PaginaCamera> {
                     ? CameraPreview(controller)
                     : Image.file(
                         File(pictureFile!.path),
+                        fit: BoxFit.contain,
                       ),
               ),
             ),
@@ -88,27 +93,81 @@ class _PaginaCamera extends State<PaginaCamera> {
                   children: [
                     Visibility(
                       visible: botaoFoto,
-                      child: FloatingActionButton.large(
-                        backgroundColor: Colors.white,
-                        elevation: 20,
-                        onPressed: () async {
-                          try {
-                            XFile file = await controller.takePicture();
-                            if (mounted) {
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          FloatingActionButton.small(
+                            backgroundColor: Colors.white,
+                            elevation: 20,
+                            onPressed: () async {
                               setState(() {
-                                pictureFile = file;
-                                botaoFoto = !botaoFoto;
-                                botoesSelecionar = !botoesSelecionar;
+                                flash = !flash;
                               });
-                            }
-                          } catch (e) {
-                            print('Erro na captura de imagem: $e');
-                          }
-                        },
-                        child: const Icon(
-                          Icons.camera_alt,
-                          color: Colors.black,
-                        ),
+                              if (flash == true) {
+                                controller.setFlashMode(FlashMode.auto);
+                              } else {
+                                controller.setFlashMode(FlashMode.off);
+                              }
+                            },
+                            child: flash == false
+                                ? Icon(
+                                    Icons.flash_on,
+                                    color: Colors.black,
+                                  )
+                                : Icon(
+                                    Icons.flash_off,
+                                    color: Colors.black,
+                                  ),
+                          ),
+                          FloatingActionButton.large(
+                            backgroundColor: Colors.white,
+                            elevation: 20,
+                            onPressed: () async {
+                              try {
+                                XFile file = await controller.takePicture();
+                                if (mounted) {
+                                  setState(() {
+                                    pictureFile = file;
+                                    botaoFoto = !botaoFoto;
+                                    botoesSelecionar = !botoesSelecionar;
+                                  });
+                                }
+                              } catch (e) {
+                                print('Erro na captura de imagem: $e');
+                              }
+                            },
+                            child: const Icon(
+                              Icons.camera_alt,
+                              color: Colors.black,
+                            ),
+                          ),
+                          FloatingActionButton.small(
+                            backgroundColor: Colors.white,
+                            elevation: 20,
+                            onPressed: () async {
+                              setState(() async {
+                                cameraInvertida = !cameraInvertida;
+                                await controller.dispose();
+
+                                if (cameraInvertida == true) {
+                                  controller = CameraController(
+                                      widget.cameras![1], ResolutionPreset.max);
+                                } else {
+                                  controller = CameraController(
+                                      widget.cameras![0], ResolutionPreset.max);
+                                }
+
+                                await controller.initialize();
+
+                                setState(() {});
+                              });
+                            },
+                            child: const Icon(
+                              Icons.restart_alt_outlined,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Visibility(

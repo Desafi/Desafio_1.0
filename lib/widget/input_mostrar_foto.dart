@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 
 class InputMostrarFoto extends StatelessWidget {
   final String hintText;
+  final String linkImagem;
   final Function(String) showImageFunction;
 
-  const InputMostrarFoto({
-    super.key,
-    required this.hintText,
-    required this.showImageFunction, 
-  });
+   InputMostrarFoto(
+      {super.key,
+      required this.hintText,
+      required this.showImageFunction,
+      required this.linkImagem});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showImageFunction('assets/images/person.jpg');
+        showImageFunction(linkImagem);
       },
       child: TextFormField(
         enabled: false,
@@ -39,10 +40,6 @@ class InputMostrarFoto extends StatelessWidget {
           ),
           floatingLabelBehavior: FloatingLabelBehavior.auto,
         ),
-        onTap: () {
-          showImageFunction(
-              'assets/images/person.jpg'); // Abre a imagem quando o campo é tocado
-        },
       ),
     );
   }

@@ -12,6 +12,7 @@ import 'package:desafio/widget/text_form_field_cadastro.dart';
 import 'package:desafio/widget/text_form_field_foto.dart';
 import 'package:desafio/widget/text_form_field_with_formatter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -22,7 +23,7 @@ import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 void main() async {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     localizationsDelegates: [
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,
@@ -41,6 +42,7 @@ String? nomeCompleto;
 int index = 0;
 
 bool fotoAtestado = false;
+bool fotoAtleta = false;
 bool fotoRegulamento = false;
 bool fotoCpf = false;
 bool fotoRg = false;
@@ -105,8 +107,41 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
 
   TextEditingController txtCep = TextEditingController();
 
-  Atleta atleta = Atleta("", "", "", "", "", "", "", "", "", "", "", "", "", "",
-      "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","","");
+  Atleta atleta = Atleta(
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "");
 
   @override
   Widget build(BuildContext context) {
@@ -504,6 +539,37 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                 if (atleta.imagemAtestado != null) {
                                   setState(() {
                                     fotoAtestado = true;
+                                  });
+                                }
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+
+                    TextFormFieldFoto(
+                      certo: fotoAtleta,
+                      hint: 'Foto atleta',
+                      validator: (value) {
+                        if (fotoAtleta == false) {
+                          return "Este campo é obrigatório!";
+                        }
+                        return null;
+                      },
+                      onTap: () {
+                        showModalBottomSheet<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return ModalImagem(
+                              onPhotoSelected: (fotoPath) {
+                                atleta.imagemAtleta = fotoPath;
+                                if (atleta.imagemAtleta != null) {
+                                  setState(() {
+                                    fotoAtleta = true;
                                   });
                                 }
                               },
@@ -920,6 +986,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
 CadastrarAtleta(Atleta atleta, BuildContext context) async {
   List<String> listaImages = [
     atleta.imagemAtestado.toString(),
+    atleta.imagemAtleta.toString(),
     atleta.imagemRegulamentoDoAtleta.toString(),
     atleta.imagemComprovanteDeResidencia.toString(),
     atleta.imagemCpf.toString(),
@@ -956,6 +1023,7 @@ CadastrarAtleta(Atleta atleta, BuildContext context) async {
     "NumeroPai": atleta.numeroDeCelularAdicionalPai.toString(),
     "NumeroMae": atleta.numeroDeCelularAdicionalMae.toString(),
     "ImagemAtestado": imageUrlMap["imagemAtestado"].toString(),
+    "ImagemAtleta": imageUrlMap["imagemAtleta"].toString(),
     "ImagemRegulamento": imageUrlMap["imagemRegulamentoDoAtleta"].toString(),
     "ImagemComprovanteResidencia":
         imageUrlMap["imagemComprovanteDeResidencia"].toString(),
@@ -990,26 +1058,25 @@ Future<Map<String, String>> saveImagesToStorage(
   for (String imagePath in listaImagen) {
     List<String> nomes = [
       "imagemAtestado",
+      "imagemAtleta",
       "imagemRegulamentoDoAtleta",
       "imagemComprovanteDeResidencia",
       "imagemCpf",
       "imagemRg"
     ];
 
-    final Reference storageReference =
-        FirebaseStorage.instance.ref().child("images/${const Uuid().v4()}.jpg");
+    final storageReference = FirebaseStorage.instance
+        .ref()
+        .child(_auth.currentUser!.uid)
+        .child(nomes[valor] + ".jpg");
 
     File imageFile = File(imagePath);
 
-    UploadTask uploadTask = storageReference.putFile(imageFile);
-
-    await uploadTask.whenComplete(() => null);
+    await storageReference.putFile(imageFile);
 
     String imageUrl = await storageReference.getDownloadURL();
 
-    String imageName = nomes[valor].split('/').last;
-
-    imageUrlMap[imageName] = imageUrl;
+    imageUrlMap[nomes[valor]] = imageUrl;
     valor++;
   }
   return imageUrlMap;
