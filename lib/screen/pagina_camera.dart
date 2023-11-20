@@ -104,7 +104,7 @@ class _PaginaCamera extends State<PaginaCamera> {
                                 flash = !flash;
                               });
                               if (flash == true) {
-                                controller.setFlashMode(FlashMode.auto);
+                                controller.setFlashMode(FlashMode.torch);
                               } else {
                                 controller.setFlashMode(FlashMode.off);
                               }

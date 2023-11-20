@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/screen/cadastro_atleta.dart';
+import 'package:desafio/screen/treino_expandido.dart';
+import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/card_resultado.dart';
 import 'package:desafio/widget/card_treinos.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,6 +37,8 @@ class TreinosApp extends StatefulWidget {
   State<TreinosApp> createState() => _TreinosAppState();
 }
 
+List<String> filter = ["crawl", "costas", "peito", "borboleta", "hedley"];
+
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -57,6 +61,8 @@ class _TreinosAppState extends State<TreinosApp> {
 
   @override
   Widget build(BuildContext context) {
+    var _filters = [];
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -83,39 +89,15 @@ class _TreinosAppState extends State<TreinosApp> {
                 Row(
                   children: [
                     Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: SearchAnchor(builder: (BuildContext context,
-                            SearchController controller) {
-                          return SearchBar(
-                            controller: controller,
-                            padding: const MaterialStatePropertyAll<EdgeInsets>(
-                                EdgeInsets.symmetric(horizontal: 16.0)),
-                            onTap: () {
-                              controller.openView();
-                            },
-                            onChanged: (_) {
-                              controller.openView();
-                            },
-                            leading: const Icon(Icons.search),
-                            trailing: const <Widget>[],
-                          );
-                        }, suggestionsBuilder: (BuildContext context,
-                            SearchController controller) {
-                          List<String> items = [
-                            'Crawl',
-                          ];
-                          return items.map((String item) {
-                            return ListTile(
-                              title: Text(item),
-                              onTap: () {
-                                setState(() {
-                                  controller.closeView(item);
-                                });
-                              },
-                            );
-                          }).toList();
-                        }),
+                      child: SearchBar(
+                        padding: const MaterialStatePropertyAll<EdgeInsets>(
+                            EdgeInsets.symmetric(horizontal: 15.0)),
+                        hintText: "Digite o nome do atleta",
+                        onChanged: (value) {
+                          // setState(() {
+                          //   pesquisa = value;
+                          // });
+                        },
                       ),
                     ),
                     ElevatedButton(
@@ -123,24 +105,70 @@ class _TreinosAppState extends State<TreinosApp> {
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
+                            borderRadius: BorderRadius.circular(15.0),
                           ),
                         ),
                       ),
                       onPressed: () {
-                        setState(() {
-                          _mm = !_mm;
-                        });
+                        showModalBottomSheet(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(20))),
+                          context: context,
+                          builder: (context) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 25.0),
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    Text("Selecione o filtro"),
+                                    Text("Tipo de nado"),
+                                    Row(
+                                      children: filter.map((filterType) {
+                                        return FilterChip(
+                                            label: Text(filterType),
+                                            selected:
+                                                _filters.contains(filterType),
+                                            onSelected: (val) {
+                                              setState(() {
+                                                if (val) {
+                                                  _filters.add(filterType);
+                                                } else {
+                                                  _filters.removeWhere((name) {
+                                                    return name == filterType;
+                                                  });
+                                                }
+                                              });
+                                            });
+                                      }).toList(),
+                                    ),
+                                    BotaoPrincipal(
+                                        hintText: "Comparar atletas",
+                                        cor: Colors.yellow),
+                                    BotaoPrincipal(
+                                        hintText: "Filtrar", cor: Colors.blue),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                        // setState(() {
+                        //   _mm = !_mm;
+                        // });
                       },
                       child: IconButton(
-                        icon: _mm
-                            ? const Icon(Icons.arrow_drop_up)
-                            : const Icon(Icons.arrow_drop_down),
-                        onPressed: () {
-                          setState(() {
-                            _mm = !_mm;
-                          });
-                        },
+                        icon: const Icon(Icons.filter_list_outlined),
+                        onPressed: () {},
+                        // icon: _mm
+                        //     ? const Icon(Icons.filter_list_outlined)
+                        //     : const Icon(Icons.arrow_drop_down),
+                        // onPressed: () {
+                        //   setState(() {
+                        //     _mm = !_mm;
+                        //   });
+                        // },
                       ),
                     )
                   ],
@@ -148,21 +176,6 @@ class _TreinosAppState extends State<TreinosApp> {
                 const SizedBox(
                   height: 40,
                 ),
-                // StreamBuilder(
-                //   stream: FirebaseFirestore.instance
-                //       .collection('Treinos')
-                //       .snapshots(),
-                //   builder: (context, snapshot) {
-                //     Map<String, dynamic> usersnapshot.data!.data();
-                //     // Map<String, dynamic> user = snapshot.data();
-                //     print(user);
-                //     return CardTreinos(
-                //       nome: user['NomeAtleta'],
-                //       data: user['DataTreino'],
-                //       estilo: user['TipoNado'],
-                //     );
-                //   },
-                // ),
                 FirestoreListView<Map<String, dynamic>>(
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
@@ -175,6 +188,14 @@ class _TreinosAppState extends State<TreinosApp> {
                       nome: user['NomeAtleta'],
                       data: user['DataTreino'],
                       estilo: user['TipoNado'],
+                      onTap: () async {
+                        await Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => TreinoExpandidoApp(
+                                    id: snapshot.id,
+                                  )),
+                        );
+                      },
                     );
                   },
                 ),

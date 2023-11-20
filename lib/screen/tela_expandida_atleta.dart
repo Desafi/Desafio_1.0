@@ -113,16 +113,6 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
           atleta.numeroDeCelularAdicionalPai = docSnapshot.data()['NumeroPai'];
           atleta.numeroDeCelularAdicionalMae = docSnapshot.data()['NumeroMae'];
           _carregarImagens(documentId.toString());
-
-          // atleta.imagemAtestado = docSnapshot.data()['ImagemAtestado'];
-          // atleta.imagemAtleta = docSnapshot.data()['ImagemAtleta'];
-          // atleta.imagemRegulamentoDoAtleta =
-          //     docSnapshot.data()['ImagemRegulamento'];
-          // atleta.imagemComprovanteDeResidencia =
-          //     docSnapshot.data()['ImagemComprovanteResidencia'];
-          // atleta.imagemCpf = docSnapshot.data()['ImagemCpf'];
-          // atleta.imagemRg = docSnapshot.data()['ImagemRg'];
-          // carregando = false;
         });
       }
     });
