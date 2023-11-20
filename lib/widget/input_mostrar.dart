@@ -4,11 +4,11 @@ class InputMostrar extends StatelessWidget {
   final String hintText;
   final String valor;
 
-  const InputMostrar({
-    super.key,
-    required this.hintText,
-    required this.valor,
-  });
+  const InputMostrar(
+      {super.key,
+      required this.hintText,
+      required this.valor,
+      });
 
   @override
   Widget build(BuildContext context) {

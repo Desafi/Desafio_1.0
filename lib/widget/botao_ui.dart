@@ -25,14 +25,14 @@ class BotaoUI extends StatelessWidget {
             border: Border.all(width: 1),
             borderRadius: BorderRadius.circular(50)),
         height: 60,
-        padding: const EdgeInsets.symmetric(horizontal: 50.0),
+        padding: const EdgeInsets.symmetric(horizontal: 25.0),
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               icone,
               const SizedBox(
-                width: 75,
+                width: 50,
               ),
               Text(
                 hintText,

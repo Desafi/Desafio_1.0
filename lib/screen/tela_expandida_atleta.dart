@@ -142,7 +142,8 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
       atleta.imagemAtestado = imagem["imagemAtestado"];
       atleta.imagemAtleta = imagem["imagemAtleta"];
       atleta.imagemRegulamentoDoAtleta = imagem["imagemRegulamentoDoAtleta"];
-      atleta.imagemComprovanteDeResidencia = imagem["imagemComprovanteDeResidencia"];
+      atleta.imagemComprovanteDeResidencia =
+          imagem["imagemComprovanteDeResidencia"];
       atleta.imagemCpf = imagem["imagemCpf"];
       atleta.imagemRg = imagem["imagemRg"];
       carregando = false;

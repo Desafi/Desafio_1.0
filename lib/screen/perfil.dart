@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/main.dart';
+import 'package:desafio/screen/tela_expandida_atleta.dart';
 import 'package:desafio/widget/botao_ui.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -118,7 +119,36 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
                               height: 60,
                             ),
                             BotaoUI(
-                              hintText: "Editar",
+                              onTap: () async {
+                                await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          TelaExpandidaAtletaApp(
+                                            emailUser: user!["Email"],
+                                          )),
+                                );
+                              },
+                              hintText: "Editar senha",
+                              icone: const Icon(
+                                Icons.edit_outlined,
+                                size: 25,
+                              ),
+                              cor: Colors.grey[400],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            BotaoUI(
+                              onTap: () async {
+                                await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          TelaExpandidaAtletaApp(
+                                            emailUser: user!["Email"],
+                                          )),
+                                );
+                              },
+                              hintText: "Editar Informações",
                               icone: const Icon(
                                 Icons.edit_outlined,
                                 size: 25,

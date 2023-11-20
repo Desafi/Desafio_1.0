@@ -37,8 +37,6 @@ class TreinosApp extends StatefulWidget {
   State<TreinosApp> createState() => _TreinosAppState();
 }
 
-List<String> filter = ["crawl", "costas", "peito", "borboleta", "hedley"];
-
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -61,7 +59,8 @@ class _TreinosAppState extends State<TreinosApp> {
 
   @override
   Widget build(BuildContext context) {
-    var _filters = [];
+    List<String> filter = ["crawl", "costas", "peito", "borboleta", "hedley"];
+    List<String> _filters = [];
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -124,23 +123,26 @@ class _TreinosAppState extends State<TreinosApp> {
                                   children: [
                                     Text("Selecione o filtro"),
                                     Text("Tipo de nado"),
-                                    Row(
+                                    Wrap(
                                       children: filter.map((filterType) {
                                         return FilterChip(
-                                            label: Text(filterType),
-                                            selected:
-                                                _filters.contains(filterType),
-                                            onSelected: (val) {
-                                              setState(() {
-                                                if (val) {
-                                                  _filters.add(filterType);
-                                                } else {
-                                                  _filters.removeWhere((name) {
-                                                    return name == filterType;
-                                                  });
-                                                }
-                                              });
+                                          label: Text(filterType),
+                                          selected:
+                                              _filters.contains(filterType),
+                                          onSelected: (val) {
+                                            setState(() {
+                                              if (_filters
+                                                  .contains(filterType)) {
+                                                _filters.remove(
+                                                    filterType); // Deselect the filter
+                                              } else {
+                                                _filters.add(
+                                                    filterType); // Select the filter
+                                              }
+                                              print(_filters);
                                             });
+                                          },
+                                        );
                                       }).toList(),
                                     ),
                                     BotaoPrincipal(
