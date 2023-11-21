@@ -45,23 +45,20 @@ class CardTreinos extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Expanded(
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(nome.toString(),
-                            style: GoogleFonts.poppins(
-                                fontSize: 18, fontWeight: FontWeight.w400)),
-                        Text('Estilo: $estilo',
-                            style: const TextStyle(fontSize: 16)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(data, style: const TextStyle(fontSize: 11)),
-                      ],
-                    ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(nome.toString(),
+                          style: GoogleFonts.poppins(
+                              fontSize: 18, fontWeight: FontWeight.w400)),
+                      Text('$estilo', style: const TextStyle(fontSize: 16)),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(data, style: const TextStyle(fontSize: 11)),
+                    ],
                   ),
                 ),
               ),

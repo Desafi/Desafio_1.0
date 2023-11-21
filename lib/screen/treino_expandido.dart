@@ -94,7 +94,8 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                       const SizedBox(height: 10.0),
 
                       Wrap(
-                        alignment: WrapAlignment.spaceEvenly,
+                        direction: Axis.horizontal,
+                        alignment: WrapAlignment.center,
                         children: [
                           IconesTreino(
                             hintText: "Data do treino:",
