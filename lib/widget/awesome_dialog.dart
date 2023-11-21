@@ -5,6 +5,7 @@ void MensagemAwesome(
   BuildContext context,
   String titulo,
   String desc,
+  bool navigator,
 ) {
   AwesomeDialog(
     context: context,
@@ -15,7 +16,9 @@ void MensagemAwesome(
     title: titulo,
     desc: desc,
     btnOkOnPress: () {
-      Navigator.pop(context);
+      if (navigator) {
+        Navigator.pop(context);
+      }
     },
   ).show();
 }

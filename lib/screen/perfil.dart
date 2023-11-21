@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/main.dart';
 import 'package:desafio/screen/tela_expandida_atleta.dart';
+import 'package:desafio/widget/awesome_dialog.dart';
 import 'package:desafio/widget/botao_ui.dart';
+import 'package:desafio/widget/scaffolds.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -124,13 +126,17 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
                             ),
                             BotaoUI(
                               onTap: () async {
-                                await Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          TelaExpandidaAtletaApp(
-                                            emailUser: user!["Email"],
-                                          )),
-                                );
+                                try {
+                                  await FirebaseAuth.instance
+                                      .sendPasswordResetEmail(
+                                          email: user!["Email"]);
+                                          MensagemAwesome(context, "Sucesso", "Foi enviado para seu e-mail um link para mudar sua senha!",false);
+                                } catch (e) {
+                                  Mensagem(
+                                      context,
+                                      "Ocorreu um erro, tente mais tarde!",
+                                      Colors.red);
+                                }
                               },
                               hintText: "Editar senha",
                               icone: const Icon(

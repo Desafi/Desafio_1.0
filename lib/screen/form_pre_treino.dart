@@ -124,10 +124,10 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: ListTile(
-                                leading: const CircleAvatar(
+                                leading: CircleAvatar(
                                   radius: 30,
-                                  backgroundImage:
-                                      AssetImage('assets/images/person.jpg'),
+                                  backgroundImage: NetworkImage(
+                                      _kOptions[index]["Foto"].toString()),
                                 ),
                                 title: Text(
                                   _kOptions[index]["Nome"].toString(),
@@ -153,10 +153,10 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ListTile(
-                              leading: const CircleAvatar(
+                              leading: CircleAvatar(
                                 radius: 30,
-                                backgroundImage:
-                                    AssetImage('assets/images/person.jpg'),
+                                backgroundImage: NetworkImage(
+                                    filteredOptions[index]["Foto"].toString()),
                               ),
                               title: Text(
                                 filteredOptions[index]["Nome"].toString(),
@@ -285,16 +285,22 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
 }
 
 PegarInformacaoAtleta() async {
-  QuerySnapshot atletasQuery =
-      await db.collection('Usuarios').where('Tipo', isEqualTo: 'Atleta').get();
+  QuerySnapshot atletasQuery = await db
+      .collection('Usuarios')
+      .where('Tipo', isEqualTo: 'Atleta')
+      .where("Cadastrado", isEqualTo: "1")
+      .get();
   _kOptions.clear();
   for (var doc in atletasQuery.docs) {
     String nomeAtleta = doc['Nome'];
     String emailAtleta = doc['Email'];
+    String foto = doc['ImagemAtleta'];
+    print(foto);
 
     Map<String, String> atletaMap = {
       'Nome': nomeAtleta,
       'Email': emailAtleta,
+      'Foto': foto,
     };
 
     _kOptions.add(atletaMap);

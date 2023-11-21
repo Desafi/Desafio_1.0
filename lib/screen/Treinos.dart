@@ -44,6 +44,9 @@ enum ExerciseFilter { crawl, costas, peito, borboleta, medley }
 
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseFirestore db = FirebaseFirestore.instance;
+List<String>? tipo;
+List<String>? sexo;
+String? tempo;
 
 final atletaQuery = FirebaseFirestore.instance
     .collection('Treinos')
@@ -185,8 +188,11 @@ class _TreinosAppState extends State<TreinosApp> {
                                           height: 50,
                                         ),
                                         BotaoPrincipal(
-                                            hintText: "Filtrar",
-                                            cor: Colors.blue),
+                                          hintText: "Filtrar",
+                                          cor: Colors.blue,
+                                          onTap: () {
+                                          },
+                                        ),
                                         const SizedBox(
                                           height: 50,
                                         ),

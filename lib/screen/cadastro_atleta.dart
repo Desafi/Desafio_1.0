@@ -1041,6 +1041,7 @@ CadastrarAtleta(Atleta atleta, BuildContext context) async {
 
       await db.collection("Usuarios").doc(_auth.currentUser!.uid).update({
         "ImagemAtleta": imageUrlMap["imagemAtleta"].toString(),
+        "Cadastrado": "1"
       });
 
       Navigator.of(context).pushAndRemoveUntil(

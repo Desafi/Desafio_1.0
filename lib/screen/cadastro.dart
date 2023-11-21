@@ -217,15 +217,13 @@ registrarAtleta(String email, String tipo, String nome, BuildContext context) {
     };
 
     db.collection("PreCadastro").doc().set(user);
-    MensagemAwesome(
-        context, "Sucesso", "Sucesso ao cadastrar um novo ${tipo}!!");
+    MensagemAwesome(context, "Sucesso",
+        "Sucesso ao cadastrar um novo ${tipo}, por favor faça o login de primeiro acesso!!",true);
   } catch (e) {
     Mensagem(context,
         "Ocorreu um erro ao cadastrar, tente novamente mais tarde", Colors.red);
   }
 }
-
-
 
 registrar(String email, String senha, String tipo, String nome,
     BuildContext context) async {
@@ -283,7 +281,7 @@ _EnviarEmail(String email, String senha, BuildContext context) async {
   try {
     await send(message, smtpServer);
     MensagemAwesome(context, "Sucesso",
-        "Sucesso ao cadastrar, verifique o e-mail para mais informações!!");
+        "Sucesso ao cadastrar, verifique o e-mail para mais informações!!",true);
   } on MailerException {
     Mensagem(context, "Erro ao enviar e-mail, contate o suporte", Colors.red);
   }
