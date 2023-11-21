@@ -3,6 +3,7 @@ import 'package:desafio/screen/cadastro.dart';
 import 'package:desafio/screen/tela_expandida_atleta.dart';
 import 'package:desafio/screen/tela_nao_encontrada.dart';
 import 'package:desafio/widget/card_pessoas.dart';
+import 'package:desafio/widget/card_users.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
@@ -109,68 +110,17 @@ class _MeusUsersState extends State<MeusUsers> {
                   itemBuilder: (context, snapshot) {
                     if (pesquisa == null) {
                       Map<String, dynamic> user = snapshot.data();
-                      return CardPessoas(
-                          email: user['Email'],
-                          nome: user['Nome'],
-                          onTap: () async {
-                            if (user['Tipo'] == 'Atleta') {
-                              QuerySnapshot querySnapshot = await db
-                                  .collection('Cadastro')
-                                  .where('Email', isEqualTo: user['Email'])
-                                  .get();
-
-                              existe = querySnapshot.docs.isNotEmpty;
-
-                              if (existe == true) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            TelaExpandidaAtletaApp(
-                                              emailUser: user['Email'],
-                                            )));
-                              } else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const NaoEncontrado()));
-                              }
-                            }
-                          });
+                      return CardUsers(
+                        user: user,
+                      );
                     } else {
                       Map<String, dynamic> user = snapshot.data();
                       final nome = user['Nome'].toLowerCase().toString();
 
                       if (nome.contains(pesquisa!.toLowerCase())) {
-                        return CardPessoas(
-                            email: user['Email'],
-                            nome: user['Nome'],
-                            onTap: () async {
-                              if (user['Tipo'] == 'Atleta') {
-                                QuerySnapshot querySnapshot = await db
-                                    .collection('Cadastro')
-                                    .where('Email', isEqualTo: user['Email'])
-                                    .get();
-
-                                existe = querySnapshot.docs.isNotEmpty;
-                                if (existe == true) {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              TelaExpandidaAtletaApp(
-                                                emailUser: user['Email'],
-                                              )));
-                                } else {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const NaoEncontrado()));
-                                }
-                              }
-                            });
+                        return CardUsers(
+                          user: user,
+                        );
                       } else {
                         return Container();
                       }

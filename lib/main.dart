@@ -4,6 +4,7 @@ import 'package:desafio/model/login.dart';
 import 'package:desafio/screen/menu_adm.dart';
 import 'package:desafio/screen/menu_atleta.dart';
 import 'package:desafio/screen/menu_treinador.dart';
+import 'package:desafio/screen/primeiro_acesso.dart';
 import 'package:desafio/screen/splash_screen.dart';
 import 'package:desafio/widget/botao_loader.dart';
 import 'package:desafio/widget/scaffolds.dart';
@@ -49,12 +50,13 @@ class _LoginAppState extends State<LoginApp> {
   void initState() {
     super.initState();
     Firebase.initializeApp();
-
-    // FirebaseAuth.instance.authStateChanges().listen((User? user) {
-    //   if (user != null) {
-    //     VerificaTipo(user.uid, context);
-    //   }
-    // });
+    // if (mounted) {
+    //   FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    //     if (user != null) {
+    //       VerificaTipo(user.uid, context);
+    //     }
+    //   });
+    // }
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -160,20 +162,44 @@ class _LoginAppState extends State<LoginApp> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                        child: InkWell(
-                          onTap: () async {
-                            await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const EsqueciSenhaApp()),
-                            );
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
+
+                      Align(
+                        alignment: AlignmentDirectional.bottomStart,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            InkWell(
+                              onTap: () async {
+                                await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const PrimeiroAcessoApp()),
+                                );
+                              },
+                              child: Text(
+                                'Primeiro acesso?',
+                                style: GoogleFonts.plusJakartaSans(
+                                  textStyle: const TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            InkWell(
+                              onTap: () async {
+                                await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EsqueciSenhaApp()),
+                                );
+                              },
+                              child: Text(
                                 'Esqueceu sua senha?',
                                 style: GoogleFonts.plusJakartaSans(
                                   textStyle: const TextStyle(
@@ -183,16 +209,18 @@ class _LoginAppState extends State<LoginApp> {
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
+
                       const SizedBox(
                         height: 35,
                       ),
                       BotaoLoader(
                         hintText: estaCarregando
-                            ? const CircularProgressIndicator(color: Colors.white)
+                            ? const CircularProgressIndicator(
+                                color: Colors.white)
                             : Text(
                                 "Entrar",
                                 style: GoogleFonts.plusJakartaSans(

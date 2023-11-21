@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class CardPessoas extends StatelessWidget {
   final String nome;
   final String email;
+  final String? url;
   final Function()? onTap;
 
   const CardPessoas({
     super.key,
     required this.nome,
     required this.email,
+    this.url,
     this.onTap,
   });
 
@@ -28,10 +30,11 @@ class CardPessoas extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const CircleAvatar(
-                  radius: 40,
-                  backgroundImage: AssetImage('assets/images/person.jpg'),
-                ),
+                CircleAvatar(
+                    radius: 40,
+                    backgroundImage: url == null
+                        ? AssetImage('assets/images/person.jpg')
+                        : NetworkImage(url.toString()) as ImageProvider),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

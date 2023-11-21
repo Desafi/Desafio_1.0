@@ -93,11 +93,11 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                       ),
                       const SizedBox(height: 10.0),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      Wrap(
+                        alignment: WrapAlignment.spaceEvenly,
                         children: [
                           IconesTreino(
-                            hintText: "Data do treino: ",
+                            hintText: "Data do treino:",
                             informacao: treino!["DataTreino"],
                             icone: Icon(
                               Icons.date_range_outlined,
@@ -106,24 +106,15 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                             ),
                           ),
                           IconesTreino(
-                              hintText: "Tipo",
+                              hintText: "Tipo:",
                               informacao: treino!["TipoNado"],
                               icone: Icon(
                                 Icons.pool_outlined,
                                 size: 50,
                                 color: Colors.blue,
                               )),
-                          // IconesTreino(
-                          //   hintText: "Tempo da prova: ",
-                          //   informacao: "30:00:00",
-                          //   icone: Icon(
-                          //     Icons.punch_clock_outlined,
-                          //     size: 50,
-                          //     color: Colors.blue,
-                          //   ),
-                          // ),
                           IconesTreino(
-                            hintText: "Batimento início: ",
+                            hintText: "Batimento início:",
                             informacao: "${treino!["FrequenciaInicio"]} bpm",
                             icone: Icon(
                               Ionicons.heart,
@@ -131,20 +122,6 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                               color: Colors.blue,
                             ),
                           ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          // IconesTreino(
-                          //   hintText: "Batimento início: ",
-                          //   informacao: "100 bpm",
-                          //   icone: Icon(
-                          //     Ionicons.heart,
-                          //     size: 50,
-                          //     color: Colors.blue,
-                          //   ),
-                          // ),
                           IconesTreino(
                             hintText: "Menor tempo:",
                             informacao: menorTempo!,
@@ -154,9 +131,8 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                               color: Colors.blue,
                             ),
                           ),
-
                           IconesTreino(
-                            hintText: "Maior tempo ",
+                            hintText: "Maior tempo:",
                             informacao: maiorTempo!,
                             icone: Icon(
                               Ionicons.timer_sharp,
@@ -173,22 +149,24 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                               color: Colors.blue,
                             ),
                           ),
+                          IconesTreino(
+                            hintText: "Avaliador:",
+                            informacao: treino!["EmailAplicante"],
+                            icone: Icon(
+                              Ionicons.mail,
+                              size: 50,
+                              color: Colors.blue,
+                            ),
+                          ),
                         ],
                       ),
-                      // const Row(
+                      // Row(
                       //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       //   children: [
-                      //     IconesTreino(
-                      //       hintText: "Menor tempo:: ",
-                      //       informacao: "01:20.20",
-                      //       icone: Icon(
-                      //         Ionicons.time_sharp,
-                      //         size: 50,
-                      //         color: Colors.blue,
-                      //       ),
-                      //     ),
+
                       //   ],
                       // ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [

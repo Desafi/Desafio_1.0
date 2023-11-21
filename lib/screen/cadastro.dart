@@ -161,9 +161,20 @@ class _CadastroAppState extends State<CadastroApp> {
                                   estaCarregando = true;
                                 });
 
-                                cadastro.senha = _GerarSenha();
-                                await registrar(cadastro.email, cadastro.senha,
-                                    cadastro.tipo, cadastro.nome, context);
+                                if (cadastro.tipo == "Atleta") {
+                                  await registrarAtleta(cadastro.email,
+                                      cadastro.tipo, cadastro.nome, context);
+                                } else {
+                                  cadastro.senha = _GerarSenha();
+                                  await registrar(
+                                      cadastro.email,
+                                      cadastro.senha,
+                                      cadastro.tipo,
+                                      cadastro.nome,
+                                      context);
+                                }
+
+                                // cadastro.senha = _GerarSenha();
 
                                 setState(() {
                                   estaCarregando = false;
@@ -194,6 +205,27 @@ class _CadastroAppState extends State<CadastroApp> {
     );
   }
 }
+
+registrarAtleta(String email, String tipo, String nome, BuildContext context) {
+  final dataAtual = Data();
+  try {
+    final user = <String, dynamic>{
+      "Nome": nome,
+      "Email": email,
+      "Tipo": tipo,
+      "DataCriacao": dataAtual
+    };
+
+    db.collection("PreCadastro").doc().set(user);
+    MensagemAwesome(
+        context, "Sucesso", "Sucesso ao cadastrar um novo ${tipo}!!");
+  } catch (e) {
+    Mensagem(context,
+        "Ocorreu um erro ao cadastrar, tente novamente mais tarde", Colors.red);
+  }
+}
+
+
 
 registrar(String email, String senha, String tipo, String nome,
     BuildContext context) async {

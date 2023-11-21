@@ -88,9 +88,13 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
                                   Border.all(color: Colors.white12, width: 2),
                               shape: BoxShape.circle,
                               color: Colors.white,
-                              image: const DecorationImage(
+                              image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: AssetImage('assets/images/person.jpg'),
+                                image: user!["ImagemAtleta"] == null
+                                    ? AssetImage('assets/images/person.jpg')
+                                    : NetworkImage(
+                                            user!["ImagemAtleta"].toString())
+                                        as ImageProvider,
                               ),
                             ),
                           ),

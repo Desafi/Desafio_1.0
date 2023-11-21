@@ -7,7 +7,7 @@ class CardTreinos extends StatelessWidget {
   final String data;
   final Function()? onTap;
 
-  const CardTreinos({
+  CardTreinos({
     super.key,
     this.nome,
     required this.estilo,
@@ -27,36 +27,71 @@ class CardTreinos extends StatelessWidget {
               color: const Color(0xFFF7F2FA),
               borderRadius: BorderRadius.circular(5)),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const CircleAvatar(
-                radius: 40,
-                backgroundImage: AssetImage('assets/images/person.jpg'),
+              Flexible(
+                child: Container(
+                  width: 100,
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(5),
+                          bottomLeft: Radius.circular(5)),
+                      image: DecorationImage(
+                          image: AssetImage("assets/images/waves.png"),
+                          fit: BoxFit.cover)),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Text(nome.toString(),
-                        style: GoogleFonts.poppins(
-                            fontSize: 18, fontWeight: FontWeight.w400)),
-                    const SizedBox(
-                      height: 10,
+                child: Expanded(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(nome.toString(),
+                            style: GoogleFonts.poppins(
+                                fontSize: 18, fontWeight: FontWeight.w400)),
+                        Text('Estilo: $estilo',
+                            style: const TextStyle(fontSize: 16)),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(data, style: const TextStyle(fontSize: 11)),
+                      ],
                     ),
-                    Text('Estilo: $estilo',
-                        style: const TextStyle(fontSize: 16)),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(data, style: const TextStyle(fontSize: 11)),
-                  ],
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
               ),
             ],
           ),
+
+          // child: Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //   children: [
+          //     Padding(
+          //       padding: const EdgeInsets.all(8.0),
+          //       child: Column(
+          //         children: [
+          //           Text(nome.toString(),
+          //               style: GoogleFonts.poppins(
+          //                   fontSize: 18, fontWeight: FontWeight.w400)),
+          //           const SizedBox(
+          //             height: 10,
+          //           ),
+          //           Text('Estilo: $estilo',
+          //               style: const TextStyle(fontSize: 16)),
+          //           const SizedBox(
+          //             height: 10,
+          //           ),
+          //           Text(data, style: const TextStyle(fontSize: 11)),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ),
       ),
     );

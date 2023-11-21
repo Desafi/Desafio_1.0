@@ -3,21 +3,21 @@ import 'package:desafio/widget/card_resultado.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+// void main() {
+//   runApp(const MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: DesempenhoApp(),
-    );
-  }
-}
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(
+//       home: DesempenhoApp(),
+//     );
+//   }
+// }
 
 class DesempenhoApp extends StatefulWidget {
   const DesempenhoApp({super.key});
@@ -26,7 +26,9 @@ class DesempenhoApp extends StatefulWidget {
   State<DesempenhoApp> createState() => _DesempenhoAppState();
 }
 
+
 class _DesempenhoAppState extends State<DesempenhoApp> {
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -38,10 +40,10 @@ class _DesempenhoAppState extends State<DesempenhoApp> {
             child: Center(
               child: Column(
                 children: [
+                 
                   const SizedBox(
                     height: 75,
                   ),
-                  
                   Text(
                     'Desempenho',
                     style: GoogleFonts.plusJakartaSans(
@@ -73,7 +75,8 @@ class _DesempenhoAppState extends State<DesempenhoApp> {
                   const CardTreino(
                       hint: "Frequência média em prova", conteudo: "120"),
                   const SizedBox(height: 10),
-                  const CardTreino(hint: "Frequência média parado", conteudo: "80"),
+                  const CardTreino(
+                      hint: "Frequência média parado", conteudo: "80"),
                   const SizedBox(height: 50),
                   BotaoPrincipal(
                     hintText: 'Comparar',

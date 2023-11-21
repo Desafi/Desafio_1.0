@@ -4,6 +4,9 @@ import 'package:desafio/screen/treino_expandido.dart';
 import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/card_resultado.dart';
 import 'package:desafio/widget/card_treinos.dart';
+import 'package:desafio/widget/filter_chip.dart';
+import 'package:desafio/widget/filter_chip_dois.dart';
+import 'package:desafio/widget/modal.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
@@ -37,6 +40,8 @@ class TreinosApp extends StatefulWidget {
   State<TreinosApp> createState() => _TreinosAppState();
 }
 
+enum ExerciseFilter { crawl, costas, peito, borboleta, medley }
+
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -49,19 +54,17 @@ final treinadorQuery =
     FirebaseFirestore.instance.collectionGroup("TreinoAtleta");
 
 class _TreinosAppState extends State<TreinosApp> {
+  Set<ExerciseFilter> filters = <ExerciseFilter>{};
+  var _mm = true;
+  String? foto;
   @override
   void initState() {
     super.initState();
     Firebase.initializeApp();
   }
 
-  var _mm = true;
-
   @override
   Widget build(BuildContext context) {
-    List<String> filter = ["crawl", "costas", "peito", "borboleta", "hedley"];
-    List<String> _filters = [];
-
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -99,80 +102,109 @@ class _TreinosAppState extends State<TreinosApp> {
                         },
                       ),
                     ),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20))),
+                            context: context,
+                            builder: (context) {
+                              return SingleChildScrollView(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25.0),
+                                  child: Center(
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(
+                                          height: 40,
+                                        ),
+                                        Align(
+                                          alignment: Alignment.bottomLeft,
+                                          child: Text(
+                                            "Selecione o filtro",
+                                            style: TextStyle(fontSize: 24),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "Estilos",
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                        BtnFiltro(
+                                          lista: [
+                                            "crawl",
+                                            "costas",
+                                            "peito",
+                                            "borboleta",
+                                            "medley"
+                                          ],
+                                          onFilterSelected: (filtros) {
+                                            print(filtros);
+                                          },
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "Sexo",
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                        BtnFiltro(
+                                          lista: [
+                                            "masculino",
+                                            "feminino",
+                                            "outro",
+                                          ],
+                                          onFilterSelected: (filtros) {
+                                            print(filtros);
+                                          },
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "Tempo",
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                        BtnFiltroDois(
+                                          lista: [
+                                            "mais recentes",
+                                            "mais antigos",
+                                          ],
+                                          onFilterSelected: (filtros) {
+                                            print(filtros);
+                                          },
+                                        ),
+                                        const SizedBox(
+                                          height: 50,
+                                        ),
+                                        BotaoPrincipal(
+                                            hintText: "Filtrar",
+                                            cor: Colors.blue),
+                                        const SizedBox(
+                                          height: 50,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: Icon(
+                          Icons.filter_list_outlined,
+                          size: 34,
+                          color: Colors.black,
                         ),
                       ),
-                      onPressed: () {
-                        showModalBottomSheet(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(20))),
-                          context: context,
-                          builder: (context) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 25.0),
-                              child: Center(
-                                child: Column(
-                                  children: [
-                                    Text("Selecione o filtro"),
-                                    Text("Tipo de nado"),
-                                    Wrap(
-                                      children: filter.map((filterType) {
-                                        return FilterChip(
-                                          label: Text(filterType),
-                                          selected:
-                                              _filters.contains(filterType),
-                                          onSelected: (val) {
-                                            setState(() {
-                                              if (_filters
-                                                  .contains(filterType)) {
-                                                _filters.remove(
-                                                    filterType); // Deselect the filter
-                                              } else {
-                                                _filters.add(
-                                                    filterType); // Select the filter
-                                              }
-                                              print(_filters);
-                                            });
-                                          },
-                                        );
-                                      }).toList(),
-                                    ),
-                                    BotaoPrincipal(
-                                        hintText: "Comparar atletas",
-                                        cor: Colors.yellow),
-                                    BotaoPrincipal(
-                                        hintText: "Filtrar", cor: Colors.blue),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                        // setState(() {
-                        //   _mm = !_mm;
-                        // });
-                      },
-                      child: IconButton(
-                        icon: const Icon(Icons.filter_list_outlined),
-                        onPressed: () {},
-                        // icon: _mm
-                        //     ? const Icon(Icons.filter_list_outlined)
-                        //     : const Icon(Icons.arrow_drop_down),
-                        // onPressed: () {
-                        //   setState(() {
-                        //     _mm = !_mm;
-                        //   });
-                        // },
-                      ),
-                    )
+                    ),
                   ],
                 ),
                 const SizedBox(

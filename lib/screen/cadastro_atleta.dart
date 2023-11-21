@@ -1022,13 +1022,13 @@ CadastrarAtleta(Atleta atleta, BuildContext context) async {
     "NumeroResidencial": atleta.numeroDeCelularResidencial.toString(),
     "NumeroPai": atleta.numeroDeCelularAdicionalPai.toString(),
     "NumeroMae": atleta.numeroDeCelularAdicionalMae.toString(),
-    "ImagemAtestado": imageUrlMap["imagemAtestado"].toString(),
-    "ImagemAtleta": imageUrlMap["imagemAtleta"].toString(),
-    "ImagemRegulamento": imageUrlMap["imagemRegulamentoDoAtleta"].toString(),
-    "ImagemComprovanteResidencia":
-        imageUrlMap["imagemComprovanteDeResidencia"].toString(),
-    "ImagemCpf": imageUrlMap["imagemCpf"].toString(),
-    "ImagemRg": imageUrlMap["imagemRg"].toString(),
+    // "ImagemAtestado": imageUrlMap["imagemAtestado"].toString(),
+    // "ImagemAtleta": imageUrlMap["imagemAtleta"].toString(),
+    // "ImagemRegulamento": imageUrlMap["imagemRegulamentoDoAtleta"].toString(),
+    // "ImagemComprovanteResidencia":
+    //     imageUrlMap["imagemComprovanteDeResidencia"].toString(),
+    // "ImagemCpf": imageUrlMap["imagemCpf"].toString(),
+    // "ImagemRg": imageUrlMap["imagemRg"].toString(),
   };
 
   if (_auth.currentUser != null) {
@@ -1038,6 +1038,10 @@ CadastrarAtleta(Atleta atleta, BuildContext context) async {
           .doc(_auth.currentUser!.uid)
           .set(cadastroAtleta)
           .onError((e, _) => print("Error writing document: $e"));
+
+      await db.collection("Usuarios").doc(_auth.currentUser!.uid).update({
+        "ImagemAtleta": imageUrlMap["imagemAtleta"].toString(),
+      });
 
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const MenuAtletaApp()),

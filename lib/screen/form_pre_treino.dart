@@ -163,7 +163,8 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                               ),
                               onTap: () {
                                 controller.closeView(
-                                    filteredOptions[index]["Email"].toString());
+                                  filteredOptions[index]["Email"].toString(),
+                                );
                               },
                             ),
                           );
@@ -265,30 +266,6 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                                           cadastro.estiloTreino.toString())),
                             );
                             _searchController.text = "";
-                            // try {
-                            //   final formPreTreino = <String, dynamic>{
-                            //     "EmailAplicante": _auth.currentUser!.email,
-                            //     "FrequenciaInicio":
-                            //         cadastro.frequenciaCardiacaInicio,
-                            //     "FrequenciaFinal": "",
-                            //     "TempoVoltas": "",
-                            //     "TempoGeral": "",
-                            //     "TipoNado": cadastro.estiloTreino,
-                            //     "DataTreino": Data(),
-                            //   };
-
-                            //   db
-                            //       .collection("Treinos")
-                            //       .doc(userData)
-                            //       .collection("TreinoAtleta")
-                            //       .doc()
-                            //       .set(formPreTreino);
-                            // } catch (e) {
-                            //   Mensagem(
-                            //       context,
-                            //       "Ocorreu um erro ao cadastrar, tente novamente mais tarde",
-                            //       Colors.red);
-                            // }
                           }
                         });
                       }
