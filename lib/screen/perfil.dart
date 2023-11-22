@@ -138,7 +138,7 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
                               try {
                                 await FirebaseAuth.instance
                                     .sendPasswordResetEmail(
-                                        email: " user![Email]");
+                                        email: user!["Email"]);
                                 MensagemAwesome(
                                     context,
                                     "Sucesso",

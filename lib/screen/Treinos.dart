@@ -3,6 +3,7 @@ import 'package:desafio/screen/cadastro_atleta.dart';
 import 'package:desafio/screen/treino_expandido.dart';
 import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/card_resultado.dart';
+import 'package:desafio/widget/card_treino.dart';
 import 'package:desafio/widget/card_treinos.dart';
 import 'package:desafio/widget/filter_chip.dart';
 import 'package:desafio/widget/filter_chip_dois.dart';
@@ -54,20 +55,20 @@ String tempoSelecionado = "Mais recentes";
 
 String? tempo;
 bool decrescente = true;
+String? pesquisa;
+// final atletaQuery = FirebaseFirestore.instance
+//     .collection('Treinos')
+//     .doc(_auth.currentUser!.uid)
+//     .collection("TreinoAtleta");
 
-final atletaQuery = FirebaseFirestore.instance
-    .collection('Treinos')
-    .doc(_auth.currentUser!.uid)
-    .collection("TreinoAtleta");
+// final treinadorQuery =
+//     FirebaseFirestore.instance.collectionGroup("TreinoAtleta");
 
-final treinadorQuery =
-    FirebaseFirestore.instance.collectionGroup("TreinoAtleta");
-
-var teste = FirebaseFirestore.instance
-    .collectionGroup("TreinoAtleta")
-    .where(Filter.and(Filter("SexoAtleta", whereIn: sexoSelecionado),
-        Filter("TipoNado", whereIn: estilosSelecionados)))
-    .orderBy("DataTreino", descending: false);
+// var teste = FirebaseFirestore.instance
+//     .collectionGroup("TreinoAtleta")
+//     .where(Filter.and(Filter("SexoAtleta", whereIn: sexoSelecionado),
+//         Filter("TipoNado", whereIn: estilosSelecionados)))
+//     .orderBy("DataTreino", descending: false);
 
 class _TreinosAppState extends State<TreinosApp> {
   String? foto;
@@ -110,9 +111,9 @@ class _TreinosAppState extends State<TreinosApp> {
                             EdgeInsets.symmetric(horizontal: 15.0)),
                         hintText: "Digite o nome do atleta",
                         onChanged: (value) {
-                          // setState(() {
-                          //   pesquisa = value;
-                          // });
+                          setState(() {
+                            pesquisa = value;
+                          });
                         },
                       ),
                     ),
@@ -166,33 +167,41 @@ class _TreinosAppState extends State<TreinosApp> {
                                                 estilosSelecionados = filtros;
                                               });
                                             });
-                                            print(filtros);
                                           },
                                         ),
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        Text(
-                                          "Sexo",
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                        BtnFiltro(
-                                          selecionado: sexoSelecionado,
-                                          lista: [
-                                            "Masculino",
-                                            "Feminino",
-                                            "Outro",
-                                          ],
-                                          onFilterSelected: (filtros) {
-                                            WidgetsBinding.instance
-                                                .addPostFrameCallback((_) {
-                                              setState(() {
-                                                sexoSelecionado = filtros;
-                                              });
-                                            });
-                                            print(filtros);
-                                          },
-                                        ),
+                                        Visibility(
+                                            visible:
+                                                widget.titulo != "Meus Treinos",
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  "Sexo",
+                                                  style:
+                                                      TextStyle(fontSize: 20),
+                                                ),
+                                                BtnFiltro(
+                                                  selecionado: sexoSelecionado,
+                                                  lista: [
+                                                    "Masculino",
+                                                    "Feminino",
+                                                    "Outro",
+                                                  ],
+                                                  onFilterSelected: (filtros) {
+                                                    WidgetsBinding.instance
+                                                        .addPostFrameCallback(
+                                                            (_) {
+                                                      setState(() {
+                                                        sexoSelecionado =
+                                                            filtros;
+                                                      });
+                                                    });
+                                                  },
+                                                ),
+                                              ],
+                                            )),
                                         const SizedBox(
                                           height: 10,
                                         ),
@@ -227,7 +236,6 @@ class _TreinosAppState extends State<TreinosApp> {
                                         const SizedBox(
                                           height: 50,
                                         ),
-                                       
                                       ],
                                     ),
                                   ),
@@ -251,30 +259,39 @@ class _TreinosAppState extends State<TreinosApp> {
                 FirestoreListView<Map<String, dynamic>>(
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
-                  query: FirebaseFirestore.instance
-                      .collectionGroup("TreinoAtleta")
-                      .where(Filter.and(
-                          Filter("SexoAtleta", whereIn: sexoSelecionado),
-                          Filter("TipoNado", whereIn: estilosSelecionados)))
-                      .orderBy("DataTreino", descending: decrescente),
-                  // query: widget.titulo == "Meus Treinos"
-                  //     ? atletaQuery
-                  //     : treinadorQuery,
+                  query: widget.titulo == "Meus Treinos"
+                      ? FirebaseFirestore.instance
+                          .collection('Treinos')
+                          .doc(_auth.currentUser!.uid)
+                          .collection("TreinoAtleta")
+                          .where("TipoNado", whereIn: estilosSelecionados)
+                          .orderBy("DataTreino", descending: decrescente)
+                      : FirebaseFirestore.instance
+                          .collectionGroup("TreinoAtleta")
+                          .where(Filter.and(
+                              Filter("SexoAtleta", whereIn: sexoSelecionado),
+                              Filter("TipoNado", whereIn: estilosSelecionados)))
+                          .orderBy("DataTreino", descending: decrescente),
                   itemBuilder: (context, snapshot) {
-                    Map<String, dynamic> user = snapshot.data();
-                    return CardTreinos(
-                      nome: user['NomeAtleta'],
-                      data: user['DataTreino'],
-                      estilo: user['TipoNado'],
-                      onTap: () async {
-                        await Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => TreinoExpandidoApp(
-                                    id: snapshot.id,
-                                  )),
+                    if (pesquisa == null) {
+                      Map<String, dynamic> user = snapshot.data();
+                      return CardTreino_(
+                        snap: snapshot,
+                        user: user,
+                      );
+                    } else {
+                      Map<String, dynamic> user = snapshot.data();
+                      final nome = user['NomeAtleta'].toLowerCase().toString();
+
+                      if (nome.contains(pesquisa!.toLowerCase().toString())) {
+                        return CardTreino_(
+                          snap: snapshot,
+                          user: user,
                         );
-                      },
-                    );
+                      } else {
+                        return Container();
+                      }
+                    }
                   },
                 ),
               ],
