@@ -141,6 +141,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
       "",
       "",
       "",
+      "",
       "");
 
   @override
@@ -413,6 +414,19 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                       },
                       labelText: 'Endereço',
                       formController: enderecoController,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormFieldCadastro(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Este campo é obrigatório!";
+                        }
+                        atleta.numeroCasa = value;
+                        return null;
+                      },
+                      labelText: 'Número da Casa',
                     ),
 
                     const SizedBox(
@@ -1010,6 +1024,7 @@ CadastrarAtleta(Atleta atleta, BuildContext context) async {
     "Cidade": atleta.cidade.toString(),
     "Bairro": atleta.bairro.toString(),
     "Endereco": atleta.endereco.toString(),
+    "NumeroCasa": atleta.numeroCasa.toString(),
     "Estado": atleta.estado.toString(),
     "ConvenioMedico": atleta.convenioMedico.toString(),
     "Estilos": atleta.estilos.toString(),
@@ -1022,13 +1037,6 @@ CadastrarAtleta(Atleta atleta, BuildContext context) async {
     "NumeroResidencial": atleta.numeroDeCelularResidencial.toString(),
     "NumeroPai": atleta.numeroDeCelularAdicionalPai.toString(),
     "NumeroMae": atleta.numeroDeCelularAdicionalMae.toString(),
-    // "ImagemAtestado": imageUrlMap["imagemAtestado"].toString(),
-    // "ImagemAtleta": imageUrlMap["imagemAtleta"].toString(),
-    // "ImagemRegulamento": imageUrlMap["imagemRegulamentoDoAtleta"].toString(),
-    // "ImagemComprovanteResidencia":
-    //     imageUrlMap["imagemComprovanteDeResidencia"].toString(),
-    // "ImagemCpf": imageUrlMap["imagemCpf"].toString(),
-    // "ImagemRg": imageUrlMap["imagemRg"].toString(),
   };
 
   if (_auth.currentUser != null) {

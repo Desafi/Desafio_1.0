@@ -70,6 +70,7 @@ Atleta atleta = Atleta(
     "",
     "",
     "",
+    "",
     "");
 
 class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
@@ -96,6 +97,7 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
           atleta.cidade = docSnapshot.data()['Cidade'];
           atleta.bairro = docSnapshot.data()['Bairro'];
           atleta.endereco = docSnapshot.data()['Endereco'];
+          atleta.numeroCasa = docSnapshot.data()['NumeroCasa'];
           atleta.estado = docSnapshot.data()['Estado'];
           atleta.convenioMedico = docSnapshot.data()['ConvenioMedico'];
           atleta.estilos = docSnapshot.data()['Estilos'];
@@ -233,6 +235,10 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
                     InputMostrar(
                         hintText: "Endereço",
                         valor: atleta.endereco.toString()),
+                    SizedBox(height: 10),
+                    InputMostrar(
+                        hintText: "Numero Casa",
+                        valor: atleta.numeroCasa.toString()),
                     SizedBox(height: 10),
                     InputMostrar(
                         hintText: "Convênio médico",

@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/main.dart';
 import 'package:desafio/screen/tela_expandida_atleta.dart';
@@ -130,7 +131,11 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
                                   await FirebaseAuth.instance
                                       .sendPasswordResetEmail(
                                           email: user!["Email"]);
-                                          MensagemAwesome(context, "Sucesso", "Foi enviado para seu e-mail um link para mudar sua senha!",false);
+                                  MensagemAwesome(
+                                      context,
+                                      "Sucesso",
+                                      "Foi enviado para seu e-mail um link para mudar sua senha!",
+                                      false);
                                 } catch (e) {
                                   Mensagem(
                                       context,

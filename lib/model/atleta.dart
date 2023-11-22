@@ -13,6 +13,7 @@ class Atleta {
   String? cidade;
   String? bairro;
   String? endereco;
+  String? numeroCasa;
   String? estado;
   String? convenioMedico;
   String? estilos;
@@ -49,6 +50,7 @@ class Atleta {
       this.cidade,
       this.bairro,
       this.endereco,
+      this.numeroCasa,
       this.estado,
       this.convenioMedico,
       this.estilos,
