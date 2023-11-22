@@ -6,7 +6,6 @@ import 'package:desafio/widget/card_resultado.dart';
 import 'package:desafio/widget/card_treinos.dart';
 import 'package:desafio/widget/filter_chip.dart';
 import 'package:desafio/widget/filter_chip_dois.dart';
-import 'package:desafio/widget/modal.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
@@ -40,13 +39,21 @@ class TreinosApp extends StatefulWidget {
   State<TreinosApp> createState() => _TreinosAppState();
 }
 
-enum ExerciseFilter { crawl, costas, peito, borboleta, medley }
-
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseFirestore db = FirebaseFirestore.instance;
-List<String>? tipo;
-List<String>? sexo;
+
+List<String> estilosSelecionados = [
+  "Crawl",
+  "Costas",
+  "Peito",
+  "Borboleta",
+  "Medley"
+];
+List<String> sexoSelecionado = ["Masculino", "Feminino", "Outro"];
+String tempoSelecionado = "Mais recentes";
+
 String? tempo;
+bool decrescente = true;
 
 final atletaQuery = FirebaseFirestore.instance
     .collection('Treinos')
@@ -56,9 +63,13 @@ final atletaQuery = FirebaseFirestore.instance
 final treinadorQuery =
     FirebaseFirestore.instance.collectionGroup("TreinoAtleta");
 
+var teste = FirebaseFirestore.instance
+    .collectionGroup("TreinoAtleta")
+    .where(Filter.and(Filter("SexoAtleta", whereIn: sexoSelecionado),
+        Filter("TipoNado", whereIn: estilosSelecionados)))
+    .orderBy("DataTreino", descending: false);
+
 class _TreinosAppState extends State<TreinosApp> {
-  Set<ExerciseFilter> filters = <ExerciseFilter>{};
-  var _mm = true;
   String? foto;
   @override
   void initState() {
@@ -140,14 +151,21 @@ class _TreinosAppState extends State<TreinosApp> {
                                           style: TextStyle(fontSize: 20),
                                         ),
                                         BtnFiltro(
-                                          lista: [
-                                            "crawl",
-                                            "costas",
-                                            "peito",
-                                            "borboleta",
-                                            "medley"
+                                          selecionado: estilosSelecionados,
+                                          lista: const [
+                                            "Crawl",
+                                            "Costas",
+                                            "Peito",
+                                            "Borboleta",
+                                            "Medley"
                                           ],
                                           onFilterSelected: (filtros) {
+                                            WidgetsBinding.instance
+                                                .addPostFrameCallback((_) {
+                                              setState(() {
+                                                estilosSelecionados = filtros;
+                                              });
+                                            });
                                             print(filtros);
                                           },
                                         ),
@@ -159,12 +177,19 @@ class _TreinosAppState extends State<TreinosApp> {
                                           style: TextStyle(fontSize: 20),
                                         ),
                                         BtnFiltro(
+                                          selecionado: sexoSelecionado,
                                           lista: [
-                                            "masculino",
-                                            "feminino",
-                                            "outro",
+                                            "Masculino",
+                                            "Feminino",
+                                            "Outro",
                                           ],
                                           onFilterSelected: (filtros) {
+                                            WidgetsBinding.instance
+                                                .addPostFrameCallback((_) {
+                                              setState(() {
+                                                sexoSelecionado = filtros;
+                                              });
+                                            });
                                             print(filtros);
                                           },
                                         ),
@@ -176,26 +201,33 @@ class _TreinosAppState extends State<TreinosApp> {
                                           style: TextStyle(fontSize: 20),
                                         ),
                                         BtnFiltroDois(
+                                          tempoSelecionado: tempoSelecionado,
                                           lista: [
-                                            "mais recentes",
-                                            "mais antigos",
+                                            "Mais recentes",
+                                            "Mais antigos",
                                           ],
                                           onFilterSelected: (filtros) {
-                                            print(filtros);
+                                            WidgetsBinding.instance
+                                                .addPostFrameCallback((_) {
+                                              setState(() {
+                                                if (filtros ==
+                                                    "Mais recentes") {
+                                                  decrescente = true;
+                                                  tempoSelecionado =
+                                                      "Mais recentes";
+                                                } else {
+                                                  decrescente = false;
+                                                  tempoSelecionado =
+                                                      "Mais antigos";
+                                                }
+                                              });
+                                            });
                                           },
                                         ),
                                         const SizedBox(
                                           height: 50,
                                         ),
-                                        BotaoPrincipal(
-                                          hintText: "Filtrar",
-                                          cor: Colors.blue,
-                                          onTap: () {
-                                          },
-                                        ),
-                                        const SizedBox(
-                                          height: 50,
-                                        ),
+                                       
                                       ],
                                     ),
                                   ),
@@ -219,9 +251,15 @@ class _TreinosAppState extends State<TreinosApp> {
                 FirestoreListView<Map<String, dynamic>>(
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
-                  query: widget.titulo == "Meus Treinos"
-                      ? atletaQuery
-                      : treinadorQuery,
+                  query: FirebaseFirestore.instance
+                      .collectionGroup("TreinoAtleta")
+                      .where(Filter.and(
+                          Filter("SexoAtleta", whereIn: sexoSelecionado),
+                          Filter("TipoNado", whereIn: estilosSelecionados)))
+                      .orderBy("DataTreino", descending: decrescente),
+                  // query: widget.titulo == "Meus Treinos"
+                  //     ? atletaQuery
+                  //     : treinadorQuery,
                   itemBuilder: (context, snapshot) {
                     Map<String, dynamic> user = snapshot.data();
                     return CardTreinos(

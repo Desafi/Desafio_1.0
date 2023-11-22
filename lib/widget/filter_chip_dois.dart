@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class BtnFiltroDois extends StatefulWidget {
   final Function(String) onFilterSelected;
   final List<String> lista;
+  String? tempoSelecionado;
 
-  BtnFiltroDois({Key? key, required this.onFilterSelected, required this.lista})
+  BtnFiltroDois({Key? key, required this.onFilterSelected, required this.lista,
+  required this.tempoSelecionado})
       : super(key: key);
 
   @override
@@ -12,7 +14,6 @@ class BtnFiltroDois extends StatefulWidget {
 }
 
 class _BtnFiltroDoisState extends State<BtnFiltroDois> {
-  String? filtroSelecionado;
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +25,14 @@ class _BtnFiltroDoisState extends State<BtnFiltroDois> {
             exercise,
             style: TextStyle(fontSize: 16),
           ),
-          selected: filtroSelecionado == exercise,
+          selected: widget.tempoSelecionado == exercise,
           onSelected: (selected) {
             setState(() {
               if (selected) {
-                filtroSelecionado = exercise;
-                widget.onFilterSelected(filtroSelecionado!);
+                widget.tempoSelecionado = exercise;
+                widget.onFilterSelected(widget.tempoSelecionado!);
               } else {
-                filtroSelecionado = null;
+                widget.tempoSelecionado = null;
                 widget.onFilterSelected('');
               }
             });

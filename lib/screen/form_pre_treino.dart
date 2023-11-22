@@ -40,6 +40,7 @@ List<Map<String, String>> _kOptions = [];
 FirebaseFirestore db = FirebaseFirestore.instance;
 
 bool carregando = false;
+String? sexo;
 
 class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
   final SearchController _searchController = SearchController();
@@ -235,9 +236,20 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                   BotaoPrincipal(
                     hintText: "Iniciar",
                     cor: Colors.blueAccent,
-                    onTap: () {
+                    onTap: () async {
                       if (formKey.currentState!.validate()) {
-                        db
+                        await db
+                            .collection("Cadastro")
+                            .where("Email", isEqualTo: _searchController.text)
+                            .get()
+                            .then((querySnapshot) {
+                          var userData = querySnapshot.docs[0].data();
+
+                          setState(() {
+                            sexo = userData["Sexo"];
+                          });
+                        });
+                        await db
                             .collection("Usuarios")
                             .where("Email", isEqualTo: _searchController.text)
                             .limit(1)
@@ -254,6 +266,7 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => CronometroApp(
+                                      sexo: sexo.toString(),
                                       emailAtleta: email,
                                       nomeAtleta: nome,
                                       uidAtleta: userId,

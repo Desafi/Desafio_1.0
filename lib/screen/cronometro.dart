@@ -22,17 +22,19 @@ import 'package:flutter/material.dart';
 // }
 
 class CronometroApp extends StatefulWidget {
-  final String uidAtleta;
-  final String nomeAtleta;
   final String emailAtleta;
+  final String sexo;
+  final String nomeAtleta;
+  final String uidAtleta;
   final String emailAplicante;
   final String frequenciaInicio;
   final String estiloTreino;
 
   CronometroApp({
-    required this.uidAtleta,
-    required this.nomeAtleta,
     required this.emailAtleta,
+    required this.sexo,
+    required this.nomeAtleta,
+    required this.uidAtleta,
     required this.emailAplicante,
     required this.frequenciaInicio,
     required this.estiloTreino,
@@ -485,18 +487,10 @@ class _CronometroAppState extends State<CronometroApp> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          // print(cadastro.frequenciaCardiacaFinal);
-                          // print(voltasGeral);
-                          // print(voltas);
-
-                          // print(widget.emailAplicante);
-                          // print(widget.uidAtleta);
-                          // print(widget.estiloTreino);
-                          // print(widget.frequenciaInicio);
-
                           try {
                             final formPreTreino = <String, dynamic>{
                               "EmailAtleta": widget.emailAtleta,
+                              "SexoAtleta": widget.sexo,
                               "NomeAtleta": widget.nomeAtleta,
                               "EmailAplicante": widget.emailAplicante,
                               "FrequenciaInicio": widget.frequenciaInicio,

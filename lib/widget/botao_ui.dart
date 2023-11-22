@@ -19,33 +19,24 @@ class BotaoUI extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-            color: cor,
-            border: Border.all(width: 1),
-            borderRadius: BorderRadius.circular(50)),
-        height: 60,
-        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              icone,
-              const SizedBox(
-                width: 50,
-              ),
-              Text(
-                hintText,
-                style: GoogleFonts.plusJakartaSans(
-                  textStyle: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                  ),
+      child: Padding(
+        padding: const EdgeInsets.all(30.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              hintText,
+              style: GoogleFonts.plusJakartaSans(
+                textStyle: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
                 ),
               ),
-            ],
-          ),
+            ),
+            Icon(Icons.arrow_forward_ios_sharp)
+          ],
         ),
       ),
     );
