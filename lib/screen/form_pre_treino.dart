@@ -301,7 +301,7 @@ PegarInformacaoAtleta() async {
   QuerySnapshot atletasQuery = await db
       .collection('Usuarios')
       .where('Tipo', isEqualTo: 'Atleta')
-      .where("Cadastrado", isEqualTo: "1")
+      .where("Cadastrado", isEqualTo: "Cadastrado")
       .get();
   _kOptions.clear();
   for (var doc in atletasQuery.docs) {

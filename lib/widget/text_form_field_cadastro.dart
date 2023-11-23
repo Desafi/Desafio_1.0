@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class TextFormFieldCadastro extends StatelessWidget {
   final String labelText;
+  final String? valorInicial;
   final ValueChanged<String>? onChanged;
   final FormFieldValidator<String>? validator;
   final TextEditingController? formController;
@@ -9,6 +10,7 @@ class TextFormFieldCadastro extends StatelessWidget {
   const TextFormFieldCadastro({
     super.key,
     required this.labelText,
+    this.valorInicial,
     this.formController,
     this.onChanged,
     this.validator,
@@ -19,6 +21,7 @@ class TextFormFieldCadastro extends StatelessWidget {
         controller: formController,
         onChanged: onChanged,
         validator: validator,
+        initialValue: valorInicial,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5.0),

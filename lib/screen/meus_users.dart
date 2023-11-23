@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/screen/cadastro.dart';
+import 'package:desafio/screen/gerenciamento_atletas.dart';
 import 'package:desafio/screen/tela_expandida_atleta.dart';
 import 'package:desafio/screen/tela_nao_encontrada.dart';
 import 'package:desafio/widget/card_pessoas.dart';
@@ -78,6 +79,15 @@ class _MeusUsersState extends State<MeusUsers> {
                     ),
                   ),
                 ),
+                ElevatedButton(
+                    onPressed: () async {
+                      await Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const GerenciamentoAtletasApp()),
+                      );
+                    },
+                    child: Text('Verificar atletas')),
                 const SizedBox(
                   height: 50,
                 ),
@@ -106,6 +116,7 @@ class _MeusUsersState extends State<MeusUsers> {
                           .orderBy('DataCriacao', descending: false)
                       : usersQuery
                           .where('Tipo', isEqualTo: 'Atleta')
+                          .where("Status", isEqualTo: "Aprovado")
                           .orderBy('DataCriacao', descending: false),
                   itemBuilder: (context, snapshot) {
                     if (pesquisa == null) {

@@ -160,13 +160,13 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
                           ),
                           BotaoUI(
                             onTap: () async {
-                              await Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        TelaExpandidaAtletaApp(
-                                          emailUser: "user![Email]",
-                                        )),
-                              );
+                              // await Navigator.of(context).push(
+                              //   MaterialPageRoute(
+                              //       builder: (context) =>
+                              //           TelaExpandidaAtletaApp(
+                              //             emailUser: "user![Email]",
+                              //           )),
+                              // );
                             },
                             hintText: "Editar Informações da conta",
                             icone: const Icon(

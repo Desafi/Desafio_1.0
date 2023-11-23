@@ -33,19 +33,25 @@ List<DropdownMenuItem<String>> estadosBrasil = [
 
 class DropDownEstados extends StatelessWidget {
   final Function()? onTap;
+  final String? valorInicial;
   final FormFieldValidator<String>? validator;
   final TextEditingController formController;
 
   const DropDownEstados({
     super.key,
     required this.formController,
+    this.valorInicial,
     this.onTap,
     this.validator,
   });
 
   @override
   Widget build(BuildContext context) => DropdownButtonFormField<String>(
-        value: formController.text.isEmpty ? "UF" : formController.text,
+        value: valorInicial == null
+            ? formController.text.isEmpty
+                ? "UF"
+                : formController.text
+            : valorInicial,
         items: estadosBrasil,
         validator: validator,
         decoration: InputDecoration(

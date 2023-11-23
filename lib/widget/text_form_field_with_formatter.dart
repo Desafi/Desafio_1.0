@@ -4,6 +4,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 class TextFormFieldWithFormatter extends StatelessWidget {
   final String mask;
   final String labelText;
+  final String? valorInicial;
   final ValueChanged<String>? onChanged;
   final InputDecoration? decoration;
   final FormFieldValidator<String>? validator;
@@ -13,6 +14,7 @@ class TextFormFieldWithFormatter extends StatelessWidget {
     required this.labelText,
     required this.mask,
     this.onChanged,
+    this.valorInicial,
     this.decoration,
     this.validator,
   });
@@ -25,6 +27,7 @@ class TextFormFieldWithFormatter extends StatelessWidget {
               filter: {"#": RegExp(r'[0-9]')},
               type: MaskAutoCompletionType.lazy)
         ],
+        initialValue: valorInicial,
         onChanged: onChanged,
         validator: validator,
         decoration: InputDecoration(

@@ -39,6 +39,7 @@ class CardUsers extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => TelaExpandidaAtletaApp(
+                          tabela: "Cadastro",
                               emailUser: user['Email'],
                             )));
               } else {

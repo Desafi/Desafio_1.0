@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/screen/cadastro_atleta.dart';
 import 'package:desafio/screen/desempenho.dart';
+import 'package:desafio/screen/editar_atleta.dart';
+import 'package:desafio/screen/espera.dart';
 import 'package:desafio/screen/form_pre_treino.dart';
 import 'package:desafio/screen/Treinos.dart';
 import 'package:desafio/screen/perfil.dart';
-import 'package:desafio/widget/card_treinos.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -37,18 +38,34 @@ class MenuAtletaApp extends StatefulWidget {
 class _MenuAtletaAppState extends State<MenuAtletaApp> {
   int paginaAtual = 0;
   late PageController pc;
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
     super.initState();
+    // _auth.signOut();
     verificaCadastroAtleta();
     pc = PageController(initialPage: paginaAtual);
   }
 
   Future<void> verificaCadastroAtleta() async {
-    if (await VerificaCadastro(context) == false) {
+    if (await VerificaCadastro() == false && await VerificaAnalise() == false) {
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const CadastroAtleta()),
+        MaterialPageRoute(builder: (context) => CadastroAtleta()),
+        (route) => false,
+      );
+    }
+    String status = await VerificaStatus();
+    if (status == "Analise") {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const Espera()),
+        (route) => false,
+      );
+    } else {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+            builder: (context) =>
+                EditarAtleta(email: _auth.currentUser!.email)),
         (route) => false,
       );
     }
@@ -113,13 +130,25 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
   }
 }
 
-Future<bool> VerificaCadastro(BuildContext context) async {
-  var user = _auth.currentUser;
+Future<bool> VerificaCadastro() async {
+  var documentSnapshot =
+      await db.collection('Cadastro').doc(_auth.currentUser!.uid).get();
 
-  var documentSnapshot = await db.collection('Cadastro').doc(user!.uid).get();
+  return documentSnapshot.exists;
+}
 
-  if (documentSnapshot.exists) {
-    return true;
-  }
-  return false;
+Future<bool> VerificaAnalise() async {
+  var documentSnapshot =
+      await db.collection('VerificaCadastro').doc(_auth.currentUser!.uid).get();
+
+  return documentSnapshot.exists;
+}
+
+Future<String> VerificaStatus() async {
+  var documentSnapshot =
+      await db.collection('VerificaCadastro').doc(_auth.currentUser!.uid).get();
+
+  var user = documentSnapshot.data()!["Status"];
+
+  return user;
 }

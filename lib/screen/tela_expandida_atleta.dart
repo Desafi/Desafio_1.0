@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/model/atleta.dart';
+import 'package:desafio/screen/gerenciamento_atletas.dart';
+import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/input_mostrar.dart';
 import 'package:desafio/widget/input_mostrar_foto.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -23,10 +25,12 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class TelaExpandidaAtletaApp extends StatefulWidget {
   final String emailUser;
+  final String tabela;
 
   const TelaExpandidaAtletaApp({
     super.key,
     required this.emailUser,
+    required this.tabela,
   });
 
   @override
@@ -74,9 +78,11 @@ Atleta atleta = Atleta(
     "");
 
 class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
+  TextEditingController observacaoController = TextEditingController();
+
   Future<void> _carregarDados(String email) async {
     await db
-        .collection("Cadastro")
+        .collection(widget.tabela)
         .where("Email", isEqualTo: email)
         .get()
         .then((querySnapshot) {
@@ -342,6 +348,154 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
                           ),
                         ],
                       ),
+                    Visibility(
+                        child: Column(
+                      children: [
+                        const SizedBox(height: 10),
+                        BotaoPrincipal(
+                          hintText: "Aceitar",
+                          cor: Colors.blueAccent,
+                          onTap: () async {
+                            final cadastroAtleta = <String, String>{
+                              "NomeCompleto": atleta.nomeCompleto.toString(),
+                              "Email": atleta.email.toString(),
+                              "DataNascimento":
+                                  atleta.dataDeNascimento.toString(),
+                              "NumeroCelular":
+                                  atleta.numeroDoCelular.toString(),
+                              "NumeroEmergencia":
+                                  atleta.numeroDeEmergencia.toString(),
+                              "Nacionalidade": atleta.nacionalidade.toString(),
+                              "Naturalidade": atleta.naturalidade.toString(),
+                              "Rg": atleta.rg.toString(),
+                              "Cpf": atleta.cpf.toString(),
+                              "Sexo": atleta.sexo.toString(),
+                              "Cep": atleta.cep.toString(),
+                              "Cidade": atleta.cidade.toString(),
+                              "Bairro": atleta.bairro.toString(),
+                              "Endereco": atleta.endereco.toString(),
+                              "NumeroCasa": atleta.numeroCasa.toString(),
+                              "Estado": atleta.estado.toString(),
+                              "ConvenioMedico":
+                                  atleta.convenioMedico.toString(),
+                              "Estilos": atleta.estilos.toString(),
+                              "Prova": atleta.prova.toString(),
+                              "NomeMae": atleta.nomeDaMae.toString(),
+                              "NomePai": atleta.nomeDoPai.toString(),
+                              "ClubeOrigem": atleta.clubeDeOrigem.toString(),
+                              "AlergiaMedicamento":
+                                  atleta.alergiaAMedicamentos.toString(),
+                              "NumeroAdicional":
+                                  atleta.numeroDeCelularAdicional.toString(),
+                              "NumeroResidencial":
+                                  atleta.numeroDeCelularResidencial.toString(),
+                              "NumeroPai":
+                                  atleta.numeroDeCelularAdicionalPai.toString(),
+                              "NumeroMae":
+                                  atleta.numeroDeCelularAdicionalMae.toString(),
+                            };
+
+                            try {
+                              await db
+                                  .collection("Cadastro")
+                                  .doc(documentId)
+                                  .set(cadastroAtleta)
+                                  .onError((e, _) =>
+                                      print("Error writing document: $e"));
+
+                              await db
+                                  .collection("Usuarios")
+                                  .doc(documentId)
+                                  .update({"Status": "Aprovado"});
+
+                              await db
+                                  .collection("VerificaCadastro")
+                                  .doc(documentId)
+                                  .delete();
+
+                              Navigator.pop(context);
+                            } catch (e) {
+                              print('Erro$e');
+                            }
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        BotaoPrincipal(
+                          hintText: "Recusar",
+                          cor: Colors.amber,
+                          onTap: () {
+                            showModalBottomSheet<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SingleChildScrollView(
+                                  child: SizedBox(
+                                    height: 500,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(24.0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          SizedBox(height: 20),
+                                          const Text(
+                                            'Envie uma mensagem dizendo o que está errado:',
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                          SizedBox(height: 20),
+                                          TextField(
+                                            controller: observacaoController,
+                                            decoration: InputDecoration(
+                                              border: OutlineInputBorder(),
+                                            ),
+                                          ),
+                                          SizedBox(height: 30),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              BotaoPrincipal(
+                                                hintText: "Cancelar",
+                                                cor: Colors.amber,
+                                                onTap: () {
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                              BotaoPrincipal(
+                                                hintText: "Enviar",
+                                                cor: Colors.blueAccent,
+                                                onTap: () async {
+                                                  await db
+                                                      .collection(
+                                                          "VerificaCadastro")
+                                                      .doc(documentId)
+                                                      .update({
+                                                    "Observacao":
+                                                        observacaoController
+                                                            .text
+                                                            .toString(),
+                                                    "Status": "Atualizar"
+                                                  });
+                                                  Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const GerenciamentoAtletasApp()),
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    )),
                   ],
                 ),
               ),

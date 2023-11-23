@@ -5,6 +5,7 @@ import 'package:desafio/model/atleta.dart';
 import 'package:desafio/screen/menu_atleta.dart';
 import 'package:desafio/widget/botao_adicionar.dart';
 import 'package:desafio/widget/botao_loader.dart';
+import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/drop_down_estados.dart';
 import 'package:desafio/widget/modal_imagem.dart';
 import 'package:desafio/widget/scaffolds.dart';
@@ -12,7 +13,6 @@ import 'package:desafio/widget/text_form_field_cadastro.dart';
 import 'package:desafio/widget/text_form_field_foto.dart';
 import 'package:desafio/widget/text_form_field_with_formatter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -20,7 +20,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
-import 'package:uuid/uuid.dart';
 
 void main() async {
   runApp(MaterialApp(
@@ -30,7 +29,7 @@ void main() async {
       GlobalCupertinoLocalizations.delegate,
     ],
     supportedLocales: [
-      Locale('pt'), // Defina o idioma e país desejados
+      Locale('pt'),
     ],
     home: CadastroAtleta(),
   ));
@@ -39,6 +38,7 @@ void main() async {
 String? valorSexo;
 String? valorEstado;
 String? nomeCompleto;
+String? email;
 int index = 0;
 
 bool fotoAtestado = false;
@@ -55,7 +55,7 @@ FirebaseStorage storage = FirebaseStorage.instance;
 bool estaCarregando = false;
 
 class CadastroAtleta extends StatefulWidget {
-  const CadastroAtleta({super.key});
+  CadastroAtleta({super.key});
 
   @override
   State<CadastroAtleta> createState() => _CadastroAtletaAppState();
@@ -71,6 +71,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
         .then((querySnapshot) {
       setState(() {
         nomeCompleto = querySnapshot.data()?['Nome'];
+        email = querySnapshot.data()?['Email'];
       });
     });
     super.initState();
@@ -773,6 +774,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                     const SizedBox(
                       height: 30,
                     ),
+
                     BotaoLoader(
                       hintText: estaCarregando
                           ? const CircularProgressIndicator(color: Colors.white)
@@ -794,7 +796,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                 setState(() {
                                   estaCarregando = true;
                                 });
-                                if (await VerificaCadastro(context) == false) {
+                                if (await VerificaCadastro() == false) {
                                   await CadastrarAtleta(atleta, context);
                                   setState(() {
                                     estaCarregando = false;
@@ -812,10 +814,6 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                                 }
                               }
                             },
-                    ),
-
-                    const SizedBox(
-                      height: 30,
                     ),
                   ],
                 ),
@@ -1011,7 +1009,7 @@ CadastrarAtleta(Atleta atleta, BuildContext context) async {
 
   final cadastroAtleta = <String, String>{
     "NomeCompleto": nomeCompleto.toString(),
-    "Email": _auth.currentUser!.email.toString(),
+    "Email": email.toString(),
     "DataNascimento": atleta.dataDeNascimento.toString(),
     "NumeroCelular": atleta.numeroDoCelular.toString(),
     "NumeroEmergencia": atleta.numeroDeEmergencia.toString(),
@@ -1037,19 +1035,20 @@ CadastrarAtleta(Atleta atleta, BuildContext context) async {
     "NumeroResidencial": atleta.numeroDeCelularResidencial.toString(),
     "NumeroPai": atleta.numeroDeCelularAdicionalPai.toString(),
     "NumeroMae": atleta.numeroDeCelularAdicionalMae.toString(),
+    "Status": "Analise"
   };
 
   if (_auth.currentUser != null) {
     try {
       await db
-          .collection("Cadastro")
+          .collection("VerificaCadastro")
           .doc(_auth.currentUser!.uid)
           .set(cadastroAtleta)
           .onError((e, _) => print("Error writing document: $e"));
 
       await db.collection("Usuarios").doc(_auth.currentUser!.uid).update({
         "ImagemAtleta": imageUrlMap["imagemAtleta"].toString(),
-        "Cadastrado": "1"
+        "Status": "Cadastrado"
       });
 
       Navigator.of(context).pushAndRemoveUntil(
