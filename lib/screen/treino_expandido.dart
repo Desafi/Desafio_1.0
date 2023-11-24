@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/widget/icones_treino.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -26,6 +27,18 @@ String? maiorTempo;
 String? menorTempo;
 bool carregando = true;
 
+List<FlSpot> chartData = [
+  FlSpot(0, 1),
+  FlSpot(1, 3),
+  FlSpot(2, 10),
+  FlSpot(3, 7),
+  FlSpot(4, 12),
+  FlSpot(5, 13),
+  FlSpot(6, 17),
+  FlSpot(7, 15),
+  FlSpot(8, 20),
+];
+
 class TreinoExpandidoApp extends StatefulWidget {
   String id;
   TreinoExpandidoApp({required this.id, super.key});
@@ -51,6 +64,11 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
         }
       });
     });
+    // print(l);
+    // print(l.runtimeType);
+
+    // print(treino!["TempoVoltas"]);
+
     List list = treino!["TempoVoltas"];
     list.sort();
     setState(() {
@@ -62,6 +80,9 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
 
   @override
   Widget build(BuildContext context) {
+    var atletas = [
+      Atleta(treino!["TempoVoltas"], treino!["TempoGeral"]),
+    ];
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -216,6 +237,36 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                         ),
                       ),
                       const SizedBox(height: 20.0),
+                      Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 300,
+                          child: LineChart(
+                            LineChartData(
+                              titlesData: FlTitlesData(
+                                  rightTitles: AxisTitles(
+                                      sideTitles:
+                                          SideTitles(showTitles: false)),
+                                  topTitles: AxisTitles(
+                                      sideTitles:
+                                          SideTitles(showTitles: false))),
+                              borderData: FlBorderData(show: true),
+                              backgroundColor: Colors.white,
+                              lineBarsData: atletas
+                                  .map((e) => LineChartBarData(
+                                      spots: e.temposGeral
+                                          .asMap()
+                                          .entries
+                                          .map((e) =>
+                                              FlSpot(e.key.toDouble(), e.value))
+                                          .toList()))
+                                  .toList(),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20.0),
                     ],
                   ),
                 ),
@@ -223,4 +274,11 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
             ),
     );
   }
+}
+
+class Atleta {
+  List<dynamic> temposVolta;
+  List<dynamic> temposGeral;
+
+  Atleta(this.temposVolta, this.temposGeral);
 }

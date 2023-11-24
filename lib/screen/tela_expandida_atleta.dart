@@ -353,6 +353,7 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
                       children: [
                         const SizedBox(height: 10),
                         BotaoPrincipal(
+                          radius: 12,
                           hintText: "Aceitar",
                           cor: Colors.blueAccent,
                           onTap: () async {
@@ -421,6 +422,7 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
                         ),
                         const SizedBox(height: 10),
                         BotaoPrincipal(
+                          radius: 12,
                           hintText: "Recusar",
                           cor: Colors.amber,
                           onTap: () {
@@ -455,6 +457,7 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
                                                 MainAxisAlignment.spaceAround,
                                             children: [
                                               BotaoPrincipal(
+                                                radius: 12,
                                                 hintText: "Cancelar",
                                                 cor: Colors.amber,
                                                 onTap: () {
@@ -462,6 +465,7 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
                                                 },
                                               ),
                                               BotaoPrincipal(
+                                                radius: 12,
                                                 hintText: "Enviar",
                                                 cor: Colors.blueAccent,
                                                 onTap: () async {

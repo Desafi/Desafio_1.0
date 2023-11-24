@@ -234,6 +234,7 @@ class _CadastroPreTreinoAppState extends State<CadastroPreTreinoApp> {
                     height: 20,
                   ),
                   BotaoPrincipal(
+                    radius: 12,
                     hintText: "Iniciar",
                     cor: Colors.blueAccent,
                     onTap: () async {
@@ -301,14 +302,13 @@ PegarInformacaoAtleta() async {
   QuerySnapshot atletasQuery = await db
       .collection('Usuarios')
       .where('Tipo', isEqualTo: 'Atleta')
-      .where("Cadastrado", isEqualTo: "Cadastrado")
+      .where("Status", isEqualTo: "Aprovado")
       .get();
   _kOptions.clear();
   for (var doc in atletasQuery.docs) {
     String nomeAtleta = doc['Nome'];
     String emailAtleta = doc['Email'];
     String foto = doc['ImagemAtleta'];
-    print(foto);
 
     Map<String, String> atletaMap = {
       'Nome': nomeAtleta,

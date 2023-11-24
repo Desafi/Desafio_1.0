@@ -186,6 +186,7 @@ class _CadastroAppState extends State<CadastroApp> {
                       height: 20,
                     ),
                     BotaoPrincipal(
+                      radius: 12,
                       hintText: "Cancelar",
                       cor: Colors.amber,
                       onTap: () {

@@ -58,6 +58,7 @@ class _NaoEncontradoState extends State<NaoEncontrado> {
                   ),
                 ),
                 BotaoPrincipal(
+                  radius: 12,
                   hintText: 'Voltar',
                   cor: Colors.blue,
                   onTap: () => Navigator.pop(context),

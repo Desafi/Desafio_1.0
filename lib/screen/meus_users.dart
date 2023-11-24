@@ -1,9 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:desafio/screen/cadastro.dart';
 import 'package:desafio/screen/gerenciamento_atletas.dart';
-import 'package:desafio/screen/tela_expandida_atleta.dart';
-import 'package:desafio/screen/tela_nao_encontrada.dart';
-import 'package:desafio/widget/card_pessoas.dart';
 import 'package:desafio/widget/card_users.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
@@ -47,16 +43,11 @@ class _MeusUsersState extends State<MeusUsers> {
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                  builder: (context) => const CadastroApp(
-                        menuItems: [
-                          DropdownMenuItem(
-                              value: "Atleta", child: Text("Atleta")),
-                        ],
-                      )),
+                  builder: (context) => GerenciamentoAtletasApp()),
             );
           },
           isExtended: true,
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.people_alt),
         ),
       ),
       body: SingleChildScrollView(
@@ -79,15 +70,7 @@ class _MeusUsersState extends State<MeusUsers> {
                     ),
                   ),
                 ),
-                ElevatedButton(
-                    onPressed: () async {
-                      await Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const GerenciamentoAtletasApp()),
-                      );
-                    },
-                    child: Text('Verificar atletas')),
+
                 const SizedBox(
                   height: 50,
                 ),

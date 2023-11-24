@@ -181,6 +181,7 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 25),
                             child: BotaoPrincipal(
+                              radius: 30,
                               hintText: "Sair",
                               cor: Colors.red[500],
                               onTap: () async {

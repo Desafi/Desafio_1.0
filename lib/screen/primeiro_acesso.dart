@@ -262,6 +262,7 @@ class _PrimeiroAcessoAppState extends State<PrimeiroAcessoApp> {
                           height: 10,
                         ),
                         BotaoPrincipal(
+                          radius: 12,
                           cor: Colors.amber,
                           hintText: "Voltar",
                           onTap: () {

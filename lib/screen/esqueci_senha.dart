@@ -117,6 +117,7 @@ class _EsqueciSenhaAppState extends State<EsqueciSenhaApp> {
                     Column(
                       children: [
                         BotaoPrincipal(
+                          radius: 12,
                           cor: Colors.blueAccent,
                           hintText: "Enviar",
                           onTap: () {
@@ -129,6 +130,7 @@ class _EsqueciSenhaAppState extends State<EsqueciSenhaApp> {
                           height: 10,
                         ),
                         BotaoPrincipal(
+                          radius: 12,
                           cor: Colors.amber,
                           hintText: "Voltar",
                           onTap: () {

@@ -118,6 +118,7 @@ class _AdmAppState extends State<AdmApp> {
                 ),
                 const SizedBox(height: 80),
                 BotaoPrincipal(
+                  radius: 12,
                   hintText: 'Sair',
                   cor: Colors.red[400],
                   onTap: () async {
