@@ -93,7 +93,7 @@ class _GerenciaAtletaState extends State<GerenciaAtleta> {
                               await Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => CadastroAtleta(
-                                    botaoVoltar:true,
+                                    botaoVoltar: true,
                                     email: user["Email"],
                                   ),
                                 ),
@@ -140,6 +140,7 @@ class _GerenciaAtletaState extends State<GerenciaAtleta> {
                               await Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => TelaExpandidaAtletaApp(
+                                      botoes: true,
                                       tabela: "VerificaCadastro",
                                       emailUser: user["Email"].toString()),
                                 ),
