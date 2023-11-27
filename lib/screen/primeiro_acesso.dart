@@ -316,7 +316,8 @@ _cadastraBanco(String userId, String nome, String email, String tipo,
       "Nome": nome,
       "Email": email,
       "Tipo": tipo,
-      "DataCriacao": data
+      "DataCriacao": data,
+      "Status": "PreCadastro"
     };
 
     db.collection("Usuarios").doc(userId).set(user);

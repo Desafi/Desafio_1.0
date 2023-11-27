@@ -123,11 +123,11 @@ class _CronometroAppState extends State<CronometroApp> {
 
   void fezVolta() {
     String voltaGeral =
-        "${minutos.toString().padLeft(2, '0')}:${segundos.toString().padLeft(2, '0')}.${milesegundos.toString().padLeft(2, '0')}";
+        "${minutos.toString().padLeft(2, '0')}:${segundos.toString().padLeft(2, '0')}:${milesegundos.toString().padLeft(2, '0')}";
     voltasGeral.add(voltaGeral);
 
     String volta =
-        "${minutosVolta.toString().padLeft(2, '0')}:${segundosVolta.toString().padLeft(2, '0')}.${milesegundosVolta.toString().padLeft(2, '0')}";
+        "${minutosVolta.toString().padLeft(2, '0')}:${segundosVolta.toString().padLeft(2, '0')}:${milesegundosVolta.toString().padLeft(2, '0')}";
     voltas.add(volta);
 
     milesegundosVolta = 0;
@@ -171,7 +171,7 @@ class _CronometroAppState extends State<CronometroApp> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "${minutos.toString().padLeft(2, '0')}:${segundos.toString().padLeft(2, '0')}.${milesegundos.toString().padLeft(2, '0')}",
+                    "${minutos.toString().padLeft(2, '0')}:${segundos.toString().padLeft(2, '0')}:${milesegundos.toString().padLeft(2, '0')}",
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 50.0,
@@ -179,7 +179,7 @@ class _CronometroAppState extends State<CronometroApp> {
                     ),
                   ),
                   Text(
-                    "${minutosVolta.toString().padLeft(2, '0')}:${segundosVolta.toString().padLeft(2, '0')}.${milesegundosVolta.toString().padLeft(2, '0')}",
+                    "${minutosVolta.toString().padLeft(2, '0')}:${segundosVolta.toString().padLeft(2, '0')}:${milesegundosVolta.toString().padLeft(2, '0')}",
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 25.0,

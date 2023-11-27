@@ -478,7 +478,6 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
                                                         observacaoController
                                                             .text
                                                             .toString(),
-                                                    "Status": "Atualizar"
                                                   });
                                                   Navigator.of(context).push(
                                                     MaterialPageRoute(

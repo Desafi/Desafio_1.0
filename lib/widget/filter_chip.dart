@@ -17,7 +17,6 @@ class BtnFiltro extends StatefulWidget {
 }
 
 class _BtnFiltroState extends State<BtnFiltro> {
-
   @override
   Widget build(BuildContext context) {
     return Wrap(
@@ -34,7 +33,8 @@ class _BtnFiltroState extends State<BtnFiltro> {
               if (selected) {
                 widget.selecionado.add(exercise);
               } else {
-                widget.selecionado.remove(exercise);
+                if (widget.selecionado.length != 1)
+                  widget.selecionado.remove(exercise);
               }
               widget.onFilterSelected(widget.selecionado);
             });

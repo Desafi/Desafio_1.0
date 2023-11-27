@@ -30,9 +30,11 @@ import 'package:flutter/material.dart';
 
 class TreinosApp extends StatefulWidget {
   final String titulo;
+  final bool searchBar;
 
   const TreinosApp({
     super.key,
+    required this.searchBar,
     required this.titulo,
   });
 
@@ -106,15 +108,18 @@ class _TreinosAppState extends State<TreinosApp> {
                 Row(
                   children: [
                     Expanded(
-                      child: SearchBar(
-                        padding: const MaterialStatePropertyAll<EdgeInsets>(
-                            EdgeInsets.symmetric(horizontal: 15.0)),
-                        hintText: "Digite o nome do atleta",
-                        onChanged: (value) {
-                          setState(() {
-                            pesquisa = value;
-                          });
-                        },
+                      child: Visibility(
+                        // visible: widget.searchBar,
+                        child: SearchBar(
+                          padding: const MaterialStatePropertyAll<EdgeInsets>(
+                              EdgeInsets.symmetric(horizontal: 15.0)),
+                          hintText: "Digite o nome do atleta",
+                          onChanged: (value) {
+                            setState(() {
+                              pesquisa = value;
+                            });
+                          },
+                        ),
                       ),
                     ),
                     Padding(
@@ -275,6 +280,7 @@ class _TreinosAppState extends State<TreinosApp> {
                   itemBuilder: (context, snapshot) {
                     if (pesquisa == null) {
                       Map<String, dynamic> user = snapshot.data();
+                      print(user);
                       return CardTreino_(
                         snap: snapshot,
                         user: user,
@@ -284,6 +290,8 @@ class _TreinosAppState extends State<TreinosApp> {
                       final nome = user['NomeAtleta'].toLowerCase().toString();
 
                       if (nome.contains(pesquisa!.toLowerCase().toString())) {
+                        print(user);
+
                         return CardTreino_(
                           snap: snapshot,
                           user: user,
@@ -293,6 +301,7 @@ class _TreinosAppState extends State<TreinosApp> {
                       }
                     }
                   },
+                  loadingBuilder: (context) => CircularProgressIndicator(),
                 ),
               ],
             ),

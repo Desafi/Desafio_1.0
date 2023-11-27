@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:desafio/screen/cadastro_atleta.dart';
 import 'package:desafio/screen/tela_expandida_atleta.dart';
 import 'package:desafio/widget/card_users.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -81,43 +82,55 @@ class _GerenciaAtletaState extends State<GerenciaAtleta> {
                   loadingBuilder: (context) => LoadingAnimationWidget.inkDrop(
                       color: Colors.black, size: 2),
                   query: widget.titulo == 'Cadastro de atletas'
-                      ? cadastroQuery.where('Cadastrado', isEqualTo: 0)
+                      ? cadastroQuery.where('Status', isEqualTo: "PreCadastro")
                       : analiseQuery.where("Status", isEqualTo: "Analise"),
                   itemBuilder: (context, snapshot) {
                     Map<String, dynamic> user = snapshot.data();
 
                     return widget.titulo == 'Cadastro de atletas'
-                        ? Card(
-                            child: Container(
-                              width: 400,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                  color: const Color(0xFFF7F2FA),
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(user["Nome"],
-                                            style:
-                                                const TextStyle(fontSize: 16)),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(user["Email"],
-                                            style:
-                                                const TextStyle(fontSize: 12)),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                  ],
+                        ? InkWell(
+                            onTap: () async {
+                              await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => CadastroAtleta(
+                                    botaoVoltar:true,
+                                    email: user["Email"],
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Card(
+                              child: Container(
+                                width: 400,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                    color: const Color(0xFFF7F2FA),
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(user["Nome"],
+                                              style: const TextStyle(
+                                                  fontSize: 16)),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(user["Email"],
+                                              style: const TextStyle(
+                                                  fontSize: 12)),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

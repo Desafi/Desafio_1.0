@@ -59,6 +59,7 @@ class _MenuTreinadorAppState extends State<MenuTreinadorApp> {
               hintInput: 'Digite o nome do atleta..'),
           const CadastroPreTreinoApp(),
           TreinosApp(
+            searchBar: true,
             titulo: "Treinos",
           ),
           const MeuPerfilApp(),

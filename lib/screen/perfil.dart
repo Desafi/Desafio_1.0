@@ -99,8 +99,11 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
                             ),
                             CircleAvatar(
                                 radius: 90,
-                                backgroundImage:
-                                    AssetImage('assets/images/person.jpg')),
+                                backgroundImage: user!["ImagemAtleta"] == null
+                                    ? AssetImage('assets/images/person.jpg')
+                                    : NetworkImage(
+                                            user!["ImagemAtleta"].toString())
+                                        as ImageProvider),
                             Text(user!["Nome"],
                                 style: GoogleFonts.poppins(
                                   textStyle: const TextStyle(

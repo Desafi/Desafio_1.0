@@ -51,7 +51,7 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
   Future<void> verificaCadastroAtleta() async {
     if (await VerificaCadastro() == false && await VerificaAnalise() == false) {
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => CadastroAtleta()),
+        MaterialPageRoute(builder: (context) => CadastroAtleta(botaoVoltar: false,)),
         (route) => false,
       );
     }
@@ -85,6 +85,8 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
         onPageChanged: setPaginaAtual,
         children: [
           TreinosApp(
+            searchBar: false,
+          
             titulo: "Meus Treinos",
           ),
           DesempenhoApp(),

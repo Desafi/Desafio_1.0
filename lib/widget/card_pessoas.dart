@@ -34,7 +34,8 @@ class CardPessoas extends StatelessWidget {
                     radius: 40,
                     backgroundImage: url == null
                         ? AssetImage('assets/images/person.jpg')
-                        : NetworkImage(url.toString()) as ImageProvider),
+                        : NetworkImage(url.toString()) as ImageProvider
+                        ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

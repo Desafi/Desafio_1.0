@@ -40,6 +40,7 @@ String? valorEstado;
 String? nomeCompleto;
 String? email;
 int index = 0;
+String? documentId;
 
 bool fotoAtestado = false;
 bool fotoAtleta = false;
@@ -55,7 +56,9 @@ FirebaseStorage storage = FirebaseStorage.instance;
 bool estaCarregando = false;
 
 class CadastroAtleta extends StatefulWidget {
-  CadastroAtleta({super.key});
+  final String? email;
+  final bool? botaoVoltar;
+  CadastroAtleta({this.botaoVoltar, this.email, super.key});
 
   @override
   State<CadastroAtleta> createState() => _CadastroAtletaAppState();
@@ -64,16 +67,33 @@ class CadastroAtleta extends StatefulWidget {
 class _CadastroAtletaAppState extends State<CadastroAtleta> {
   @override
   void initState() {
-    db
-        .collection("Usuarios")
-        .doc(_auth.currentUser!.uid)
-        .get()
-        .then((querySnapshot) {
-      setState(() {
-        nomeCompleto = querySnapshot.data()?['Nome'];
-        email = querySnapshot.data()?['Email'];
+    if (widget.email == null) {
+      db
+          .collection("Usuarios")
+          .doc(_auth.currentUser!.uid)
+          .get()
+          .then((querySnapshot) {
+        setState(() {
+          nomeCompleto = querySnapshot.data()?['Nome'];
+          email = querySnapshot.data()?['Email'];
+        });
       });
-    });
+    } else {
+      db
+          .collection("Usuarios")
+          .where("Email", isEqualTo: widget.email)
+          .get()
+          .then((querySnapshot) {
+        var document =
+            querySnapshot.docs[0]; // Acessando o primeiro documento, se existir
+        setState(() {
+          documentId = document.id;
+          nomeCompleto = document.data()['Nome'];
+          email = document.data()['Email'];
+        });
+      });
+    }
+
     super.initState();
   }
 
@@ -775,45 +795,72 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
                       height: 30,
                     ),
 
-                    BotaoLoader(
-                      hintText: estaCarregando
-                          ? const CircularProgressIndicator(color: Colors.white)
-                          : Text(
-                              "Enviar",
-                              style: GoogleFonts.plusJakartaSans(
-                                textStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                    Column(
+                      children: [
+                        BotaoLoader(
+                          hintText: estaCarregando
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white)
+                              : Text(
+                                  "Enviar",
+                                  style: GoogleFonts.plusJakartaSans(
+                                    textStyle: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                      cor: Colors.blueAccent,
-                      onTap: estaCarregando
-                          ? null
-                          : () async {
-                              if (_formKey.currentState!.validate()) {
-                                setState(() {
-                                  estaCarregando = true;
-                                });
-                                if (await VerificaCadastro() == false) {
-                                  await CadastrarAtleta(atleta, context);
-                                  setState(() {
-                                    estaCarregando = false;
-                                  });
-                                } else {
-                                  await FirebaseAuth.instance.signOut();
-                                  setState(() {
-                                    estaCarregando = false;
-                                  });
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LoginApp()),
-                                      (route) => false);
-                                }
-                              }
-                            },
+                          cor: Colors.blueAccent,
+                          onTap: estaCarregando
+                              ? null
+                              : () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    setState(() {
+                                      estaCarregando = true;
+                                    });
+
+                                    if (await VerificaCadastro() == false) {
+                                      if (widget.email == null) {
+                                        await CadastrarAtleta(atleta, context);
+                                      } else {
+                                        await CadastrarAtletaTreinador(
+                                            atleta, context);
+                                      }
+                                      setState(() {
+                                        estaCarregando = false;
+                                      });
+                                    } else {
+                                      await FirebaseAuth.instance.signOut();
+                                      setState(() {
+                                        estaCarregando = false;
+                                      });
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const LoginApp()),
+                                          (route) => false);
+                                    }
+                                  }
+                                },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Visibility(
+                          visible: widget.botaoVoltar ?? false,
+                          child: BotaoPrincipal(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              hintText: "Voltar",
+                              radius: 12,
+                              cor: Colors.amber),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -1079,7 +1126,8 @@ Future<Map<String, String>> saveImagesToStorage(
 
     final storageReference = FirebaseStorage.instance
         .ref()
-        .child(_auth.currentUser!.uid)
+        .child(
+            documentId == null ? _auth.currentUser!.uid : documentId.toString())
         .child(nomes[valor] + ".jpg");
 
     File imageFile = File(imagePath);
@@ -1092,4 +1140,69 @@ Future<Map<String, String>> saveImagesToStorage(
     valor++;
   }
   return imageUrlMap;
+}
+
+CadastrarAtletaTreinador(Atleta atleta, BuildContext context) async {
+  List<String> listaImages = [
+    atleta.imagemAtestado.toString(),
+    atleta.imagemAtleta.toString(),
+    atleta.imagemRegulamentoDoAtleta.toString(),
+    atleta.imagemComprovanteDeResidencia.toString(),
+    atleta.imagemCpf.toString(),
+    atleta.imagemRg.toString()
+  ];
+
+  Map<String, String> imageUrlMap = await saveImagesToStorage(listaImages);
+
+  final cadastroAtleta = <String, String>{
+    "NomeCompleto": nomeCompleto.toString(),
+    "Email": email.toString(),
+    "DataNascimento": atleta.dataDeNascimento.toString(),
+    "NumeroCelular": atleta.numeroDoCelular.toString(),
+    "NumeroEmergencia": atleta.numeroDeEmergencia.toString(),
+    "Nacionalidade": atleta.nacionalidade.toString(),
+    "Naturalidade": atleta.naturalidade.toString(),
+    "Rg": atleta.rg.toString(),
+    "Cpf": atleta.cpf.toString(),
+    "Sexo": atleta.sexo.toString(),
+    "Cep": atleta.cep.toString(),
+    "Cidade": atleta.cidade.toString(),
+    "Bairro": atleta.bairro.toString(),
+    "Endereco": atleta.endereco.toString(),
+    "NumeroCasa": atleta.numeroCasa.toString(),
+    "Estado": atleta.estado.toString(),
+    "ConvenioMedico": atleta.convenioMedico.toString(),
+    "Estilos": atleta.estilos.toString(),
+    "Prova": atleta.prova.toString(),
+    "NomeMae": atleta.nomeDaMae.toString(),
+    "NomePai": atleta.nomeDoPai.toString(),
+    "ClubeOrigem": atleta.clubeDeOrigem.toString(),
+    "AlergiaMedicamento": atleta.alergiaAMedicamentos.toString(),
+    "NumeroAdicional": atleta.numeroDeCelularAdicional.toString(),
+    "NumeroResidencial": atleta.numeroDeCelularResidencial.toString(),
+    "NumeroPai": atleta.numeroDeCelularAdicionalPai.toString(),
+    "NumeroMae": atleta.numeroDeCelularAdicionalMae.toString(),
+  };
+
+  try {
+    await db
+        .collection("Cadastro")
+        .doc(documentId)
+        .set(cadastroAtleta)
+        .onError((e, _) => print("Error writing document: $e"));
+
+    await db
+        .collection("Usuarios")
+        .doc(documentId)
+        .update({
+          "Status": "Aprovado",
+          "ImagemAtleta": imageUrlMap["imagemAtleta"].toString(),
+          });
+
+    await db.collection("VerificaCadastro").doc(documentId).delete();
+
+    Navigator.pop(context);
+  } catch (e) {
+    print('Erro$e');
+  }
 }
