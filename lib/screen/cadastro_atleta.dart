@@ -1191,13 +1191,10 @@ CadastrarAtletaTreinador(Atleta atleta, BuildContext context) async {
         .set(cadastroAtleta)
         .onError((e, _) => print("Error writing document: $e"));
 
-    await db
-        .collection("Usuarios")
-        .doc(documentId)
-        .update({
-          "Status": "Aprovado",
-          "ImagemAtleta": imageUrlMap["imagemAtleta"].toString(),
-          });
+    await db.collection("Usuarios").doc(documentId).update({
+      "Status": "Aprovado",
+      "ImagemAtleta": imageUrlMap["imagemAtleta"].toString(),
+    });
 
     await db.collection("VerificaCadastro").doc(documentId).delete();
 

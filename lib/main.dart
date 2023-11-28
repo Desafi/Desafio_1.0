@@ -50,13 +50,7 @@ class _LoginAppState extends State<LoginApp> {
   void initState() {
     super.initState();
     Firebase.initializeApp();
-    // if (mounted) {
-    //   FirebaseAuth.instance.authStateChanges().listen((User? user) {
-    //     if (user != null) {
-    //       VerificaTipo(user.uid, context);
-    //     }
-    //   });
-    // }
+  
   }
 
   final _formKey = GlobalKey<FormState>();

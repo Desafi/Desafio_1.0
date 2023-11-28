@@ -1,6 +1,4 @@
-import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:desafio/helper/Define.dart';
 import 'package:desafio/model/cadastro.dart';
 import 'package:desafio/widget/awesome_dialog.dart';
 import 'package:desafio/widget/botao_loader.dart';
@@ -12,8 +10,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server/gmail.dart';
 
 // void main() {
 //   runApp(const MaterialApp(

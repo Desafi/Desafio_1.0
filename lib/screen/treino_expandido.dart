@@ -26,7 +26,7 @@ Map<String, dynamic>? treino;
 String? maiorTempo;
 String? menorTempo;
 bool carregando = true;
-
+double? segundos;
 // List<FlSpot> chartData = [
 //   FlSpot(0, 1),
 //   FlSpot(1, 3),
@@ -72,17 +72,10 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
       menorTempo = list.first;
       carregando = false;
     });
-    print(treino!["TempoVoltas"]);
-    List<double> listaDouble =
-        treino!["TempoVoltas"].map((string) => double.parse(string)).toList();
-    print(listaDouble);
   }
 
   @override
   Widget build(BuildContext context) {
-    var atletas = [
-      Atleta(treino!["TempoVoltas"], treino!["TempoGeral"]),
-    ];
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -267,11 +260,4 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
             ),
     );
   }
-}
-
-class Atleta {
-  List<dynamic> temposVolta;
-  List<dynamic> temposGeral;
-
-  Atleta(this.temposVolta, this.temposGeral);
 }

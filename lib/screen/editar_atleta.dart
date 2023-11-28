@@ -6,6 +6,7 @@ import 'package:desafio/screen/menu_atleta.dart';
 import 'package:desafio/widget/botao_loader.dart';
 import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/drop_down_estados.dart';
+import 'package:desafio/widget/icon_button.dart';
 import 'package:desafio/widget/modal_imagem.dart';
 import 'package:desafio/widget/text_form_field_cadastro.dart';
 import 'package:desafio/widget/text_form_field_foto.dart';
@@ -53,12 +54,19 @@ FirebaseFirestore db = FirebaseFirestore.instance;
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseStorage storage = FirebaseStorage.instance;
 String? collection;
-
 String? documentId;
+
+String? imagemAtestado;
+String? imagemAtleta;
+String? imagemRegulamentoDoAtleta;
+String? imagemComprovanteDeResidencia;
+String? imagemCpf;
+String? imagemRg;
 
 class EditarAtleta extends StatefulWidget {
   String? email;
-  EditarAtleta({this.email, super.key});
+  String? titulo;
+  EditarAtleta({this.titulo, this.email, super.key});
 
   @override
   State<EditarAtleta> createState() => _EditarAtletaAppState();
@@ -89,7 +97,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
 
   Future<void> _carregarDados() async {
     bool cadastrado = await _verificaTipo();
-    print(cadastrado);
     setState(() {
       if (cadastrado) {
         collection = "VerificaCadastro";
@@ -139,61 +146,54 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
               docSnapshot.data()['NumeroResidencial'];
           atleta.numeroDeCelularAdicionalPai = docSnapshot.data()['NumeroPai'];
           atleta.numeroDeCelularAdicionalMae = docSnapshot.data()['NumeroMae'];
-          fotoAtestado = true;
-          fotoAtleta = true;
-          fotoRegulamento = true;
-          fotoCpf = true;
-          fotoRg = true;
-          fotoComprovanteResidencia = true;
-          carregando = false;
-          // _carregarImagens(documentId.toString());
+          _carregarImagens(documentId.toString());
         });
       }
     });
   }
 
-  // Future<void> _carregarImagens(String id) async {
-  //   final storageRef = FirebaseStorage.instance.ref().child(id);
-  //   final listResult = await storageRef.listAll();
-  //   int valor = 0;
-  //   Map<String, String> imagem = {};
+  Future<void> _carregarImagens(String id) async {
+    final storageRef = FirebaseStorage.instance.ref().child(id);
+    final listResult = await storageRef.listAll();
+    int valor = 0;
+    Map<String, String> imagem = {};
 
-  //   List<String> nomes = [
-  //     "imagemAtestado",
-  //     "imagemAtleta",
-  //     "imagemRegulamentoDoAtleta",
-  //     "imagemComprovanteDeResidencia",
-  //     "imagemCpf",
-  //     "imagemRg"
-  //   ];
+    List<String> nomes = [
+      "imagemAtestado",
+      "imagemAtleta",
+      "imagemRegulamentoDoAtleta",
+      "imagemComprovanteDeResidencia",
+      "imagemCpf",
+      "imagemRg"
+    ];
 
-  //   for (var item in listResult.items) {
-  //     imagem[nomes[valor]] = await item.getDownloadURL();
-  //     valor++;
-  //   }
+    for (var item in listResult.items) {
+      imagem[nomes[valor]] = await item.getDownloadURL();
+      valor++;
+    }
 
-  //   setState(() {
-  //     atleta.imagemAtestado = imagem["imagemAtestado"];
-  //     atleta.imagemAtleta = imagem["imagemAtleta"];
-  //     atleta.imagemRegulamentoDoAtleta = imagem["imagemRegulamentoDoAtleta"];
-  //     atleta.imagemComprovanteDeResidencia =
-  //         imagem["imagemComprovanteDeResidencia"];
-  //     atleta.imagemCpf = imagem["imagemCpf"];
-  //     atleta.imagemRg = imagem["imagemRg"];
-  //     fotoAtestado = true;
-  //     fotoAtleta = true;
-  //     fotoRegulamento = true;
-  //     fotoCpf = true;
-  //     fotoRg = true;
-  //     fotoComprovanteResidencia = true;
-  //     carregando = false;
-  //   });
-  // }
+    setState(() {
+      imagemAtestado = imagem["imagemAtestado"];
+      imagemAtleta = imagem["imagemAtleta"];
+      imagemRegulamentoDoAtleta = imagem["imagemRegulamentoDoAtleta"];
+      imagemComprovanteDeResidencia = imagem["imagemComprovanteDeResidencia"];
+      imagemCpf = imagem["imagemCpf"];
+      imagemRg = imagem["imagemRg"];
+      fotoAtestado = true;
+      fotoAtleta = true;
+      fotoRegulamento = true;
+      fotoCpf = true;
+      fotoRg = true;
+      fotoComprovanteResidencia = true;
+      carregando = false;
+    });
+  }
 
   List<DropdownMenuItem<String>> menuItems = [
-    const DropdownMenuItem(value: "Feminino", child: Text("Feminino")),
-    const DropdownMenuItem(value: "Masculino", child: Text("Masculino")),
-    const DropdownMenuItem(value: "Outro", child: Text("Outro")),
+    const DropdownMenuItem<String>(value: "Feminino", child: Text("Feminino")),
+    const DropdownMenuItem<String>(
+        value: "Masculino", child: Text("Masculino")),
+    const DropdownMenuItem<String>(value: "Outro", child: Text("Outro")),
   ];
 
   List<DropdownMenuItem<String>> telefones = [
@@ -271,9 +271,8 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                           const SizedBox(
                             height: 75,
                           ),
-
                           Text(
-                            'Termine seu cadastro',
+                            widget.titulo!,
                             style: GoogleFonts.plusJakartaSans(
                               textStyle: const TextStyle(
                                   fontWeight: FontWeight.w600, fontSize: 26),
@@ -307,15 +306,10 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                           const SizedBox(
                             height: 10,
                           ),
-
                           TextFormField(
-                              // initialValue: atleta.dataDeNascimento,
                               keyboardType: TextInputType.datetime,
                               controller: _dateController,
                               validator: (value) {
-                                // if (value == null || value.isEmpty) {
-                                //   return "Este campo é obrigatório!";
-                                // }
                                 atleta.dataDeNascimento = value;
                                 return null;
                               },
@@ -341,8 +335,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                           const SizedBox(
                             height: 10,
                           ),
-                          // mask: '(##) # ####-####',
-                          //     filter: {"#": RegExp(r'[0-9]')},
                           TextFormFieldWithFormatter(
                             valorInicial: atleta.numeroDoCelular,
                             labelText: 'Celular',
@@ -404,7 +396,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                           const SizedBox(
                             height: 10,
                           ),
-
                           TextFormFieldWithFormatter(
                             valorInicial: atleta.cpf,
                             labelText: 'Cpf',
@@ -418,11 +409,9 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                               return null;
                             },
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
-
                           TextFormFieldWithFormatter(
                             valorInicial: atleta.rg,
                             labelText: 'Rg',
@@ -439,9 +428,8 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                           const SizedBox(
                             height: 10,
                           ),
-
                           DropdownButtonFormField<String>(
-                            value: atleta.sexo,
+                            value: atleta.sexo!.isNotEmpty ? atleta.sexo : "",
                             items: menuItems,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -471,7 +459,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                           const SizedBox(
                             height: 10,
                           ),
-
                           TextFormFieldWithFormatter(
                             valorInicial: atleta.cep,
                             labelText: 'Cep',
@@ -539,7 +526,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                             labelText: 'Bairro',
                             formController: bairroController,
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
@@ -568,11 +554,9 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                             },
                             labelText: 'Número da Casa',
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
-
                           TextFormFieldCadastro(
                             valorInicial: atleta.convenioMedico,
                             validator: (value) {
@@ -584,7 +568,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                             },
                             labelText: 'Convênio Médico',
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
@@ -599,11 +582,9 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                             },
                             labelText: 'Estilo natação',
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
-
                           TextFormFieldCadastro(
                             valorInicial: atleta.prova,
                             validator: (value) {
@@ -615,7 +596,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                             },
                             labelText: 'Prova atleta',
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
@@ -627,11 +607,9 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                             },
                             labelText: 'Nome da mãe',
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
-
                           TextFormFieldCadastro(
                             valorInicial: atleta.nomeDoPai,
                             validator: (value) {
@@ -640,11 +618,9 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                             },
                             labelText: 'Nome do pai',
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
-
                           TextFormFieldCadastro(
                             valorInicial: atleta.clubeDeOrigem,
                             validator: (value) {
@@ -653,7 +629,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                             },
                             labelText: 'Clube de origem',
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
@@ -665,7 +640,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                             },
                             labelText: 'Local de trabalho',
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
@@ -677,203 +651,237 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                             },
                             labelText: 'Alergia a medicamentos',
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
-
-                          TextFormFieldFoto(
-                            certo: fotoAtestado,
-                            hint: 'Foto atestado',
-                            // validator: (value) {
-                            //   if (fotoAtestado == false) {
-                            //     return "Este campo é obrigatório!";
-                            //   }
-                            //   return null;
-                            // },
-                            onTap: () {
-                              showModalBottomSheet<void>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return ModalImagem(
-                                    onPhotoSelected: (fotoPath) {
-                                      if (atleta.imagemAtestado != null) {
-                                        atleta.imagemAtestado = fotoPath;
-                                        setState(() {
-                                          fotoAtestado = true;
-                                        });
-                                      }
-                                    },
-                                  );
-                                },
-                              );
-                            },
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextFormFieldFoto(
+                                  certo: fotoAtestado,
+                                  hint: 'Foto atestado',
+                              
+                                  onTap: () {
+                                    showModalBottomSheet<void>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return ModalImagem(
+                                          onPhotoSelected: (fotoPath) {
+                                            if (atleta.imagemAtestado != null) {
+                                              atleta.imagemAtestado = fotoPath;
+                                              setState(() {
+                                                fotoAtestado = true;
+                                              });
+                                            }
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              BotaoIcon(onTap: () {
+                                _showImageFullScreen(imagemAtestado.toString());
+                              }),
+                            ],
                           ),
                           const SizedBox(
                             height: 10,
                           ),
-
-                          TextFormFieldFoto(
-                            certo: fotoAtleta,
-                            hint: 'Foto atleta',
-                            // validator: (value) {
-                            //   if (fotoAtleta == false) {
-                            //     return "Este campo é obrigatório!";
-                            //   }
-                            //   return null;
-                            // },
-                            onTap: () {
-                              showModalBottomSheet<void>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return ModalImagem(
-                                    onPhotoSelected: (fotoPath) {
-                                      atleta.imagemAtleta = fotoPath;
-                                      if (atleta.imagemAtleta != null) {
-                                        setState(() {
-                                          fotoAtleta = true;
-                                        });
-                                      }
-                                    },
-                                  );
-                                },
-                              );
-                            },
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextFormFieldFoto(
+                                  certo: fotoAtleta,
+                                  hint: 'Foto atleta',
+                                
+                                  onTap: () {
+                                    showModalBottomSheet<void>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return ModalImagem(
+                                          onPhotoSelected: (fotoPath) {
+                                            atleta.imagemAtleta = fotoPath;
+                                            if (atleta.imagemAtleta != null) {
+                                              setState(() {
+                                                fotoAtleta = true;
+                                              });
+                                            }
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              BotaoIcon(onTap: () {
+                                _showImageFullScreen(imagemAtleta.toString());
+                              }),
+                            ],
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
-
-                          TextFormFieldFoto(
-                            certo: fotoRegulamento,
-                            hint: 'Foto regulamento',
-                            // validator: (value) {
-                            //   if (fotoRegulamento == false) {
-                            //     return "Este campo é obrigatório!";
-                            //   }
-                            //   return null;
-                            // },
-                            onTap: () {
-                              showModalBottomSheet<void>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return ModalImagem(
-                                    onPhotoSelected: (fotoPath) {
-                                      atleta.imagemRegulamentoDoAtleta =
-                                          fotoPath;
-                                      if (atleta.imagemRegulamentoDoAtleta !=
-                                          null) {
-                                        setState(() {
-                                          fotoRegulamento = true;
-                                        });
-                                      }
-                                    },
-                                  );
-                                },
-                              );
-                            },
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextFormFieldFoto(
+                                  certo: fotoRegulamento,
+                                  hint: 'Foto regulamento',
+                                 
+                                  onTap: () {
+                                    showModalBottomSheet<void>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return ModalImagem(
+                                          onPhotoSelected: (fotoPath) {
+                                            atleta.imagemRegulamentoDoAtleta =
+                                                fotoPath;
+                                            if (atleta
+                                                    .imagemRegulamentoDoAtleta !=
+                                                null) {
+                                              setState(() {
+                                                fotoRegulamento = true;
+                                              });
+                                            }
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              BotaoIcon(onTap: () {
+                                _showImageFullScreen(
+                                    imagemRegulamentoDoAtleta.toString());
+                              }),
+                            ],
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
-
-                          TextFormFieldFoto(
-                            certo: fotoCpf,
-                            hint: 'Foto cpf',
-                            // validator: (value) {
-                            //   if (fotoCpf == false) {
-                            //     return "Este campo é obrigatório!";
-                            //   }
-                            //   return null;
-                            // },
-                            onTap: () {
-                              showModalBottomSheet<void>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return ModalImagem(
-                                    onPhotoSelected: (fotoPath) {
-                                      atleta.imagemCpf = fotoPath;
-                                      if (atleta.imagemCpf != null) {
-                                        setState(() {
-                                          fotoCpf = true;
-                                        });
-                                      }
-                                    },
-                                  );
-                                },
-                              );
-                            },
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextFormFieldFoto(
+                                  certo: fotoCpf,
+                                  hint: 'Foto cpf',
+                                
+                                  onTap: () {
+                                    showModalBottomSheet<void>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return ModalImagem(
+                                          onPhotoSelected: (fotoPath) {
+                                            atleta.imagemCpf = fotoPath;
+                                            if (atleta.imagemCpf != null) {
+                                              setState(() {
+                                                fotoCpf = true;
+                                              });
+                                            }
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              BotaoIcon(onTap: () {
+                                _showImageFullScreen(imagemCpf.toString());
+                              }),
+                            ],
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
-
-                          TextFormFieldFoto(
-                            certo: fotoRg,
-                            hint: 'Foto rg',
-                            // validator: (value) {
-                            //   if (fotoRg == false) {
-                            //     return "Este campo é obrigatório!";
-                            //   }
-                            //   return null;
-                            // },
-                            onTap: () {
-                              showModalBottomSheet<void>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return ModalImagem(
-                                    onPhotoSelected: (fotoPath) {
-                                      atleta.imagemRg = fotoPath;
-                                      if (atleta.imagemRg != null) {
-                                        setState(() {
-                                          fotoRg = true;
-                                        });
-                                      }
-                                    },
-                                  );
-                                },
-                              );
-                            },
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextFormFieldFoto(
+                                  certo: fotoRg,
+                                  hint: 'Foto rg',
+                              
+                                  onTap: () {
+                                    showModalBottomSheet<void>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return ModalImagem(
+                                          onPhotoSelected: (fotoPath) {
+                                            atleta.imagemRg = fotoPath;
+                                            if (atleta.imagemRg != null) {
+                                              setState(() {
+                                                fotoRg = true;
+                                              });
+                                            }
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              BotaoIcon(onTap: () {
+                                _showImageFullScreen(imagemRg.toString());
+                              }),
+                            ],
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
-
-                          TextFormFieldFoto(
-                            certo: fotoComprovanteResidencia,
-                            hint: 'Foto comprovante residência',
-                            // validator: (value) {
-                            //   if (fotoComprovanteResidencia == false) {
-                            //     return "Este campo é obrigatório!";
-                            //   }
-                            //   return null;
-                            // },
-                            onTap: () {
-                              showModalBottomSheet<void>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return ModalImagem(
-                                    onPhotoSelected: (fotoPath) {
-                                      atleta.imagemComprovanteDeResidencia =
-                                          fotoPath;
-                                      if (atleta
-                                              .imagemComprovanteDeResidencia !=
-                                          null) {
-                                        setState(() {
-                                          fotoComprovanteResidencia = true;
-                                        });
-                                      }
-                                    },
-                                  );
-                                },
-                              );
-                            },
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextFormFieldFoto(
+                                  certo: fotoComprovanteResidencia,
+                                  hint: 'Foto comprovante residência',
+                               
+                                  onTap: () {
+                                    showModalBottomSheet<void>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return ModalImagem(
+                                          onPhotoSelected: (fotoPath) {
+                                            atleta.imagemComprovanteDeResidencia =
+                                                fotoPath;
+                                            if (atleta
+                                                    .imagemComprovanteDeResidencia !=
+                                                null) {
+                                              setState(() {
+                                                fotoComprovanteResidencia =
+                                                    true;
+                                              });
+                                            }
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              BotaoIcon(onTap: () {
+                                _showImageFullScreen(
+                                    imagemComprovanteDeResidencia.toString());
+                              }),
+                            ],
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
@@ -903,7 +911,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                           const SizedBox(
                             height: 10,
                           ),
-
                           TextFormFieldWithFormatter(
                             valorInicial: atleta.numeroDeCelularLocalTrabalho,
                             labelText: 'Celular local trabalho',
@@ -943,56 +950,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                           const SizedBox(
                             height: 10,
                           ),
-                          // Column(
-                          //   children: [
-                          //     Align(
-                          //       alignment: Alignment.bottomLeft,
-                          //       child: BotaoAdicionar(
-                          //         cor: Colors.green,
-                          //         hintText: "Adicionar outro celular",
-                          //         onTap: () {
-                          //           if (camposAdicionais.length > 4) {
-                          //             Mensagem(
-                          //                 context,
-                          //                 'Limite de telefones atingidos',
-                          //                 Colors.red);
-                          //             return null;
-                          //           }
-                          //           adicionarCampo();
-                          //         },
-                          //       ),
-                          //     ),
-                          //     const SizedBox(
-                          //       height: 30,
-                          //     ),
-                          //     // Visibility(
-                          //     //   visible: camposAdicionais.isNotEmpty,
-                          //     //   child: ElevatedButton(
-                          //     //       style: ButtonStyle(
-                          //     //           backgroundColor:
-                          //     //               MaterialStateProperty.all(
-                          //     //                   Colors.red)),
-                          //     //       onPressed: () {
-                          //     //         camposAdicionais.removeLast();
-                          //     //         setState(() {
-                          //     //           camposAdicionais;
-                          //     //         });
-                          //     //       },
-                          //     //       child: const Text('Apagar ultimo número')),
-                          //     // ),
-                          //   ],
-                          // ),
-                          // const SizedBox(
-                          //   height: 10,
-                          // ),
-                          // Column(
-                          //   children: camposAdicionais,
-                          // ),
-
-                          // const SizedBox(
-                          //   height: 30,
-                          // ),
-
                           Visibility(
                             visible: collection == "VerificaCadastro",
                             child: BotaoLoader(
@@ -1038,7 +995,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                                     },
                             ),
                           ),
-
                           Visibility(
                             visible: collection == "Cadastro",
                             child: Column(
@@ -1096,6 +1052,26 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                 ),
               ),
             ),
+    );
+  }
+
+  void _showImageFullScreen(String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          content: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.contain,
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -1270,14 +1246,7 @@ Future<Map<String, String>> saveImagesToStorage(Atleta atleta) async {
   Map<String, String> imageUrlMap = {};
 
   if (atleta.imagemAtestado.toString().isNotEmpty) {
-    final storageReference = FirebaseStorage.instance
-        .ref()
-        .child(documentId!)
-        .child("imagemAtestado" + ".jpg");
-
-    File imageFile = File(atleta.imagemAtestado.toString());
-
-    await storageReference.putFile(imageFile);
+    SalvarImagem("imagemAtestado", atleta.imagemAtestado.toString());
   }
 
   if (atleta.imagemAtleta.toString().isNotEmpty) {
@@ -1296,48 +1265,31 @@ Future<Map<String, String>> saveImagesToStorage(Atleta atleta) async {
   }
 
   if (atleta.imagemRegulamentoDoAtleta.toString().isNotEmpty) {
-    final storageReference = FirebaseStorage.instance
-        .ref()
-        .child(documentId!)
-        .child("imagemRegulamentoDoAtleta" + ".jpg");
-
-    File imageFile = File(atleta.imagemRegulamentoDoAtleta.toString());
-
-    await storageReference.putFile(imageFile);
+    SalvarImagem("imagemRegulamentoDoAtleta",
+        atleta.imagemRegulamentoDoAtleta.toString());
   }
 
   if (atleta.imagemComprovanteDeResidencia.toString().isNotEmpty) {
-    final storageReference = FirebaseStorage.instance
-        .ref()
-        .child(documentId!)
-        .child("imagemComprovanteDeResidencia" + ".jpg");
-
-    File imageFile = File(atleta.imagemComprovanteDeResidencia.toString());
-
-    await storageReference.putFile(imageFile);
+    SalvarImagem("imagemComprovanteDeResidencia",
+        atleta.imagemComprovanteDeResidencia.toString());
   }
 
   if (atleta.imagemCpf.toString().isNotEmpty) {
-    final storageReference = FirebaseStorage.instance
-        .ref()
-        .child(documentId!)
-        .child("imagemCpf" + ".jpg");
-
-    File imageFile = File(atleta.imagemCpf.toString());
-
-    await storageReference.putFile(imageFile);
+    SalvarImagem("imagemCpf", atleta.imagemCpf.toString());
   }
 
   if (atleta.imagemRg.toString().isNotEmpty) {
-    final storageReference = FirebaseStorage.instance
-        .ref()
-        .child(documentId!)
-        .child("imagemRg" + ".jpg");
-
-    File imageFile = File(atleta.imagemRg.toString());
-
-    await storageReference.putFile(imageFile);
+    SalvarImagem("imagemRg", atleta.imagemRg.toString());
   }
 
   return imageUrlMap;
+}
+
+Future<void> SalvarImagem(String nome, String path) async {
+  final storageReference =
+      FirebaseStorage.instance.ref().child(documentId!).child(nome + ".jpg");
+
+  File imageFile = File(path);
+
+  await storageReference.putFile(imageFile);
 }

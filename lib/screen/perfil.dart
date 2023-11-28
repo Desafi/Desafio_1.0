@@ -168,6 +168,7 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         EditarAtleta(
+                                          titulo: "Editar",
                                           email: user!["Email"],
                                         )),
                               );
