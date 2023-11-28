@@ -43,7 +43,6 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
   @override
   void initState() {
     super.initState();
-    // _auth.signOut();
     verificaCadastroAtleta();
     pc = PageController(initialPage: paginaAtual);
   }
@@ -65,7 +64,9 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
             builder: (context) =>
-                EditarAtleta(email: _auth.currentUser!.email)),
+                EditarAtleta(
+                  email: _auth.currentUser!.email
+                  )),
         (route) => false,
       );
     }

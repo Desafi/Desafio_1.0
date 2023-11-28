@@ -1,4 +1,6 @@
+import 'package:desafio/main.dart';
 import 'package:desafio/widget/botao_principal.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -24,6 +26,8 @@ class Espera extends StatefulWidget {
   @override
   State<Espera> createState() => _EsperaState();
 }
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class _EsperaState extends State<Espera> {
   @override
@@ -56,6 +60,21 @@ class _EsperaState extends State<Espera> {
                     textStyle: const TextStyle(
                         fontWeight: FontWeight.w500, fontSize: 16),
                   ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                BotaoPrincipal(
+                  hintText: "Sair",
+                  radius: 32,
+                  cor: Colors.red,
+                  onTap: () {
+                    _auth.signOut();
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => const LoginApp()),
+                        (route) => false);
+                  },
                 ),
               ],
             ),

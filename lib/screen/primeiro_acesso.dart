@@ -292,7 +292,12 @@ registrar(String email, String senha, String nome, String tipo,
     final dataAtual = Data();
     //Cadastra os dados no banco
 
-    await _cadastraBanco(userId, nome, email, tipo, dataAtual, context);
+    if (tipo == "Atleta") {
+      await _cadastraBanco(userId, nome, email, tipo, dataAtual, context);
+    } else {
+      await _cadastraBancoTreinador(
+          userId, nome, email, tipo, dataAtual, context);
+    }
 
     await _excluirTabela(email, context);
   } on FirebaseAuthException catch (e) {
@@ -327,6 +332,23 @@ _cadastraBanco(String userId, String nome, String email, String tipo,
   }
 }
 
+_cadastraBancoTreinador(String userId, String nome, String email, String tipo,
+    String data, BuildContext context) {
+  try {
+    final user = <String, dynamic>{
+      "Nome": nome,
+      "Email": email,
+      "Tipo": tipo,
+      "DataCriacao": data,
+    };
+
+    db.collection("Usuarios").doc(userId).set(user);
+  } catch (e) {
+    Mensagem(context,
+        "Ocorreu um erro ao cadastrar, tente novamente mais tarde", Colors.red);
+  }
+}
+
 _excluirTabela(String email, BuildContext context) async {
   final querySnapshot = await FirebaseFirestore.instance
       .collection("PreCadastro")
@@ -341,23 +363,7 @@ _excluirTabela(String email, BuildContext context) async {
       (route) => false);
 }
 
-// _EnviarEmail(String email, String senha, BuildContext context) async {
-//   final smtpServer = gmail(username, password);
 
-//   final message = Message()
-//     ..from = const Address(username, 'Unaqua')
-//     ..recipients.add(email)
-//     ..subject = 'Senha da Unaqua'
-//     ..text =
-//         'Sua senha para entrar no aplicativo é: $senha, troque ela assim que possivel!';
-//   try {
-//     await send(message, smtpServer);
-//     MensagemAwesome(context, "Sucesso",
-//         "Sucesso ao cadastrar, verifique o e-mail para mais informações!!");
-//   } on MailerException {
-//     Mensagem(context, "Erro ao enviar e-mail, contate o suporte", Colors.red);
-//   }
-// }
 
 String Data() {
   DateTime agora = DateTime.now();

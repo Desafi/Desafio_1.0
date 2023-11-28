@@ -290,7 +290,7 @@ Logar(BuildContext context) async {
   try {
     UserCredential user = await _auth.signInWithEmailAndPassword(
         email: login.email, password: login.senha);
-
+    print('AQUI');
     VerificaTipo(user.user!.uid, context);
   } on FirebaseAuthException catch (e) {
     switch (e.code) {

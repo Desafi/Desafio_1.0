@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/main.dart';
+import 'package:desafio/screen/editar_atleta.dart';
 import 'package:desafio/screen/tela_expandida_atleta.dart';
 import 'package:desafio/widget/awesome_dialog.dart';
 import 'package:desafio/widget/botao_principal.dart';
@@ -163,13 +164,13 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
                           ),
                           BotaoUI(
                             onTap: () async {
-                              // await Navigator.of(context).push(
-                              //   MaterialPageRoute(
-                              //       builder: (context) =>
-                              //           TelaExpandidaAtletaApp(
-                              //             emailUser: "user![Email]",
-                              //           )),
-                              // );
+                              await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditarAtleta(
+                                          email: user!["Email"],
+                                        )),
+                              );
                             },
                             hintText: "Editar Informações da conta",
                             icone: const Icon(

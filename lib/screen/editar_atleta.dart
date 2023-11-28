@@ -4,6 +4,7 @@ import 'package:desafio/main.dart';
 import 'package:desafio/model/atleta.dart';
 import 'package:desafio/screen/menu_atleta.dart';
 import 'package:desafio/widget/botao_loader.dart';
+import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/drop_down_estados.dart';
 import 'package:desafio/widget/modal_imagem.dart';
 import 'package:desafio/widget/text_form_field_cadastro.dart';
@@ -51,6 +52,7 @@ String? va;
 FirebaseFirestore db = FirebaseFirestore.instance;
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseStorage storage = FirebaseStorage.instance;
+String? collection;
 
 String? documentId;
 
@@ -66,6 +68,7 @@ TextEditingController cidadeController = TextEditingController();
 TextEditingController bairroController = TextEditingController();
 TextEditingController estadoController = TextEditingController();
 TextEditingController enderecoController = TextEditingController();
+TextEditingController _dateController = TextEditingController();
 
 class _EditarAtletaAppState extends State<EditarAtleta> {
   @override
@@ -74,9 +77,29 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
     super.initState();
   }
 
+  Future<bool> _verificaTipo() async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection("Cadastro")
+        .where("Email", isEqualTo: widget.email)
+        .get();
+
+    return querySnapshot.docs.isEmpty;
+  }
+
   Future<void> _carregarDados() async {
+    bool cadastrado = await _verificaTipo();
+    print(cadastrado);
+    setState(() {
+      if (cadastrado) {
+        collection = "VerificaCadastro";
+      } else {
+        collection = "Cadastro";
+      }
+    });
+
     await db
-        .collection("VerificaCadastro")
+        .collection(collection!)
         .where("Email", isEqualTo: widget.email.toString())
         .get()
         .then((querySnapshot) {
@@ -87,6 +110,7 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
           atleta.nomeCompleto = docSnapshot.data()['NomeCompleto'];
           atleta.email = docSnapshot.data()['Email'];
           atleta.dataDeNascimento = docSnapshot.data()['DataNascimento'];
+          _dateController.text = docSnapshot.data()['DataNascimento'];
           atleta.numeroDoCelular = docSnapshot.data()['NumeroCelular'];
           atleta.numeroDeEmergencia = docSnapshot.data()['NumeroEmergencia'];
           atleta.nacionalidade = docSnapshot.data()['Nacionalidade'];
@@ -184,7 +208,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
     const DropdownMenuItem(value: "Numero Mae", child: Text("Número Mãe")),
   ];
 
-  final TextEditingController _dateController = TextEditingController();
   var format = DateFormat('MM/dd/yyyy');
   final _formKey = GlobalKey<FormState>();
 
@@ -264,23 +287,31 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                             ),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 10,
                           ),
-                          Visibility(
-                            visible: observacao != null,
-                            child: Text(
-                              'Observacão do treinador: $observacao',
-                              style: GoogleFonts.plusJakartaSans(
-                                textStyle: const TextStyle(
-                                    fontWeight: FontWeight.w400, fontSize: 18),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Visibility(
+                              visible: observacao != null,
+                              child: Text(
+                                'Observacão do treinador: $observacao',
+                                style: GoogleFonts.plusJakartaSans(
+                                  textStyle: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18,
+                                      color: Colors.red),
+                                ),
                               ),
                             ),
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
 
                           TextFormField(
-                              initialValue: atleta.dataDeNascimento,
+                              // initialValue: atleta.dataDeNascimento,
                               keyboardType: TextInputType.datetime,
-                              // controller: _dateController,
+                              controller: _dateController,
                               validator: (value) {
                                 // if (value == null || value.isEmpty) {
                                 //   return "Este campo é obrigatório!";
@@ -962,47 +993,101 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                           //   height: 30,
                           // ),
 
-                          BotaoLoader(
-                            hintText: estaCarregando
-                                ? const CircularProgressIndicator(
-                                    color: Colors.white)
-                                : Text(
-                                    "Enviar",
-                                    style: GoogleFonts.plusJakartaSans(
-                                      textStyle: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
+                          Visibility(
+                            visible: collection == "VerificaCadastro",
+                            child: BotaoLoader(
+                              hintText: estaCarregando
+                                  ? const CircularProgressIndicator(
+                                      color: Colors.white)
+                                  : Text(
+                                      "Enviar",
+                                      style: GoogleFonts.plusJakartaSans(
+                                        textStyle: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                            cor: Colors.blueAccent,
-                            onTap: estaCarregando
-                                ? null
-                                : () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      setState(() {
-                                        estaCarregando = true;
-                                      });
-                                      if (await VerificaCadastro() == false) {
-                                        await UpdateAtleta(atleta, context);
+                              cor: Colors.blueAccent,
+                              onTap: estaCarregando
+                                  ? null
+                                  : () async {
+                                      if (_formKey.currentState!.validate()) {
                                         setState(() {
-                                          estaCarregando = false;
+                                          estaCarregando = true;
                                         });
-                                      } else {
-                                        await FirebaseAuth.instance.signOut();
-                                        setState(() {
-                                          estaCarregando = false;
-                                        });
-                                        Navigator.of(context)
-                                            .pushAndRemoveUntil(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const LoginApp()),
-                                                (route) => false);
+                                        if (await VerificaCadastro() == false) {
+                                          await UpdateAtleta(atleta, context);
+                                          setState(() {
+                                            estaCarregando = false;
+                                          });
+                                        } else {
+                                          await FirebaseAuth.instance.signOut();
+                                          setState(() {
+                                            estaCarregando = false;
+                                          });
+                                          Navigator.of(context)
+                                              .pushAndRemoveUntil(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const LoginApp()),
+                                                  (route) => false);
+                                        }
                                       }
-                                    }
-                                  },
+                                    },
+                            ),
+                          ),
+
+                          Visibility(
+                            visible: collection == "Cadastro",
+                            child: Column(
+                              children: [
+                                BotaoLoader(
+                                  hintText: estaCarregando
+                                      ? const CircularProgressIndicator(
+                                          color: Colors.white)
+                                      : Text(
+                                          "Editar",
+                                          style: GoogleFonts.plusJakartaSans(
+                                            textStyle: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ),
+                                  cor: Colors.blueAccent,
+                                  onTap: estaCarregando
+                                      ? null
+                                      : () async {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            setState(() {
+                                              estaCarregando = true;
+                                            });
+                                            UpdateAtletaPerfil(atleta, context);
+                                            setState(() {
+                                              estaCarregando = false;
+                                            });
+                                          }
+                                        },
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                BotaoPrincipal(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    hintText: "Voltar",
+                                    radius: 12,
+                                    cor: Colors.amber),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 30,
                           ),
                         ],
                       ),
@@ -1013,124 +1098,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
             ),
     );
   }
-
-  // void adicionarCampo() {
-  //   setState(() {
-  //     camposAdicionais.add(
-  //       Card(
-  //         color: Colors.grey[100],
-  //         elevation: 5,
-  //         shape: RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.circular(10),
-  //           side: const BorderSide(color: Colors.black, width: 1),
-  //         ),
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(8.0),
-  //           child: Container(
-  //             height: 200,
-  //             decoration: BoxDecoration(
-  //               borderRadius: BorderRadius.circular(5),
-  //             ),
-  //             child: Column(
-  //               mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 Row(
-  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                   children: [
-  //                     Expanded(
-  //                       child: DropdownButtonFormField<String>(
-  //                         value: null,
-  //                         items: telefones,
-  //                         validator: (value) {
-  //                           if (value == null || value.isEmpty) {
-  //                             return "Este campo é obrigatório!";
-  //                           }
-  //                           setState(() {
-  //                             va = value;
-  //                           });
-  //                           return null;
-  //                         },
-  //                         decoration: InputDecoration(
-  //                           enabledBorder: OutlineInputBorder(
-  //                             borderSide: const BorderSide(
-  //                                 color: Colors.grey, width: 1),
-  //                             borderRadius: BorderRadius.circular(5),
-  //                           ),
-  //                           border: OutlineInputBorder(
-  //                             borderSide: const BorderSide(color: Colors.grey),
-  //                             borderRadius: BorderRadius.circular(5),
-  //                           ),
-  //                           filled: true,
-  //                           fillColor: Colors.grey[200],
-  //                         ),
-  //                         onChanged: (String? value) {
-  //                           if (value != null) {
-  //                             setState(() {
-  //                               telefones = telefones
-  //                                   .where((item) => item.value != value)
-  //                                   .toList();
-  //                             });
-  //                           }
-  //                         },
-  //                         hint: const Text('Selecione uma opção'),
-  //                       ),
-  //                     ),
-  //                     // ElevatedButton(
-  //                     //   style: ElevatedButton.styleFrom(
-  //                     //     side: const BorderSide(color: Colors.red, width: 2.0),
-  //                     //     shape: const CircleBorder(),
-  //                     //     padding: const EdgeInsets.all(2),
-  //                     //     backgroundColor:
-  //                     //         const Color.fromARGB(255, 255, 255, 255),
-  //                     //     foregroundColor: Colors.red,
-  //                     //   ),
-  //                     //   onPressed: () {},
-  //                     //   child: IconButton(
-  //                     //     icon: const Icon(Ionicons.trash_outline),
-  //                     //     onPressed: () {},
-  //                     //   ),
-  //                     // ),
-  //                   ],
-  //                 ),
-  //                 // TextFormFieldWithFormatter(
-  //                 //   labelText: 'Celular',
-  //                 //   mask: '(##) # ####-####',
-  //                 //   onChanged: (value) {},
-  //                 //   validator: (value) {
-  //                 //     if (value == null || value.isEmpty) {
-  //                 //       return "Este campo é obrigatório!";
-  //                 //     }
-  //                 //     switch (va) {
-  //                 //       case "Numero Adicional":
-  //                 //         atleta.numeroDeCelularAdicional = value;
-  //                 //         break;
-  //                 //       case "Numero Residencial":
-  //                 //         atleta.numeroDeCelularResidencial = value;
-  //                 //         break;
-  //                 //       case "Numero Local de Trabalho":
-  //                 //         atleta.numeroDeCelularLocalTrabalho = value;
-  //                 //         break;
-  //                 //       case "Numero Pai":
-  //                 //         atleta.numeroDeCelularAdicionalPai = value;
-  //                 //         break;
-  //                 //       case "Numero Mae":
-  //                 //         atleta.numeroDeCelularAdicionalMae = value;
-  //                 //         break;
-  //                 //       default:
-  //                 //         print('Erro');
-  //                 //     }
-  //                 //     return null;
-  //                 //   },
-  //                 // ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     );
-  //   });
-  // }
 
   Future<void> BuscarCep(String cep) async {
     String url = "https://viacep.com.br/ws/$cep/json/";
@@ -1243,13 +1210,69 @@ UpdateAtleta(Atleta atleta, BuildContext context) async {
   }
 }
 
+UpdateAtletaPerfil(Atleta atleta, BuildContext context) async {
+  Map<String, String> imageUrlMap = await saveImagesToStorage(atleta);
+
+  final cadastroAtleta = <String, String>{
+    "NomeCompleto": atleta.nomeCompleto.toString(),
+    "Email": atleta.email.toString(),
+    "DataNascimento": atleta.dataDeNascimento.toString(),
+    "NumeroCelular": atleta.numeroDoCelular.toString(),
+    "NumeroEmergencia": atleta.numeroDeEmergencia.toString(),
+    "Nacionalidade": atleta.nacionalidade.toString(),
+    "Naturalidade": atleta.naturalidade.toString(),
+    "Rg": atleta.rg.toString(),
+    "Cpf": atleta.cpf.toString(),
+    "Sexo": atleta.sexo.toString(),
+    "Cep": atleta.cep.toString(),
+    "Cidade": atleta.cidade.toString(),
+    "Bairro": atleta.bairro.toString(),
+    "Endereco": atleta.endereco.toString(),
+    "NumeroCasa": atleta.numeroCasa.toString(),
+    "Estado": atleta.estado.toString(),
+    "ConvenioMedico": atleta.convenioMedico.toString(),
+    "Estilos": atleta.estilos.toString(),
+    "Prova": atleta.prova.toString(),
+    "NomeMae": atleta.nomeDaMae.toString(),
+    "NomePai": atleta.nomeDoPai.toString(),
+    "ClubeOrigem": atleta.clubeDeOrigem.toString(),
+    "AlergiaMedicamento": atleta.alergiaAMedicamentos.toString(),
+    "NumeroAdicional": atleta.numeroDeCelularAdicional.toString(),
+    "NumeroResidencial": atleta.numeroDeCelularResidencial.toString(),
+    "NumeroPai": atleta.numeroDeCelularAdicionalPai.toString(),
+    "NumeroMae": atleta.numeroDeCelularAdicionalMae.toString(),
+  };
+
+  if (_auth.currentUser != null) {
+    try {
+      await db
+          .collection("Cadastro")
+          .doc(documentId)
+          .update(cadastroAtleta)
+          .onError((e, _) => print("Error writing document: $e"));
+
+      if (atleta.imagemAtleta.toString().isNotEmpty) {
+        await db.collection("Usuarios").doc(documentId).update({
+          "ImagemAtleta": imageUrlMap["imagemAtleta"],
+        });
+      }
+
+      Navigator.pop(context);
+    } catch (e) {
+      print('Erro$e');
+    }
+  } else {
+    print('Não Esta logado');
+  }
+}
+
 Future<Map<String, String>> saveImagesToStorage(Atleta atleta) async {
   Map<String, String> imageUrlMap = {};
 
   if (atleta.imagemAtestado.toString().isNotEmpty) {
     final storageReference = FirebaseStorage.instance
         .ref()
-        .child(_auth.currentUser!.uid)
+        .child(documentId!)
         .child("imagemAtestado" + ".jpg");
 
     File imageFile = File(atleta.imagemAtestado.toString());
@@ -1260,7 +1283,7 @@ Future<Map<String, String>> saveImagesToStorage(Atleta atleta) async {
   if (atleta.imagemAtleta.toString().isNotEmpty) {
     final storageReference = FirebaseStorage.instance
         .ref()
-        .child(_auth.currentUser!.uid)
+        .child(documentId!)
         .child("imagemAtleta" + ".jpg");
 
     File imageFile = File(atleta.imagemAtleta.toString());
@@ -1275,7 +1298,7 @@ Future<Map<String, String>> saveImagesToStorage(Atleta atleta) async {
   if (atleta.imagemRegulamentoDoAtleta.toString().isNotEmpty) {
     final storageReference = FirebaseStorage.instance
         .ref()
-        .child(_auth.currentUser!.uid)
+        .child(documentId!)
         .child("imagemRegulamentoDoAtleta" + ".jpg");
 
     File imageFile = File(atleta.imagemRegulamentoDoAtleta.toString());
@@ -1286,7 +1309,7 @@ Future<Map<String, String>> saveImagesToStorage(Atleta atleta) async {
   if (atleta.imagemComprovanteDeResidencia.toString().isNotEmpty) {
     final storageReference = FirebaseStorage.instance
         .ref()
-        .child(_auth.currentUser!.uid)
+        .child(documentId!)
         .child("imagemComprovanteDeResidencia" + ".jpg");
 
     File imageFile = File(atleta.imagemComprovanteDeResidencia.toString());
@@ -1297,7 +1320,7 @@ Future<Map<String, String>> saveImagesToStorage(Atleta atleta) async {
   if (atleta.imagemCpf.toString().isNotEmpty) {
     final storageReference = FirebaseStorage.instance
         .ref()
-        .child(_auth.currentUser!.uid)
+        .child(documentId!)
         .child("imagemCpf" + ".jpg");
 
     File imageFile = File(atleta.imagemCpf.toString());
@@ -1308,7 +1331,7 @@ Future<Map<String, String>> saveImagesToStorage(Atleta atleta) async {
   if (atleta.imagemRg.toString().isNotEmpty) {
     final storageReference = FirebaseStorage.instance
         .ref()
-        .child(_auth.currentUser!.uid)
+        .child(documentId!)
         .child("imagemRg" + ".jpg");
 
     File imageFile = File(atleta.imagemRg.toString());

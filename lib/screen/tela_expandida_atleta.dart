@@ -491,6 +491,7 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
                                                             observacaoController
                                                                 .text
                                                                 .toString(),
+                                                        "Status": "Recusado"
                                                       });
                                                       Navigator.of(context)
                                                           .push(
