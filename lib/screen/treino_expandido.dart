@@ -1,25 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:desafio/model/atleta.dart';
 import 'package:desafio/widget/icones_treino.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-
-// void main() {
-//   runApp(const MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       home: TreinoExpandidoApp(),
-//     );
-//   }
-// }
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 Map<String, dynamic>? treino;
@@ -27,17 +12,11 @@ String? maiorTempo;
 String? menorTempo;
 bool carregando = true;
 double? segundos;
-// List<FlSpot> chartData = [
-//   FlSpot(0, 1),
-//   FlSpot(1, 3),
-//   FlSpot(2, 10),
-//   FlSpot(3, 7),
-//   FlSpot(4, 12),
-//   FlSpot(5, 13),
-//   FlSpot(6, 17),
-//   FlSpot(7, 15),
-//   FlSpot(8, 20),
-// ];
+
+List<double> voltas = [];
+// List<double> voltasFinais = [];
+// List<double> voltasFinaisGeral = [];
+// List<FlSpot> spots = [];
 
 class TreinoExpandidoApp extends StatefulWidget {
   String id;
@@ -65,17 +44,61 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
       });
     });
 
+    List<dynamic> lista = treino!["TempoVoltasSegundos"];
+    setState(() {
+      voltas = lista.map((e) {
+        return double.parse(e.toString());
+      }).toList();
+    });
+
     List list = treino!["TempoVoltas"];
+
     list.sort();
     setState(() {
       maiorTempo = list.last;
       menorTempo = list.first;
+      // _trasnformarVoltas();
       carregando = false;
     });
   }
 
+  // Future<void> _trasnformarVoltas() async {
+  //   List voltas = treino!["TempoVoltasSegundos"];
+  //   List voltasGeral = treino!["TempoGeralSegundos"];
+  //   List<double> voltasFinal = [];
+
+  //   for (int i = 0; i < voltas.length; i++) {
+  //     int minutos = voltas[i] ~/ 60;
+  //     int segundos = (voltas[i] % 60).toInt();
+
+  //     int minutosGeral = voltasGeral[i] ~/ 60;
+  //     int segundosGeral = (voltasGeral[i] % 60).toInt();
+
+  //     String resultado = "${minutos}.${segundos}";
+  //     String resultadoGeral = "${minutosGeral}.${segundosGeral}";
+
+  //     double result = double.parse(resultado);
+  //     double resultGeral = double.parse(resultadoGeral);
+
+  //     spots.add(FlSpot(result, i.toDouble()));
+
+  //     // voltasFinal.add(result);
+  //     // voltasFinaisGeral.add(resultGeral);
+
+  //     // double minutosDouble = minutos.toDouble();
+  //     // double segundosDouble = segundos.toDouble();
+
+  //     // double finad = minutosDouble + segundosDouble;
+
+  //     // print(finad);
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
+    var atletas = [
+      Atleta(voltas),
+    ];
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -106,7 +129,6 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                             fontSize: 25, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 10.0),
-
                       Wrap(
                         direction: Axis.horizontal,
                         alignment: WrapAlignment.center,
@@ -175,13 +197,6 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                           ),
                         ],
                       ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //   children: [
-
-                      //   ],
-                      // ),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -230,29 +245,66 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                         ),
                       ),
                       const SizedBox(height: 20.0),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(30.0),
-                      //   child: Container(
-                      //     width: MediaQuery.of(context).size.width,
-                      //     height: 300,
-                      //     child: LineChart(
-                      //       LineChartData(
-                      //           titlesData: FlTitlesData(
-                      //               rightTitles: AxisTitles(
-                      //                   sideTitles:
-                      //                       SideTitles(showTitles: false)),
-                      //               topTitles: AxisTitles(
-                      //                   sideTitles:
-                      //                       SideTitles(showTitles: false))),
-                      //           borderData: FlBorderData(show: true),
-                      //           backgroundColor: Colors.white,
-                      //           lineBarsData: [
-                      //             LineChartBarData(spots: chartData)
-                      //           ]),
-                      //     ),
-                      //   ),
-                      // ),
+                      const Text(
+                        'Gráfico das voltas',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
                       const SizedBox(height: 20.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 500,
+                          child: LineChart(
+                            LineChartData(
+                              minY: 0,
+                              maxY: 600,
+                              minX: 0,
+                              titlesData: FlTitlesData(
+                                rightTitles: AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false)),
+                                topTitles: AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false)),
+                                bottomTitles: const AxisTitles(
+                                  axisNameWidget: Text(
+                                    "Voltas",
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                  ),
+                                ),
+                                leftTitles: AxisTitles(
+                                  axisNameWidget: const Text("Minutos",
+                                      style: TextStyle(fontSize: 15)),
+                                  sideTitles: SideTitles(
+                                    reservedSize: 50,
+                                    showTitles: true,
+                                    getTitlesWidget: getLeftTitles,
+                                  ),
+                                ),
+                              ),
+                              borderData: FlBorderData(show: true),
+                              backgroundColor: Colors.white,
+                              lineBarsData: atletas
+                                  .map((e) => LineChartBarData(
+                                      color: Colors.blueAccent,
+                                      isCurved: true,
+                                      spots: e.tempos
+                                          .asMap()
+                                          .entries
+                                          .map((entry) => FlSpot(
+                                                entry.key.toDouble(),
+                                                entry.value,
+                                              ))
+                                          .toList()))
+                                  .toList(),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 40.0),
                     ],
                   ),
                 ),
@@ -260,4 +312,27 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
             ),
     );
   }
+}
+
+Widget getLeftTitles(double value, TitleMeta meta) {
+  int minutes = value ~/ 60;
+  int seconds = (value % 60).toInt();
+  return SideTitleWidget(
+    axisSide: meta.axisSide,
+    child: Text(
+      "$minutes:$seconds",
+      softWrap: false,
+      style: const TextStyle(
+        color: Colors.grey,
+        fontWeight: FontWeight.bold,
+        fontSize: 14,
+      ),
+    ),
+  );
+}
+
+class Atleta {
+  List<double> tempos;
+
+  Atleta(this.tempos);
 }

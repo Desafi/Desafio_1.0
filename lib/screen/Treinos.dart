@@ -280,7 +280,6 @@ class _TreinosAppState extends State<TreinosApp> {
                   itemBuilder: (context, snapshot) {
                     if (pesquisa == null) {
                       Map<String, dynamic> user = snapshot.data();
-                      print(user);
                       return CardTreino_(
                         snap: snapshot,
                         user: user,
@@ -290,8 +289,6 @@ class _TreinosAppState extends State<TreinosApp> {
                       final nome = user['NomeAtleta'].toLowerCase().toString();
 
                       if (nome.contains(pesquisa!.toLowerCase().toString())) {
-                        print(user);
-
                         return CardTreino_(
                           snap: snapshot,
                           user: user,

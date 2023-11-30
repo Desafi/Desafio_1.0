@@ -31,6 +31,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseFirestore db = FirebaseFirestore.instance;
+String? documentId;
 
 class MeuPerfilApp extends StatefulWidget {
   const MeuPerfilApp({super.key});
@@ -46,7 +47,6 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
   @override
   void initState() {
     _carregarInfoUser();
-
     super.initState();
   }
 
@@ -58,6 +58,7 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
         .then((snapshot) {
       setState(() {
         user = snapshot.data();
+        documentId = snapshot.id;
         carregando = false;
       });
     });
@@ -162,23 +163,25 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
                             ),
                             cor: Colors.grey[400],
                           ),
-                          BotaoUI(
-                            onTap: () async {
-                              await Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        EditarAtleta(
-                                          titulo: "Editar",
-                                          email: user!["Email"],
-                                        )),
-                              );
-                            },
-                            hintText: "Editar Informações da conta",
-                            icone: const Icon(
-                              Ionicons.cog_outline,
-                              size: 30,
+                          Visibility(
+                            visible: user!["Tipo"] != "Treinador",
+                            child: BotaoUI(
+                              onTap: () async {
+                                await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => EditarAtleta(
+                                            titulo: "Editar",
+                                            email: user!["Email"],
+                                          )),
+                                );
+                              },
+                              hintText: "Editar Informações da conta",
+                              icone: const Icon(
+                                Ionicons.cog_outline,
+                                size: 30,
+                              ),
+                              cor: Colors.grey[400],
                             ),
-                            cor: Colors.grey[400],
                           ),
                           const SizedBox(
                             height: 40,

@@ -660,7 +660,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                                 child: TextFormFieldFoto(
                                   certo: fotoAtestado,
                                   hint: 'Foto atestado',
-                              
                                   onTap: () {
                                     showModalBottomSheet<void>(
                                       context: context,
@@ -697,7 +696,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                                 child: TextFormFieldFoto(
                                   certo: fotoAtleta,
                                   hint: 'Foto atleta',
-                                
                                   onTap: () {
                                     showModalBottomSheet<void>(
                                       context: context,
@@ -734,7 +732,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                                 child: TextFormFieldFoto(
                                   certo: fotoRegulamento,
                                   hint: 'Foto regulamento',
-                                 
                                   onTap: () {
                                     showModalBottomSheet<void>(
                                       context: context,
@@ -775,7 +772,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                                 child: TextFormFieldFoto(
                                   certo: fotoCpf,
                                   hint: 'Foto cpf',
-                                
                                   onTap: () {
                                     showModalBottomSheet<void>(
                                       context: context,
@@ -812,7 +808,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                                 child: TextFormFieldFoto(
                                   certo: fotoRg,
                                   hint: 'Foto rg',
-                              
                                   onTap: () {
                                     showModalBottomSheet<void>(
                                       context: context,
@@ -849,7 +844,6 @@ class _EditarAtletaAppState extends State<EditarAtleta> {
                                 child: TextFormFieldFoto(
                                   certo: fotoComprovanteResidencia,
                                   hint: 'Foto comprovante residência',
-                               
                                   onTap: () {
                                     showModalBottomSheet<void>(
                                       context: context,
