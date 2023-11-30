@@ -3,23 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  const botao1 = Key('botaoCotrole');
+  const botao1 = Key('botaoControle');
   const emailControle = Key('emailKey');
   const senhaControle = Key('senhaKey');
 
-  // testWidgets("Teste de widgets na tela de login", (tester) async {
-  //   await tester.pumpWidget(const MaterialApp(
-  //     home: LoginApp(),
-  //   ));
-  //   await tester.pump();
+  testWidgets("Teste de widgets na tela de Esqueci senha", (tester) async {
+    await tester.pumpWidget(const MaterialApp(
+      home: LoginApp(),
+    ));
+    await tester.pump();
 
-  //   expect(find.text('Bem Vindo!'), findsNWidgets(1));
-  //   expect(find.text('Senha'), findsNWidgets(1));
-  //   expect(find.text('Esqueceu sua senha?'), findsNWidgets(1));
-  //   expect(find.text('Entrar'), findsNWidgets(1));
-  //   expect(find.text('E-mail'), findsNWidgets(1));
-  //   expect(find.text('Faça o login e entre na plataforma.'), findsNWidgets(1));
-  // });
+    expect(find.text('Bem Vindo!'), findsNWidgets(1));
+    expect(find.text('Senha'), findsNWidgets(1));
+    expect(find.text('Esqueceu sua senha?'), findsNWidgets(1));
+    expect(find.text('Entrar'), findsNWidgets(1));
+    expect(find.text('E-mail'), findsNWidgets(1));
+    expect(find.text('Faça o login e entre na plataforma.'), findsNWidgets(1));
+  });
 
   testWidgets("Teste de login de administrador", (tester) async {
     await tester.pumpWidget(const MaterialApp(
@@ -28,7 +28,7 @@ void main() {
 
     final emailAdmin = find.byKey(emailControle);
     expect(emailAdmin, findsOneWidget);
-    await tester.enterText(emailAdmin, 'adm.com');
+    await tester.enterText(emailAdmin, 'joao@joao.com');
 
     final senhaAdmin = find.byKey(senhaControle);
     expect(senhaAdmin, findsOneWidget);
@@ -40,6 +40,8 @@ void main() {
     await tester.tap(loginBtn);
     await tester.pump();
     expect(find.text('Bem-vindo, Administrador!'), findsNWidgets(1));
+
+    // expect(find.text('Bem-vindo, Administrador!'), findsNWidgets(1));
   });
 
   // testWidgets("Teste de login de atleta", (tester) async {

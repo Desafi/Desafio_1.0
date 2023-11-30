@@ -20,6 +20,7 @@ void main() async {
   runApp(const MyAppSplash());
 }
 
+
 String mensagem = '';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 Login login = Login("", "", "");
@@ -50,7 +51,6 @@ class _LoginAppState extends State<LoginApp> {
   void initState() {
     super.initState();
     Firebase.initializeApp();
-  
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -212,6 +212,7 @@ class _LoginAppState extends State<LoginApp> {
                         height: 35,
                       ),
                       BotaoLoader(
+                        key: Key('botaoControle'),
                         hintText: estaCarregando
                             ? const CircularProgressIndicator(
                                 color: Colors.white)
