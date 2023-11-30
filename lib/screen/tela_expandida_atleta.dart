@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/model/atleta.dart';
+import 'package:desafio/screen/editar_atleta.dart';
 import 'package:desafio/screen/gerenciamento_atletas.dart';
 import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/input_mostrar.dart';
@@ -514,6 +515,26 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
                             ),
                           ],
                         )),
+                    Visibility(
+                      visible: !widget.botoes,
+                      child: Column(
+                        children: [
+                          BotaoPrincipal(
+                              onTap: () async {
+                                await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => EditarAtleta(
+                                            titulo: "Editar",
+                                            email: widget.emailUser,
+                                          )),
+                                );
+                              },
+                              hintText: "Editar atleta",
+                              radius: 12,
+                              cor: Colors.blueAccent)
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),

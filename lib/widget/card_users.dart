@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:desafio/screen/edita_treinador.dart';
 import 'package:desafio/screen/tela_expandida_atleta.dart';
 import 'package:desafio/screen/tela_nao_encontrada.dart';
 import 'package:desafio/widget/card_pessoas.dart';
@@ -27,28 +28,43 @@ class CardUsers extends StatelessWidget {
           nome: user['Nome'],
           onTap: () async {
             if (user['Tipo'] == 'Atleta') {
-              QuerySnapshot querySnapshot = await db
-                  .collection('Cadastro')
-                  .where('Email', isEqualTo: user['Email'])
-                  .get();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TelaExpandidaAtletaApp(
+                            botoes: false,
+                            tabela: "Cadastro",
+                            emailUser: user['Email'],
+                          )));
+              // QuerySnapshot querySnapshot = await db
+              //     .collection('Cadastro')
+              //     .where('Email', isEqualTo: user['Email'])
+              //     .get();
 
-              existe = querySnapshot.docs.isNotEmpty;
+              // existe = querySnapshot.docs.isNotEmpty;
 
-              if (existe == true) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TelaExpandidaAtletaApp(
-                              botoes: false,
-                              tabela: "Cadastro",
-                              emailUser: user['Email'],
-                            )));
-              } else {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const NaoEncontrado()));
-              }
+              // if (existe == true) {
+              //   Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //           builder: (context) => TelaExpandidaAtletaApp(
+              //                 botoes: false,
+              //                 tabela: "Cadastro",
+              //                 emailUser: user['Email'],
+              //               )));
+              // } else {
+              //   Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //           builder: (context) => const NaoEncontrado()));
+              // }
+            } else {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EditaTreinadorApp(
+                            email: user['Email'],
+                          )));
             }
           }),
     );

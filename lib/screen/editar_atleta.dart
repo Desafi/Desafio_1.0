@@ -8,6 +8,7 @@ import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/drop_down_estados.dart';
 import 'package:desafio/widget/icon_button.dart';
 import 'package:desafio/widget/modal_imagem.dart';
+import 'package:desafio/widget/scaffolds.dart';
 import 'package:desafio/widget/text_form_field_cadastro.dart';
 import 'package:desafio/widget/text_form_field_foto.dart';
 import 'package:desafio/widget/text_form_field_with_formatter.dart';
@@ -1227,7 +1228,10 @@ UpdateAtletaPerfil(Atleta atleta, BuildContext context) async {
         });
       }
 
+      
+
       Navigator.pop(context);
+      Mensagem(context, "Sucesso ao editar", Colors.green);
     } catch (e) {
       print('Erro$e');
     }

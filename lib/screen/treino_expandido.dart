@@ -290,6 +290,8 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                               lineBarsData: atletas
                                   .map((e) => LineChartBarData(
                                       color: Colors.blueAccent,
+                                      belowBarData: BarAreaData(show: true),
+                                      barWidth: 6,
                                       isCurved: true,
                                       spots: e.tempos
                                           .asMap()

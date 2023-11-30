@@ -1,6 +1,5 @@
 import 'package:desafio/screen/estatistica.dart';
 import 'package:desafio/widget/botao_principal.dart';
-import 'package:desafio/widget/card_resultado.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

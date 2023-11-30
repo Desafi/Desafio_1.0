@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/main.dart';
+import 'package:desafio/screen/edita_treinador.dart';
 import 'package:desafio/screen/editar_atleta.dart';
 import 'package:desafio/screen/tela_expandida_atleta.dart';
 import 'package:desafio/widget/awesome_dialog.dart';
@@ -31,7 +32,6 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseFirestore db = FirebaseFirestore.instance;
-String? documentId;
 
 class MeuPerfilApp extends StatefulWidget {
   const MeuPerfilApp({super.key});
@@ -41,7 +41,7 @@ class MeuPerfilApp extends StatefulWidget {
 }
 
 Map<String, dynamic>? user;
-bool carregando = true;
+bool _carregando = true;
 
 class _MeuPerfilAppState extends State<MeuPerfilApp> {
   @override
@@ -58,8 +58,7 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
         .then((snapshot) {
       setState(() {
         user = snapshot.data();
-        documentId = snapshot.id;
-        carregando = false;
+        _carregando = false;
       });
     });
   }
@@ -69,7 +68,7 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
     return Scaffold(
       backgroundColor: Colors.blue,
       appBar: AppBar(backgroundColor: Colors.blue, elevation: 0, actions: []),
-      body: carregando == true
+      body: _carregando == true
           ? Center(
               child: LoadingAnimationWidget.fourRotatingDots(
                   color: Colors.black, size: 200))
@@ -163,10 +162,17 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
                             ),
                             cor: Colors.grey[400],
                           ),
-                          Visibility(
-                            visible: user!["Tipo"] != "Treinador",
-                            child: BotaoUI(
-                              onTap: () async {
+                          BotaoUI(
+                            onTap: () async {
+                              if (user!["Tipo"] == "Treinador") {
+                                await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => EditaTreinadorApp(
+                                            email: user!["Email"],
+                                           
+                                          )),
+                                );
+                              } else {
                                 await Navigator.of(context).push(
                                   MaterialPageRoute(
                                       builder: (context) => EditarAtleta(
@@ -174,14 +180,14 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
                                             email: user!["Email"],
                                           )),
                                 );
-                              },
-                              hintText: "Editar Informações da conta",
-                              icone: const Icon(
-                                Ionicons.cog_outline,
-                                size: 30,
-                              ),
-                              cor: Colors.grey[400],
+                              }
+                            },
+                            hintText: "Editar Informações da conta",
+                            icone: const Icon(
+                              Ionicons.cog_outline,
+                              size: 30,
                             ),
+                            cor: Colors.grey[400],
                           ),
                           const SizedBox(
                             height: 40,
