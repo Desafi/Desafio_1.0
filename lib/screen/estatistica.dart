@@ -42,6 +42,13 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () async {
+                Navigator.pop(context);
+              }),
+        ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Padding(

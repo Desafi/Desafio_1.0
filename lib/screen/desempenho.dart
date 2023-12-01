@@ -1,3 +1,4 @@
+import 'package:desafio/screen/comparar_atletas.dart';
 import 'package:desafio/screen/estatistica.dart';
 import 'package:desafio/widget/botao_principal.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +75,12 @@ class _DesempenhoAppState extends State<DesempenhoApp> {
                     radius: 12,
                     hintText: 'Comparar',
                     cor: Colors.blueAccent,
-                    onTap: () {},
+                    onTap: () async {
+                      await Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => const CompararAtletaApp()),
+                      );
+                    },
                   ),
                 ],
               ),
