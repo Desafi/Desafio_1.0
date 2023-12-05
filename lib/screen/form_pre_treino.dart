@@ -320,8 +320,4 @@ PegarInformacaoAtleta() async {
   }
 }
 
-String DataAgora() {
-  DateTime agora = DateTime.now();
-  String formato = DateFormat('dd-MM-yyyy - kk:mm:ss').format(agora);
-  return formato.toString();
-}
+

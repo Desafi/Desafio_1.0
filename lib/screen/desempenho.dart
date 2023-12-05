@@ -65,10 +65,10 @@ class _DesempenhoAppState extends State<DesempenhoApp> {
                       hintText: 'Ver meu desempenho',
                       cor: Colors.blueAccent,
                       onTap: () async {
-                        await Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => const EstatisticaApp()),
-                        );
+                        // await Navigator.of(context).push(
+                        //   MaterialPageRoute(
+                        //       builder: (context) =>  EstatisticaApp()),
+                        // );
                       }),
                   const SizedBox(height: 50),
                   BotaoPrincipal(

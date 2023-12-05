@@ -5,6 +5,7 @@ import 'package:desafio/widget/botao_cronometro.dart';
 import 'package:desafio/widget/scaffolds.dart';
 import 'package:desafio/widget/text_form_field_cadastro.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 // void main() {
 //   runApp(const MyApp());
@@ -579,7 +580,8 @@ class _CronometroAppState extends State<CronometroApp> {
                               "TempoVoltas": voltas,
                               "TempoGeral": voltasGeral,
                               "TipoNado": widget.estiloTreino,
-                              "DataTreino": Data(),
+                              "DataTreino": DataAtual(),
+                              "HoraTreino": Horas(),
                             };
 
                             db
@@ -622,4 +624,16 @@ class _CronometroAppState extends State<CronometroApp> {
       ),
     );
   }
+}
+
+String Horas() {
+  DateTime agora = DateTime.now();
+  String formato = DateFormat('kk:mm:ss').format(agora);
+  return formato.toString();
+}
+
+String DataAtual() {
+  DateTime agora = DateTime.now();
+  String formato = DateFormat('dd/MM/yyyy').format(agora);
+  return formato.toString();
 }

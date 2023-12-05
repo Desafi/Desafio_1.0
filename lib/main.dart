@@ -20,7 +20,6 @@ void main() async {
   runApp(const MyAppSplash());
 }
 
-
 String mensagem = '';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 Login login = Login("", "", "");
@@ -301,7 +300,7 @@ Logar(BuildContext context) async {
         Mensagem(context, 'Dados incorretos.', Colors.red);
         break;
       default:
-        Mensagem(context, 'Erro, tente novamente mais tarde!', Colors.red);
+        Mensagem(context, 'E-mail não encontrado!', Colors.red);
     }
   }
 }

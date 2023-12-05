@@ -1,27 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:desafio/screen/desempenho.dart';
+import 'package:desafio/screen/cronometro.dart';
 import 'package:desafio/screen/estatistica.dart';
+import 'package:desafio/screen/nao_encontrado.dart';
+import 'package:desafio/screen/primeiro_acesso.dart';
+import 'package:desafio/screen/tela_nao_encontrada.dart';
 import 'package:desafio/widget/botao_principal.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-// void main() {
-//   runApp(const MyApp());
-// }
+void main() {
+  runApp(MyApp());
+}
 
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: CompararAtletaApp(),
-//     );
-//   }
-// }
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('pt'),
+      ],
+      title: 'Flutter Date Picker Example',
+      home: CompararAtletaApp(),
+    );
+  }
+}
 
 class CompararAtletaApp extends StatefulWidget {
   const CompararAtletaApp({super.key});
@@ -35,14 +45,109 @@ final SearchController _searchController = SearchController();
 final SearchController _searchController2 = SearchController();
 List<Map<String, String>> _kOptions = [];
 FirebaseFirestore db = FirebaseFirestore.instance;
+final TextEditingController _dateController = TextEditingController();
+
+String? idAtleta;
+String? idAtleta2;
+Map<String, dynamic> atleta1 = {};
+Map<String, dynamic> atleta2 = {};
 
 class _CompararAtletaAppState extends State<CompararAtletaApp> {
+  DateTime _selectedDate = DateTime.now();
+
   @override
   void initState() {
     PegarInformacaoAtleta();
-
     Firebase.initializeApp();
     super.initState();
+  }
+
+  Future<void> _pegarId() async {
+    await db
+        .collection("Usuarios")
+        .where("Email", isEqualTo: _searchController.text)
+        .get()
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        setState(() {
+          idAtleta = doc.id;
+        });
+      });
+    });
+    await db
+        .collection("Usuarios")
+        .where("Email", isEqualTo: _searchController2.text)
+        .get()
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        setState(() {
+          idAtleta2 = doc.id;
+        });
+      });
+    });
+    _pegarReferencias();
+  }
+
+  Future<void> _pegarReferencias() async {
+    await db
+        .collection("Treinos")
+        .doc(idAtleta)
+        .collection("TreinoAtleta")
+        .where("DataTreino", isEqualTo: _dateController.text)
+        .limit(1)
+        .get()
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        atleta1 = doc.data();
+      });
+    });
+    await db
+        .collection("Treinos")
+        .doc(idAtleta2)
+        .collection("TreinoAtleta")
+        .where("DataTreino", isEqualTo: _dateController.text)
+        .limit(1)
+        .get()
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        atleta2 = doc.data();
+      });
+    });
+
+    _verificaExistencia();
+  }
+
+  Future<void> _verificaExistencia() async {
+    if (atleta1.isEmpty || atleta2.isEmpty) {
+      await Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => const NaoEncontradoTreino()),
+      );
+      resetaVariaveis();
+    } else {
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+            builder: (context) => EstatisticaApp(
+                  email: _searchController.text,
+                  emailComparar: _searchController2.text,
+                  data: _dateController.text,
+                  atleta1: atleta1,
+                  atleta2: atleta2,
+                )),
+      );
+      resetaVariaveis();
+    }
+  }
+
+  resetaVariaveis() {
+    setState(() {
+      idAtleta = '';
+      idAtleta2 = '';
+      atleta1.clear();
+      atleta2.clear();
+      _searchController.text = '';
+      _searchController2.text = '';
+      _dateController.text = '';
+    });
   }
 
   Future<void> PegarInformacaoAtleta() async {
@@ -68,6 +173,23 @@ class _CompararAtletaAppState extends State<CompararAtletaApp> {
     setState(() {
       _carregando = false;
     });
+  }
+
+  Future<void> _selectDate() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+      locale: const Locale('pt'),
+    );
+    if (picked != null) {
+      setState(() {
+        _dateController.text = DateFormat(
+          'dd/MM/yyyy',
+        ).format(picked);
+      });
+    }
   }
 
   Widget _buildSearchBar(SearchController controller) {
@@ -198,12 +320,42 @@ class _CompararAtletaAppState extends State<CompararAtletaApp> {
                       const SizedBox(
                         height: 20,
                       ),
+                      TextField(
+                        keyboardType: TextInputType.datetime,
+                        controller: _dateController,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.calendar_today),
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          fillColor: Colors.grey[200],
+                          filled: true,
+                          border: const OutlineInputBorder(),
+                          labelText: 'Data do treino',
+                          labelStyle: const TextStyle(
+                            color: Colors.black54,
+                          ),
+                        ),
+                        onTap: () => _selectDate(),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       BotaoPrincipal(
                           onTap: () async {
-                            await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => const EstatisticaApp()),
-                            );
+                            await _pegarId();
+
+                            // await Navigator.of(context).push(
+                            //   MaterialPageRoute(
+                            //       builder: (context) => EstatisticaApp(
+                            //             email: _searchController.text,
+                            //             emailComparar: _searchController2.text,
+                            //             data: _dateController.text,
+                            //           )),
+                            // );
                           },
                           hintText: "Comparar",
                           radius: 12,

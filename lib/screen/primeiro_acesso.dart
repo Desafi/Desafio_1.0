@@ -367,6 +367,6 @@ _excluirTabela(String email, BuildContext context) async {
 
 String Data() {
   DateTime agora = DateTime.now();
-  String formato = DateFormat('dd-MM-yyyy - kk:mm:ss').format(agora);
+  String formato = DateFormat('dd/MM/yyyy - kk:mm:ss').format(agora);
   return formato.toString();
 }
