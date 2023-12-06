@@ -174,7 +174,7 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
                             ),
                           ),
                           IconesTreino(
-                            hintText: "Menor volta:",
+                            hintText: "Menor tempo:",
                             informacao: menorVolta1.toString(),
                             icone: Icon(
                               Icons.star,
@@ -183,7 +183,7 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
                             ),
                           ),
                           IconesTreino(
-                              hintText: "Maior volta:",
+                              hintText: "Maior tempo:",
                               informacao: maiorVolta1.toString(),
                               icone: Icon(
                                 Icons.pool_outlined,
@@ -212,7 +212,7 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
                             ),
                           ),
                           IconesTreino(
-                            hintText: "Menor volta:",
+                            hintText: "Menor tempo:",
                             informacao: menorVolta2.toString(),
                             icone: Icon(
                               Icons.star,
@@ -221,7 +221,7 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
                             ),
                           ),
                           IconesTreino(
-                              hintText: "Maior volta:",
+                              hintText: "Maior tempo:",
                               informacao: maiorVolta2.toString(),
                               icone: Icon(
                                 Icons.pool_outlined,
@@ -239,62 +239,96 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 500,
-                          child: LineChart(
-                            LineChartData(
-                              minY: 0,
-                              maxY: 600,
-                              minX: 0,
-                              titlesData: FlTitlesData(
-                                rightTitles: AxisTitles(
-                                    sideTitles: SideTitles(showTitles: false)),
-                                topTitles: AxisTitles(
-                                    sideTitles: SideTitles(showTitles: false)),
-                                bottomTitles: const AxisTitles(
-                                  axisNameWidget: Text(
-                                    "Voltas",
-                                    style: TextStyle(fontSize: 15),
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 500,
+                              child: LineChart(
+                                LineChartData(
+                                  minY: 0,
+                                  maxY: 600,
+                                  minX: 0,
+                                  titlesData: FlTitlesData(
+                                    rightTitles: AxisTitles(
+                                        sideTitles:
+                                            SideTitles(showTitles: false)),
+                                    topTitles: AxisTitles(
+                                        sideTitles:
+                                            SideTitles(showTitles: false)),
+                                    bottomTitles: const AxisTitles(
+                                      axisNameWidget: Text(
+                                        "Voltas",
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      sideTitles: SideTitles(
+                                        showTitles: true,
+                                      ),
+                                    ),
+                                    leftTitles: AxisTitles(
+                                      axisNameWidget: const Text("Minutos",
+                                          style: TextStyle(fontSize: 15)),
+                                      sideTitles: SideTitles(
+                                        reservedSize: 50,
+                                        showTitles: true,
+                                        getTitlesWidget: getLeftTitles,
+                                      ),
+                                    ),
                                   ),
-                                  sideTitles: SideTitles(
-                                    showTitles: true,
-                                  ),
-                                ),
-                                leftTitles: AxisTitles(
-                                  axisNameWidget: const Text("Minutos",
-                                      style: TextStyle(fontSize: 15)),
-                                  sideTitles: SideTitles(
-                                    reservedSize: 50,
-                                    showTitles: true,
-                                    getTitlesWidget: getLeftTitles,
-                                  ),
+                                  borderData: FlBorderData(show: true),
+                                  backgroundColor: Colors.white,
+                                  lineBarsData: atletas
+                                      .map((e) => LineChartBarData(
+                                          color: e.id == 1
+                                              ? Colors.blueAccent
+                                              : Colors.amber,
+                                          belowBarData: BarAreaData(show: true),
+                                          barWidth: 6,
+                                          isCurved: true,
+                                          spots: e.tempos
+                                              .asMap()
+                                              .entries
+                                              .map((entry) => FlSpot(
+                                                    entry.key.toDouble(),
+                                                    entry.value,
+                                                  ))
+                                              .toList()))
+                                      .toList(),
                                 ),
                               ),
-                              borderData: FlBorderData(show: true),
-                              backgroundColor: Colors.white,
-                              lineBarsData: atletas
-                                  .map((e) => LineChartBarData(
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 40),
+                            child: Column(
+                              children: atletas.map((e) {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 15,
+                                      height: 15,
                                       color: e.id == 1
                                           ? Colors.blueAccent
                                           : Colors.amber,
-                                      belowBarData: BarAreaData(show: true),
-                                      barWidth: 6,
-                                      isCurved: true,
-                                      spots: e.tempos
-                                          .asMap()
-                                          .entries
-                                          .map((entry) => FlSpot(
-                                                entry.key.toDouble(),
-                                                entry.value,
-                                              ))
-                                          .toList()))
-                                  .toList(),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      e.nome,
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ],
+                                );
+                              }).toList(),
                             ),
                           ),
-                        ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                     ],
                   ),

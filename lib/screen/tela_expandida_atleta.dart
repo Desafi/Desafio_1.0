@@ -164,7 +164,6 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
   @override
   void initState() {
     _carregarDados(widget.emailUser);
-
     super.initState();
   }
 

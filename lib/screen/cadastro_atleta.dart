@@ -1043,6 +1043,7 @@ class _CadastroAtletaAppState extends State<CadastroAtleta> {
 }
 
 CadastrarAtleta(Atleta atleta, BuildContext context) async {
+  
   List<String> listaImages = [
     atleta.imagemAtestado.toString(),
     atleta.imagemAtleta.toString(),

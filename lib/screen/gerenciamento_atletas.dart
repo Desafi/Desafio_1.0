@@ -74,6 +74,7 @@ class _GerenciamentoAtletasAppState extends State<GerenciamentoAtletasApp> {
                 subTitulo:
                     "Clique e verifique se as informações dos atletas estão corretas!",
               ),
+              
             ],
           ),
         ),

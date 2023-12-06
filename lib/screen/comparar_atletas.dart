@@ -347,15 +347,6 @@ class _CompararAtletaAppState extends State<CompararAtletaApp> {
                       BotaoPrincipal(
                           onTap: () async {
                             await _pegarId();
-
-                            // await Navigator.of(context).push(
-                            //   MaterialPageRoute(
-                            //       builder: (context) => EstatisticaApp(
-                            //             email: _searchController.text,
-                            //             emailComparar: _searchController2.text,
-                            //             data: _dateController.text,
-                            //           )),
-                            // );
                           },
                           hintText: "Comparar",
                           radius: 12,

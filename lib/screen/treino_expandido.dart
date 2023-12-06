@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/model/atleta.dart';
+import 'package:desafio/screen/estatistica.dart';
 import 'package:desafio/widget/icones_treino.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
       }).toList();
     });
 
-    List list = treino!["TempoVoltas"];
+    List list = List.from(treino!["TempoVoltas"]);
 
     list.sort();
     setState(() {
@@ -260,7 +261,7 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                             LineChartData(
                               minY: 0,
                               maxY: 600,
-                              minX: 0,
+                              minX: 1,
                               titlesData: FlTitlesData(
                                 rightTitles: AxisTitles(
                                     sideTitles: SideTitles(showTitles: false)),
@@ -297,7 +298,7 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                                           .asMap()
                                           .entries
                                           .map((entry) => FlSpot(
-                                                entry.key.toDouble(),
+                                                entry.key.toDouble() + 1,
                                                 entry.value,
                                               ))
                                           .toList()))
@@ -316,22 +317,22 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
   }
 }
 
-Widget getLeftTitles(double value, TitleMeta meta) {
-  int minutes = value ~/ 60;
-  int seconds = (value % 60).toInt();
-  return SideTitleWidget(
-    axisSide: meta.axisSide,
-    child: Text(
-      "$minutes:$seconds",
-      softWrap: false,
-      style: const TextStyle(
-        color: Colors.grey,
-        fontWeight: FontWeight.bold,
-        fontSize: 14,
-      ),
-    ),
-  );
-}
+// Widget getLeftTitles(double value, TitleMeta meta) {
+//   int minutes = value ~/ 60;
+//   int seconds = (value % 60).toInt();
+//   return SideTitleWidget(
+//     axisSide: meta.axisSide,
+//     child: Text(
+//       "$minutes:$seconds",
+//       softWrap: false,
+//       style: const TextStyle(
+//         color: Colors.grey,
+//         fontWeight: FontWeight.bold,
+//         fontSize: 14,
+//       ),
+//     ),
+//   );
+// }
 
 class Atleta {
   List<double> tempos;

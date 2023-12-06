@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/screen/cadastro_atleta.dart';
+import 'package:desafio/screen/comparar_atletas.dart';
 import 'package:desafio/screen/treino_expandido.dart';
 import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/card_resultado.dart';
@@ -83,6 +84,18 @@ class _TreinosAppState extends State<TreinosApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Visibility(
+        visible: widget.titulo == "Treinos",
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => CompararAtletaApp()),
+            );
+          },
+          isExtended: true,
+          child: const Icon(Icons.compare_arrows_sharp),
+        ),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(

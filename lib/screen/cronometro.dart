@@ -50,61 +50,17 @@ List<int> voltasFinal = [];
 List<int> voltasGeralFinal = [];
 
 class _CronometroAppState extends State<CronometroApp> {
-  // Future<void> _calculaVoltas(
-  //     List<String> voltas, List<String> voltasGeral) async {
-  //   List<String> pontos = [];
-  //   List<String> pontosGeral = [];
-
-  //   List<int> voltasSegundos = [];
-  //   List<int> voltasSegundosGeral = [];
-
-  //   for (int i = 0; i < voltas.length; i++) {
-  //     String voltaGeral = voltasGeral[i];
-  //     String volta = voltas[i];
-
-  //     pontos = volta.split(":");
-  //     pontosGeral = voltaGeral.split(":");
-
-  //     int minutos = int.parse(pontos[0]);
-  //     int segundos = int.parse(pontos[1]);
-
-  //     int minutosGeral = int.parse(pontosGeral[0]);
-  //     int segundosGeral = int.parse(pontosGeral[1]);
-
-  //     voltasSegundos.add((minutos * 60) + segundos);
-  //     voltasSegundosGeral.add((minutosGeral * 60) + segundosGeral);
-  //   }
-  //   setState(() {
-  //     voltasFinal = voltasSegundos;
-  //     voltasGeralFinal = voltasSegundosGeral;
-  //   });
-  // }
-  List<String> testeVolta = [
-    "02:50:30",
-    "02:50:30",
-    "02:51:30",
-    "05:52:30",
-    "02:53:30",
-    "02:54:30",
-  ];
-  List<String> testeGeral = [
-    "02:50:30",
-    "05:40:30",
-    "08:30:30",
-    "12:52:30",
-    "14:53:30",
-    "17:54:30",
-  ];
-  Future<void> _testeVoltas() async {
+  Future<void> _calculaVoltas(
+      List<String> voltas, List<String> voltasGeral) async {
     List<String> pontos = [];
     List<String> pontosGeral = [];
 
     List<int> voltasSegundos = [];
     List<int> voltasSegundosGeral = [];
 
-    for (int i = 0; i < testeVolta.length; i++) {
-      String voltaGeral = testeGeral[i];
-      String volta = testeVolta[i];
+    for (int i = 0; i < voltas.length; i++) {
+      String voltaGeral = voltasGeral[i];
+      String volta = voltas[i];
 
       pontos = volta.split(":");
       pontosGeral = voltaGeral.split(":");
@@ -166,7 +122,7 @@ class _CronometroAppState extends State<CronometroApp> {
             segundos = 0;
           }
         });
-        if (segundos == 5 && milesegundos == 0) {
+        if (minutos == 5 && segundos == 0 && milesegundos == 0) {
           controlaBtn = false;
           pausaCronometro = true;
           enviar = true;
@@ -175,7 +131,6 @@ class _CronometroAppState extends State<CronometroApp> {
           fezVolta();
         }
       }
-//terminar (minutos == 30 && segundos == 2 && milesegundos == 0)
     });
   }
 
@@ -564,8 +519,7 @@ class _CronometroAppState extends State<CronometroApp> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          _testeVoltas();
-                          // _calculaVoltas(voltas, voltasGeral);
+                          _calculaVoltas(voltas, voltasGeral);
                           try {
                             final formPreTreino = <String, dynamic>{
                               "EmailAtleta": widget.emailAtleta,
@@ -582,6 +536,7 @@ class _CronometroAppState extends State<CronometroApp> {
                               "TipoNado": widget.estiloTreino,
                               "DataTreino": DataAtual(),
                               "HoraTreino": Horas(),
+                              "HoraData": HorasData()
                             };
 
                             db
@@ -635,5 +590,11 @@ String Horas() {
 String DataAtual() {
   DateTime agora = DateTime.now();
   String formato = DateFormat('dd/MM/yyyy').format(agora);
+  return formato.toString();
+}
+
+String HorasData() {
+  DateTime agora = DateTime.now();
+  String formato = DateFormat('dd/MM/yyyy - kk:mm:ss').format(agora);
   return formato.toString();
 }

@@ -1,5 +1,5 @@
 import 'package:desafio/screen/comparar_atletas.dart';
-import 'package:desafio/screen/estatistica.dart';
+import 'package:desafio/screen/meu_desempenho.dart';
 import 'package:desafio/widget/botao_principal.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -65,10 +65,10 @@ class _DesempenhoAppState extends State<DesempenhoApp> {
                       hintText: 'Ver meu desempenho',
                       cor: Colors.blueAccent,
                       onTap: () async {
-                        // await Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //       builder: (context) =>  EstatisticaApp()),
-                        // );
+                        await Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => MeuDesempenhoApp()),
+                        );
                       }),
                   const SizedBox(height: 50),
                   BotaoPrincipal(
@@ -78,7 +78,7 @@ class _DesempenhoAppState extends State<DesempenhoApp> {
                     onTap: () async {
                       await Navigator.of(context).push(
                         MaterialPageRoute(
-                            builder: (context) => const CompararAtletaApp()),
+                            builder: (context) => CompararAtletaApp()),
                       );
                     },
                   ),
