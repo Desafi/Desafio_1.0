@@ -205,65 +205,65 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
                     const SizedBox(height: 10),
                     InputMostrar(
                         hintText: "E-mail", valor: atleta.email.toString()),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrar(
                         hintText: "Data de Nascimento",
                         valor: atleta.dataDeNascimento.toString()),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrar(
                       hintText: "Número de Celular",
                       valor: atleta.numeroDoCelular.toString(),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrar(
                       hintText: "Número de Emergência",
                       valor: atleta.numeroDeEmergencia.toString(),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrar(
                         hintText: "Nacionalidade",
                         valor: atleta.nacionalidade.toString()),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrar(
                         hintText: "Naturalidade",
                         valor: atleta.naturalidade.toString()),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrar(hintText: "RG", valor: atleta.rg.toString()),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrar(hintText: "CPF", valor: atleta.cpf.toString()),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrar(
                         hintText: "Sexo", valor: atleta.sexo.toString()),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrar(hintText: "CEP", valor: atleta.cep.toString()),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrar(
                         hintText: "Bairro", valor: atleta.bairro.toString()),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrar(
                         hintText: "Endereço",
                         valor: atleta.endereco.toString()),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrar(
                         hintText: "Numero Casa",
                         valor: atleta.numeroCasa.toString()),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrar(
                         hintText: "Convênio médico",
                         valor: atleta.convenioMedico.toString()),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrar(
                         hintText: "Estilos", valor: atleta.estilos.toString()),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrar(
                         hintText: "Prova", valor: atleta.prova.toString()),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrarFoto(
                       hintText: "Imagem Atestado",
                       showImageFunction: _showImageFullScreen,
                       linkImagem: atleta.imagemAtestado.toString(),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     InputMostrarFoto(
                       hintText: "Imagem RG",
                       showImageFunction: _showImageFullScreen,
@@ -302,48 +302,48 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           InputMostrar(
                               hintText: "Nome da Mãe",
                               valor: atleta.nomeDaMae.toString()),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           InputMostrar(
                             hintText: "Nome do Pai",
                             valor: atleta.nomeDoPai.toString(),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           InputMostrar(
                             hintText: "Clube de Origem",
                             valor: atleta.clubeDeOrigem.toString(),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           InputMostrar(
                               hintText: "Alergia a Medicamentos",
                               valor: atleta.alergiaAMedicamentos.toString()),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           InputMostrar(
                             hintText: "Número de celular adicional",
                             valor: atleta.numeroDeCelularAdicional.toString(),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           InputMostrar(
                             hintText: "Número de celular mãe",
                             valor:
                                 atleta.numeroDeCelularAdicionalMae.toString(),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           InputMostrar(
                             hintText: "Número de celular pai",
                             valor:
                                 atleta.numeroDeCelularAdicionalPai.toString(),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           InputMostrar(
                             hintText: "Número de celular trabalho",
                             valor:
                                 atleta.numeroDeCelularLocalTrabalho.toString(),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           InputMostrar(
                             hintText: "Número de celular residencial",
                             valor: atleta.numeroDeCelularResidencial.toString(),
@@ -450,20 +450,20 @@ class _TelaExpandidaAtletaAppState extends State<TelaExpandidaAtletaApp> {
                                                 MainAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.min,
                                             children: <Widget>[
-                                              SizedBox(height: 20),
+                                              const SizedBox(height: 20),
                                               const Text(
                                                 'Envie uma mensagem dizendo o que está errado:',
                                                 style: TextStyle(fontSize: 18),
                                               ),
-                                              SizedBox(height: 20),
+                                              const SizedBox(height: 20),
                                               TextField(
                                                 controller:
                                                     observacaoController,
-                                                decoration: InputDecoration(
+                                                decoration: const InputDecoration(
                                                   border: OutlineInputBorder(),
                                                 ),
                                               ),
-                                              SizedBox(height: 30),
+                                              const SizedBox(height: 30),
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment

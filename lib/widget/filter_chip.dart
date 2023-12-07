@@ -5,12 +5,11 @@ class BtnFiltro extends StatefulWidget {
   final List<String> lista;
   final List<String> selecionado;
 
-  BtnFiltro(
-      {Key? key,
+  const BtnFiltro(
+      {super.key,
       required this.onFilterSelected,
       required this.lista,
-      required this.selecionado})
-      : super(key: key);
+      required this.selecionado});
 
   @override
   _BtnFiltroState createState() => _BtnFiltroState();
@@ -25,7 +24,7 @@ class _BtnFiltroState extends State<BtnFiltro> {
         return FilterChip(
           label: Text(
             exercise,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
           selected: widget.selecionado.contains(exercise),
           onSelected: (selected) {
@@ -33,8 +32,9 @@ class _BtnFiltroState extends State<BtnFiltro> {
               if (selected) {
                 widget.selecionado.add(exercise);
               } else {
-                if (widget.selecionado.length != 1)
+                if (widget.selecionado.length != 1) {
                   widget.selecionado.remove(exercise);
+                }
               }
               widget.onFilterSelected(widget.selecionado);
             });

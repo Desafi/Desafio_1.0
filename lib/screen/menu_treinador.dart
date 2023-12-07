@@ -2,8 +2,6 @@ import 'package:desafio/screen/form_pre_treino.dart';
 import 'package:desafio/screen/Treinos.dart';
 import 'package:desafio/screen/meus_users.dart';
 import 'package:desafio/screen/perfil.dart';
-import 'package:desafio/screen/treino_expandido.dart';
-import 'package:desafio/widget/card_treinos.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -52,17 +50,17 @@ class _MenuTreinadorAppState extends State<MenuTreinadorApp> {
       body: PageView(
         controller: pc,
         onPageChanged: setPaginaAtual,
-        children: [
-          const MeusUsers(
+        children: const [
+          MeusUsers(
               visivel: true,
               titulo: 'Atletas',
               hintInput: 'Digite o nome do atleta..'),
-          const CadastroPreTreinoApp(),
+          CadastroPreTreinoApp(),
           TreinosApp(
             searchBar: true,
             titulo: "Treinos",
           ),
-          const MeuPerfilApp(),
+          MeuPerfilApp(),
         ],
       ),
       bottomNavigationBar: SafeArea(

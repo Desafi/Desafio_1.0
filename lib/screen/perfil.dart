@@ -2,14 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/main.dart';
 import 'package:desafio/screen/edita_treinador.dart';
 import 'package:desafio/screen/editar_atleta.dart';
-import 'package:desafio/screen/tela_expandida_atleta.dart';
 import 'package:desafio/widget/awesome_dialog.dart';
 import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/botao_ui.dart';
 import 'package:desafio/widget/scaffolds.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -67,7 +65,7 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue,
-      appBar: AppBar(backgroundColor: Colors.blue, elevation: 0, actions: []),
+      appBar: AppBar(backgroundColor: Colors.blue, elevation: 0, actions: const []),
       body: _carregando == true
           ? Center(
               child: LoadingAnimationWidget.fourRotatingDots(
@@ -88,7 +86,7 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
                           children: [
                             Text(
                               user!["Tipo"],
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 35,
                                 letterSpacing: 1.5,
                                 color: Colors.white,
@@ -101,7 +99,7 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
                             CircleAvatar(
                                 radius: 90,
                                 backgroundImage: user!["ImagemAtleta"] == null
-                                    ? AssetImage('assets/images/person.jpg')
+                                    ? const AssetImage('assets/images/person.jpg')
                                     : NetworkImage(
                                             user!["ImagemAtleta"].toString())
                                         as ImageProvider),
@@ -127,7 +125,7 @@ class _MeuPerfilAppState extends State<MeuPerfilApp> {
                 ),
                 Expanded(
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(30),

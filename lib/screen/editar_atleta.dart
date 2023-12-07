@@ -24,12 +24,12 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 void main() async {
   runApp(MaterialApp(
-    localizationsDelegates: [
+    localizationsDelegates: const [
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,
       GlobalCupertinoLocalizations.delegate,
     ],
-    supportedLocales: [
+    supportedLocales: const [
       Locale('pt'),
     ],
     home: EditarAtleta(),
@@ -1251,7 +1251,7 @@ Future<Map<String, String>> saveImagesToStorage(Atleta atleta) async {
     final storageReference = FirebaseStorage.instance
         .ref()
         .child(documentId!)
-        .child("imagemAtleta" + ".jpg");
+        .child("imagemAtleta" ".jpg");
 
     File imageFile = File(atleta.imagemAtleta.toString());
 
@@ -1285,7 +1285,7 @@ Future<Map<String, String>> saveImagesToStorage(Atleta atleta) async {
 
 Future<void> SalvarImagem(String nome, String path) async {
   final storageReference =
-      FirebaseStorage.instance.ref().child(documentId!).child(nome + ".jpg");
+      FirebaseStorage.instance.ref().child(documentId!).child("$nome.jpg");
 
   File imageFile = File(path);
 

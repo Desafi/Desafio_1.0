@@ -211,7 +211,7 @@ class _LoginAppState extends State<LoginApp> {
                         height: 35,
                       ),
                       BotaoLoader(
-                        key: Key('botaoControle'),
+                        key: const Key('botaoControle'),
                         hintText: estaCarregando
                             ? const CircularProgressIndicator(
                                 color: Colors.white)

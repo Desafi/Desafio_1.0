@@ -5,9 +5,8 @@ class BtnFiltroDois extends StatefulWidget {
   final List<String> lista;
   String? tempoSelecionado;
 
-  BtnFiltroDois({Key? key, required this.onFilterSelected, required this.lista,
-  required this.tempoSelecionado})
-      : super(key: key);
+  BtnFiltroDois({super.key, required this.onFilterSelected, required this.lista,
+  required this.tempoSelecionado});
 
   @override
   _BtnFiltroDoisState createState() => _BtnFiltroDoisState();
@@ -23,7 +22,7 @@ class _BtnFiltroDoisState extends State<BtnFiltroDois> {
         return FilterChip(
           label: Text(
             exercise,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
           selected: widget.tempoSelecionado == exercise,
           onSelected: (selected) {

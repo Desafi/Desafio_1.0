@@ -67,7 +67,7 @@ class _DesempenhoAppState extends State<DesempenhoApp> {
                       onTap: () async {
                         await Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (context) => MeuDesempenhoApp()),
+                              builder: (context) => const MeuDesempenhoApp()),
                         );
                       }),
                   const SizedBox(height: 50),
@@ -78,7 +78,7 @@ class _DesempenhoAppState extends State<DesempenhoApp> {
                     onTap: () async {
                       await Navigator.of(context).push(
                         MaterialPageRoute(
-                            builder: (context) => CompararAtletaApp()),
+                            builder: (context) => const CompararAtletaApp()),
                       );
                     },
                   ),

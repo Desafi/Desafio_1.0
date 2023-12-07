@@ -5,7 +5,7 @@ class InputMostrarFoto extends StatelessWidget {
   final String linkImagem;
   final Function(String) showImageFunction;
 
-   InputMostrarFoto(
+   const InputMostrarFoto(
       {super.key,
       required this.hintText,
       required this.showImageFunction,

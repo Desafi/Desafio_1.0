@@ -30,7 +30,7 @@ class InputMostrar extends StatelessWidget {
           color: Colors.black54,
         ),
       ),
-      style: TextStyle(color: Colors.black87),
+      style: const TextStyle(color: Colors.black87),
     );
   }
 }

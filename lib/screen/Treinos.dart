@@ -1,11 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:desafio/screen/cadastro_atleta.dart';
 import 'package:desafio/screen/comparar_atletas.dart';
-import 'package:desafio/screen/treino_expandido.dart';
-import 'package:desafio/widget/botao_principal.dart';
-import 'package:desafio/widget/card_resultado.dart';
 import 'package:desafio/widget/card_treino.dart';
-import 'package:desafio/widget/card_treinos.dart';
 import 'package:desafio/widget/filter_chip.dart';
 import 'package:desafio/widget/filter_chip_dois.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -89,7 +84,7 @@ class _TreinosAppState extends State<TreinosApp> {
         child: FloatingActionButton(
           onPressed: () {
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => CompararAtletaApp()),
+              MaterialPageRoute(builder: (context) => const CompararAtletaApp()),
             );
           },
           isExtended: true,
@@ -109,7 +104,7 @@ class _TreinosAppState extends State<TreinosApp> {
                 Center(
                   child: Text(
                     widget.titulo,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 40,
                     ),
@@ -140,7 +135,7 @@ class _TreinosAppState extends State<TreinosApp> {
                       child: InkWell(
                         onTap: () {
                           showModalBottomSheet(
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(20))),
                             context: context,
@@ -155,7 +150,7 @@ class _TreinosAppState extends State<TreinosApp> {
                                         const SizedBox(
                                           height: 40,
                                         ),
-                                        Align(
+                                        const Align(
                                           alignment: Alignment.bottomLeft,
                                           child: Text(
                                             "Selecione o filtro",
@@ -165,7 +160,7 @@ class _TreinosAppState extends State<TreinosApp> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        Text(
+                                        const Text(
                                           "Estilos",
                                           style: TextStyle(fontSize: 20),
                                         ),
@@ -195,14 +190,14 @@ class _TreinosAppState extends State<TreinosApp> {
                                                 widget.titulo != "Meus Treinos",
                                             child: Column(
                                               children: [
-                                                Text(
+                                                const Text(
                                                   "Sexo",
                                                   style:
                                                       TextStyle(fontSize: 20),
                                                 ),
                                                 BtnFiltro(
                                                   selecionado: sexoSelecionado,
-                                                  lista: [
+                                                  lista: const [
                                                     "Masculino",
                                                     "Feminino",
                                                     "Outro",
@@ -223,13 +218,13 @@ class _TreinosAppState extends State<TreinosApp> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        Text(
+                                        const Text(
                                           "Tempo",
                                           style: TextStyle(fontSize: 20),
                                         ),
                                         BtnFiltroDois(
                                           tempoSelecionado: tempoSelecionado,
-                                          lista: [
+                                          lista: const [
                                             "Mais recentes",
                                             "Mais antigos",
                                           ],
@@ -262,7 +257,7 @@ class _TreinosAppState extends State<TreinosApp> {
                             },
                           );
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.filter_list_outlined,
                           size: 34,
                           color: Colors.black,
@@ -311,7 +306,7 @@ class _TreinosAppState extends State<TreinosApp> {
                       }
                     }
                   },
-                  loadingBuilder: (context) => CircularProgressIndicator(),
+                  loadingBuilder: (context) => const CircularProgressIndicator(),
                 ),
               ],
             ),

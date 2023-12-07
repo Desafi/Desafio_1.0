@@ -43,7 +43,7 @@ class _MeusUsersState extends State<MeusUsers> {
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                  builder: (context) => GerenciamentoAtletasApp()),
+                  builder: (context) => const GerenciamentoAtletasApp()),
             );
           },
           isExtended: true,

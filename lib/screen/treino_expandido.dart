@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:desafio/model/atleta.dart';
 import 'package:desafio/screen/estatistica.dart';
 import 'package:desafio/widget/icones_treino.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -36,13 +35,13 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
 
   Future<void> _carregaInfoTreino() async {
     await db.collectionGroup("TreinoAtleta").get().then((querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         if (doc.id == widget.id) {
           setState(() {
             treino = doc.data();
           });
         }
-      });
+      }
     });
 
     List<dynamic> lista = treino!["TempoVoltasSegundos"];
@@ -137,7 +136,7 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                           IconesTreino(
                             hintText: "Data do treino:",
                             informacao: treino!["DataTreino"],
-                            icone: Icon(
+                            icone: const Icon(
                               Icons.date_range_outlined,
                               size: 50,
                               color: Colors.blue,
@@ -146,7 +145,7 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                           IconesTreino(
                               hintText: "Tipo:",
                               informacao: treino!["TipoNado"],
-                              icone: Icon(
+                              icone: const Icon(
                                 Icons.pool_outlined,
                                 size: 50,
                                 color: Colors.blue,
@@ -154,7 +153,7 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                           IconesTreino(
                             hintText: "Batimento início:",
                             informacao: "${treino!["FrequenciaInicio"]} bpm",
-                            icone: Icon(
+                            icone: const Icon(
                               Ionicons.heart,
                               size: 50,
                               color: Colors.blue,
@@ -163,7 +162,7 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                           IconesTreino(
                             hintText: "Menor tempo:",
                             informacao: menorTempo!,
-                            icone: Icon(
+                            icone: const Icon(
                               Ionicons.time_sharp,
                               size: 50,
                               color: Colors.blue,
@@ -172,7 +171,7 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                           IconesTreino(
                             hintText: "Maior tempo:",
                             informacao: maiorTempo!,
-                            icone: Icon(
+                            icone: const Icon(
                               Ionicons.timer_sharp,
                               size: 50,
                               color: Colors.blue,
@@ -181,7 +180,7 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                           IconesTreino(
                             hintText: "Batimento final: ",
                             informacao: treino!["FrequenciaFinal"],
-                            icone: Icon(
+                            icone: const Icon(
                               Ionicons.heart_circle_sharp,
                               size: 50,
                               color: Colors.blue,
@@ -190,7 +189,7 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                           IconesTreino(
                             hintText: "Avaliador:",
                             informacao: treino!["EmailAplicante"],
-                            icone: Icon(
+                            icone: const Icon(
                               Ionicons.mail,
                               size: 50,
                               color: Colors.blue,
@@ -198,7 +197,7 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                           ),
                         ],
                       ),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(
@@ -227,19 +226,19 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.only(right: 25, left: 40),
+                          padding: const EdgeInsets.only(right: 25, left: 40),
                           child: ListView.builder(
                             itemCount: treino!["TempoVoltas"].length,
                             itemBuilder: (context, index) {
                               return ListTile(
                                 leading: Text(
                                   "${index + 1}",
-                                  style: TextStyle(fontSize: 16),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                                 title: Text(treino!["TempoVoltas"][index],
-                                    style: TextStyle(fontSize: 16)),
+                                    style: const TextStyle(fontSize: 16)),
                                 trailing: Text(treino!["TempoGeral"][index],
-                                    style: TextStyle(fontSize: 16)),
+                                    style: const TextStyle(fontSize: 16)),
                               );
                             },
                           ),
@@ -254,7 +253,7 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                       const SizedBox(height: 20.0),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Container(
+                        child: SizedBox(
                           width: MediaQuery.of(context).size.width,
                           height: 500,
                           child: LineChart(
@@ -262,12 +261,12 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                               minY: 0,
                               maxY: 600,
                               minX: 1,
-                              titlesData: FlTitlesData(
+                              titlesData: const FlTitlesData(
                                 rightTitles: AxisTitles(
                                     sideTitles: SideTitles(showTitles: false)),
                                 topTitles: AxisTitles(
                                     sideTitles: SideTitles(showTitles: false)),
-                                bottomTitles: const AxisTitles(
+                                bottomTitles: AxisTitles(
                                   axisNameWidget: Text(
                                     "Voltas",
                                     style: TextStyle(fontSize: 15),
@@ -277,7 +276,7 @@ class _TreinoExpandidoAppState extends State<TreinoExpandidoApp> {
                                   ),
                                 ),
                                 leftTitles: AxisTitles(
-                                  axisNameWidget: const Text("Minutos",
+                                  axisNameWidget: Text("Minutos",
                                       style: TextStyle(fontSize: 15)),
                                   sideTitles: SideTitles(
                                     reservedSize: 50,

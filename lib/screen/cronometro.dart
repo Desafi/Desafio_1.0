@@ -31,7 +31,7 @@ class CronometroApp extends StatefulWidget {
   final String frequenciaInicio;
   final String estiloTreino;
 
-  CronometroApp({
+  const CronometroApp({
     required this.emailAtleta,
     required this.sexo,
     required this.nomeAtleta,
@@ -39,8 +39,8 @@ class CronometroApp extends StatefulWidget {
     required this.emailAplicante,
     required this.frequenciaInicio,
     required this.estiloTreino,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<CronometroApp> createState() => _CronometroAppState();
@@ -284,12 +284,12 @@ class _CronometroAppState extends State<CronometroApp> {
                                               color: Colors.black,
                                               fontSize: 20.0,
                                               fontWeight: FontWeight.bold)),
-                                      Text('${voltas[index]}',
+                                      Text(voltas[index],
                                           style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 20.0,
                                               fontWeight: FontWeight.bold)),
-                                      Text('${voltasGeral[index]}',
+                                      Text(voltasGeral[index],
                                           style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 20.0,
@@ -490,10 +490,10 @@ class _CronometroAppState extends State<CronometroApp> {
                   Visibility(
                     visible: formFrequencia,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 25.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Column(
                         children: [
-                          Text(
+                          const Text(
                             "O treino foi concluido, envie para continuar!!",
                             style: TextStyle(fontSize: 18),
                           ),

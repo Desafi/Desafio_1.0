@@ -207,7 +207,7 @@ registrarAtleta(String email, String tipo, String nome, BuildContext context) {
     MensagemAwesome(
         context,
         "Sucesso",
-        "Sucesso ao cadastrar um novo ${tipo}, por favor faça o login de primeiro acesso!!",
+        "Sucesso ao cadastrar um novo $tipo, por favor faça o login de primeiro acesso!!",
         true);
   } catch (e) {
     Mensagem(context,

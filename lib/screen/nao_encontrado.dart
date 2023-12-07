@@ -1,4 +1,3 @@
-import 'package:desafio/main.dart';
 import 'package:desafio/widget/botao_principal.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

@@ -35,7 +35,7 @@ class BotaoUI extends StatelessWidget {
                 ),
               ),
             ),
-            Icon(Icons.arrow_forward_ios_sharp)
+            const Icon(Icons.arrow_forward_ios_sharp)
           ],
         ),
       ),

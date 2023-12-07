@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/screen/estatistica.dart';
 import 'package:desafio/widget/icones_treino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -55,11 +54,11 @@ class _MeuDesempenhoAppState extends State<MeuDesempenhoApp> {
         .collection("TreinoAtleta")
         .get()
         .then((querySnapshot) {
-      querySnapshot.docs.forEach((element) {
+      for (var element in querySnapshot.docs) {
         setState(() {
           datas.add("${element.data()["HoraData"]}");
         });
-      });
+      }
       if (datas.isNotEmpty) {
         setState(() {
           _selectedItem = datas.first;
@@ -78,7 +77,7 @@ class _MeuDesempenhoAppState extends State<MeuDesempenhoApp> {
 
     List<double> tempos = [];
 
-    querySnapshot.docs.forEach((element) {
+    for (var element in querySnapshot.docs) {
       if (element.data() != null) {
         Map<String, dynamic>? data = element.data() as Map<String, dynamic>?;
         if (data != null && data.containsKey("TempoVoltasSegundos")) {
@@ -88,7 +87,7 @@ class _MeuDesempenhoAppState extends State<MeuDesempenhoApp> {
               .addAll(lista1.map((e) => double.tryParse(e.toString()) ?? 0.0));
         }
       }
-    });
+    }
 
     return AtletaDesempenho(tempos);
   }
@@ -131,7 +130,7 @@ class _MeuDesempenhoAppState extends State<MeuDesempenhoApp> {
                 height: 10,
               ),
               DropdownButton(
-                icon: Icon(Icons.arrow_drop_down_rounded),
+                icon: const Icon(Icons.arrow_drop_down_rounded),
                 isExpanded: false,
                 value: _selectedItem,
                 items: datas.map<DropdownMenuItem<String>>((String value) {
@@ -150,17 +149,17 @@ class _MeuDesempenhoAppState extends State<MeuDesempenhoApp> {
                   future: _buscarDados(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     } else {
                       _atleta = snapshot.data;
                       return _atleta == null
-                          ? Center(child: Text('Nenhum treino encontrado!'))
+                          ? const Center(child: Text('Nenhum treino encontrado!'))
                           : Column(
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 25),
-                                  child: Container(
+                                  child: SizedBox(
                                     width: MediaQuery.of(context).size.width,
                                     height: 500,
                                     child: LineChart(
@@ -168,14 +167,14 @@ class _MeuDesempenhoAppState extends State<MeuDesempenhoApp> {
                                         minY: 0,
                                         maxY: 600,
                                         minX: 0,
-                                        titlesData: FlTitlesData(
+                                        titlesData: const FlTitlesData(
                                           rightTitles: AxisTitles(
                                               sideTitles: SideTitles(
                                                   showTitles: false)),
                                           topTitles: AxisTitles(
                                               sideTitles: SideTitles(
                                                   showTitles: false)),
-                                          bottomTitles: const AxisTitles(
+                                          bottomTitles: AxisTitles(
                                             axisNameWidget: Text(
                                               "Voltas",
                                               style: TextStyle(fontSize: 15),
@@ -185,7 +184,7 @@ class _MeuDesempenhoAppState extends State<MeuDesempenhoApp> {
                                             ),
                                           ),
                                           leftTitles: AxisTitles(
-                                            axisNameWidget: const Text(
+                                            axisNameWidget: Text(
                                                 "Minutos",
                                                 style: TextStyle(fontSize: 15)),
                                             sideTitles: SideTitles(
@@ -226,7 +225,7 @@ class _MeuDesempenhoAppState extends State<MeuDesempenhoApp> {
                                       hintText: "Menor volta:",
                                       informacao: _transformarMinutos(
                                           _atleta!.tempos.first),
-                                      icone: Icon(
+                                      icone: const Icon(
                                         Icons.star,
                                         size: 40,
                                         color: Colors.blue,
@@ -236,7 +235,7 @@ class _MeuDesempenhoAppState extends State<MeuDesempenhoApp> {
                                         hintText: "Maior volta:",
                                         informacao: _transformarMinutos(
                                             _atleta!.tempos.last),
-                                        icone: Icon(
+                                        icone: const Icon(
                                           Icons.pool_outlined,
                                           size: 40,
                                           color: Colors.blue,
@@ -248,7 +247,7 @@ class _MeuDesempenhoAppState extends State<MeuDesempenhoApp> {
                                               .reduce((value, element) =>
                                                   value + element) /
                                           _atleta!.tempos.length),
-                                      icone: Icon(
+                                      icone: const Icon(
                                         Ionicons.timer_outline,
                                         size: 40,
                                         color: Colors.blue,
@@ -294,5 +293,5 @@ class AtletaDesempenho {
 _transformarMinutos(double tempo) {
   int minutes = tempo ~/ 60;
   int seconds = (tempo % 60).toInt();
-  return "${minutes}:${seconds}";
+  return "$minutes:$seconds";
 }

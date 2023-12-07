@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:desafio/main.dart';
-import 'package:desafio/screen/cadastro_atleta.dart';
 import 'package:desafio/screen/perfil.dart';
 import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/scaffolds.dart';
@@ -9,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:lottie/lottie.dart';
 
 // void main() {
 //   runApp(const MyApp());

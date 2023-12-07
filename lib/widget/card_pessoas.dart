@@ -33,7 +33,7 @@ class CardPessoas extends StatelessWidget {
                 CircleAvatar(
                     radius: 40,
                     backgroundImage: url == null
-                        ? AssetImage('assets/images/person.jpg')
+                        ? const AssetImage('assets/images/person.jpg')
                         : NetworkImage(url.toString()) as ImageProvider
                         ),
                 Column(

@@ -7,7 +7,7 @@ class CardTreinos extends StatelessWidget {
   final String data;
   final Function()? onTap;
 
-  CardTreinos({
+  const CardTreinos({
     super.key,
     this.nome,
     required this.estilo,
@@ -34,7 +34,7 @@ class CardTreinos extends StatelessWidget {
                 child: Container(
                   width: 100,
                   height: MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(5),
                           bottomLeft: Radius.circular(5)),
@@ -53,7 +53,7 @@ class CardTreinos extends StatelessWidget {
                       Text(nome.toString(),
                           style: GoogleFonts.poppins(
                               fontSize: 18, fontWeight: FontWeight.w400)),
-                      Text('$estilo', style: const TextStyle(fontSize: 16)),
+                      Text(estilo, style: const TextStyle(fontSize: 16)),
                       const SizedBox(
                         height: 10,
                       ),

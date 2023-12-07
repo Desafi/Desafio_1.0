@@ -10,13 +10,13 @@ class MyAppSplash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return  const MaterialApp(
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: [
-        const Locale('pt','BR'),
+        Locale('pt','BR'),
       ],
       home: SplashScreen(),
     );

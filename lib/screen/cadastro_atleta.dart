@@ -22,7 +22,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 
 void main() async {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     localizationsDelegates: [
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,
@@ -58,7 +58,7 @@ bool estaCarregando = false;
 class CadastroAtleta extends StatefulWidget {
   final String? email;
   final bool? botaoVoltar;
-  CadastroAtleta({this.botaoVoltar, this.email, super.key});
+  const CadastroAtleta({this.botaoVoltar, this.email, super.key});
 
   @override
   State<CadastroAtleta> createState() => _CadastroAtletaAppState();
@@ -1129,7 +1129,7 @@ Future<Map<String, String>> saveImagesToStorage(
         .ref()
         .child(
             documentId == null ? _auth.currentUser!.uid : documentId.toString())
-        .child(nomes[valor] + ".jpg");
+        .child("${nomes[valor]}.jpg");
 
     File imageFile = File(imagePath);
 

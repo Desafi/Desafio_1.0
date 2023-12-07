@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class BotaoIcon extends StatelessWidget {
   final Function() onTap;
@@ -13,9 +12,9 @@ class BotaoIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: onTap,
-      icon: Icon(Icons.remove_red_eye),
+      icon: const Icon(Icons.remove_red_eye),
       iconSize: 30,
-      style: ButtonStyle(),
+      style: const ButtonStyle(),
     );
   }
 }

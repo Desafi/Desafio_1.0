@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio/screen/comparar_atletas.dart';
-import 'package:desafio/screen/nao_encontrado.dart';
 import 'package:desafio/widget/icones_treino.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +106,7 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
   _transformarMinutos(double tempo) {
     int minutes = tempo ~/ 60;
     int seconds = (tempo % 60).toInt();
-    return "${minutes}:${seconds}";
+    return "$minutes:$seconds";
   }
 
   @override
@@ -176,7 +175,7 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
                           IconesTreino(
                             hintText: "Menor tempo:",
                             informacao: menorVolta1.toString(),
-                            icone: Icon(
+                            icone: const Icon(
                               Icons.star,
                               size: 50,
                               color: Colors.blue,
@@ -185,7 +184,7 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
                           IconesTreino(
                               hintText: "Maior tempo:",
                               informacao: maiorVolta1.toString(),
-                              icone: Icon(
+                              icone: const Icon(
                                 Icons.pool_outlined,
                                 size: 50,
                                 color: Colors.blue,
@@ -193,7 +192,7 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
                           IconesTreino(
                             hintText: "Média de tempo:",
                             informacao: mediaVoltaAt1.toString(),
-                            icone: Icon(
+                            icone: const Icon(
                               Ionicons.timer_outline,
                               size: 50,
                               color: Colors.blue,
@@ -214,7 +213,7 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
                           IconesTreino(
                             hintText: "Menor tempo:",
                             informacao: menorVolta2.toString(),
-                            icone: Icon(
+                            icone: const Icon(
                               Icons.star,
                               size: 50,
                               color: Colors.blue,
@@ -223,7 +222,7 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
                           IconesTreino(
                               hintText: "Maior tempo:",
                               informacao: maiorVolta2.toString(),
-                              icone: Icon(
+                              icone: const Icon(
                                 Icons.pool_outlined,
                                 size: 50,
                                 color: Colors.blue,
@@ -231,7 +230,7 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
                           IconesTreino(
                             hintText: "Média de tempo:",
                             informacao: mediaVoltaAt2.toString(),
-                            icone: Icon(
+                            icone: const Icon(
                               Ionicons.timer_outline,
                               size: 50,
                               color: Colors.blue,
@@ -243,7 +242,7 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Container(
+                            child: SizedBox(
                               width: MediaQuery.of(context).size.width,
                               height: 500,
                               child: LineChart(
@@ -251,14 +250,14 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
                                   minY: 0,
                                   maxY: 600,
                                   minX: 0,
-                                  titlesData: FlTitlesData(
+                                  titlesData: const FlTitlesData(
                                     rightTitles: AxisTitles(
                                         sideTitles:
                                             SideTitles(showTitles: false)),
                                     topTitles: AxisTitles(
                                         sideTitles:
                                             SideTitles(showTitles: false)),
-                                    bottomTitles: const AxisTitles(
+                                    bottomTitles: AxisTitles(
                                       axisNameWidget: Text(
                                         "Voltas",
                                         style: TextStyle(fontSize: 15),
@@ -268,7 +267,7 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
                                       ),
                                     ),
                                     leftTitles: AxisTitles(
-                                      axisNameWidget: const Text("Minutos",
+                                      axisNameWidget: Text("Minutos",
                                           style: TextStyle(fontSize: 15)),
                                       sideTitles: SideTitles(
                                         reservedSize: 50,
@@ -315,10 +314,10 @@ class _EstatisticaAppState extends State<EstatisticaApp> {
                                           ? Colors.blueAccent
                                           : Colors.amber,
                                     ),
-                                    SizedBox(width: 10),
+                                    const SizedBox(width: 10),
                                     Text(
                                       e.nome,
-                                      style: TextStyle(fontSize: 16),
+                                      style: const TextStyle(fontSize: 16),
                                     ),
                                   ],
                                 );

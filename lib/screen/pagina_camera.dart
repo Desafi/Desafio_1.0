@@ -110,11 +110,11 @@ class _PaginaCamera extends State<PaginaCamera> {
                               }
                             },
                             child: flash == false
-                                ? Icon(
+                                ? const Icon(
                                     Icons.flash_on,
                                     color: Colors.black,
                                   )
-                                : Icon(
+                                : const Icon(
                                     Icons.flash_off,
                                     color: Colors.black,
                                   ),

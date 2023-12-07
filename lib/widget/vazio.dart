@@ -12,7 +12,7 @@ class Vazio extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Nenhum treino encontrado"),
+            const Text("Nenhum treino encontrado"),
             Lottie.asset('assets/images/carregamento.json'),
           ],
         ),

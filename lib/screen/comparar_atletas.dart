@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:desafio/screen/cronometro.dart';
 import 'package:desafio/screen/estatistica.dart';
 import 'package:desafio/screen/nao_encontrado.dart';
-import 'package:desafio/screen/primeiro_acesso.dart';
-import 'package:desafio/screen/tela_nao_encontrada.dart';
 import 'package:desafio/widget/botao_principal.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -13,19 +10,21 @@ import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: [
-        const Locale('pt'),
+        Locale('pt'),
       ],
       title: 'Flutter Date Picker Example',
       home: CompararAtletaApp(),
@@ -53,7 +52,7 @@ Map<String, dynamic> atleta1 = {};
 Map<String, dynamic> atleta2 = {};
 
 class _CompararAtletaAppState extends State<CompararAtletaApp> {
-  DateTime _selectedDate = DateTime.now();
+  final DateTime _selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -68,22 +67,22 @@ class _CompararAtletaAppState extends State<CompararAtletaApp> {
         .where("Email", isEqualTo: _searchController.text)
         .get()
         .then((querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         setState(() {
           idAtleta = doc.id;
         });
-      });
+      }
     });
     await db
         .collection("Usuarios")
         .where("Email", isEqualTo: _searchController2.text)
         .get()
         .then((querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         setState(() {
           idAtleta2 = doc.id;
         });
-      });
+      }
     });
     _pegarReferencias();
   }
@@ -97,9 +96,9 @@ class _CompararAtletaAppState extends State<CompararAtletaApp> {
         .limit(1)
         .get()
         .then((querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         atleta1 = doc.data();
-      });
+      }
     });
     await db
         .collection("Treinos")
@@ -109,9 +108,9 @@ class _CompararAtletaAppState extends State<CompararAtletaApp> {
         .limit(1)
         .get()
         .then((querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         atleta2 = doc.data();
-      });
+      }
     });
 
     _verificaExistencia();

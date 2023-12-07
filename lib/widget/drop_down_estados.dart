@@ -47,11 +47,9 @@ class DropDownEstados extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DropdownButtonFormField<String>(
-        value: valorInicial == null
-            ? formController.text.isEmpty
+        value: valorInicial ?? (formController.text.isEmpty
                 ? "UF"
-                : formController.text
-            : valorInicial,
+                : formController.text),
         items: estadosBrasil,
         validator: validator,
         decoration: InputDecoration(

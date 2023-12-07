@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:desafio/main.dart';
 import 'package:desafio/screen/splash_screen.dart';
-import 'package:desafio/widget/awesome_dialog.dart';
 import 'package:desafio/widget/botao_loader.dart';
 import 'package:desafio/widget/botao_principal.dart';
 import 'package:desafio/widget/scaffolds.dart';
@@ -149,8 +147,8 @@ class _PrimeiroAcessoAppState extends State<PrimeiroAcessoApp> {
                       decoration: InputDecoration(
                         suffixIcon: IconButton(
                           icon: _mostrarSenha == true
-                              ? Icon(Icons.remove_red_eye)
-                              : Icon(Icons.visibility_off),
+                              ? const Icon(Icons.remove_red_eye)
+                              : const Icon(Icons.visibility_off),
                           onPressed: () {
                             setState(() {
                               _mostrarSenha = !_mostrarSenha;
@@ -187,8 +185,8 @@ class _PrimeiroAcessoAppState extends State<PrimeiroAcessoApp> {
                       decoration: InputDecoration(
                         suffixIcon: IconButton(
                           icon: _mostrarRepetirSenha == true
-                              ? Icon(Icons.remove_red_eye)
-                              : Icon(Icons.visibility_off),
+                              ? const Icon(Icons.remove_red_eye)
+                              : const Icon(Icons.visibility_off),
                           onPressed: () {
                             setState(() {
                               _mostrarRepetirSenha = !_mostrarRepetirSenha;

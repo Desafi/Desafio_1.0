@@ -38,11 +38,12 @@ class MenuAtletaApp extends StatefulWidget {
 class _MenuAtletaAppState extends State<MenuAtletaApp> {
   int paginaAtual = 0;
   late PageController pc;
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
     super.initState();
+    // _auth.signOut();
     verificaCadastroAtleta();
     pc = PageController(initialPage: paginaAtual);
   }
@@ -51,7 +52,7 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
     if (await VerificaCadastro() == false && await VerificaAnalise() == false) {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-            builder: (context) => CadastroAtleta(
+            builder: (context) => const CadastroAtleta(
                   botaoVoltar: false,
                 )),
         (route) => false,
@@ -85,7 +86,7 @@ class _MenuAtletaAppState extends State<MenuAtletaApp> {
       body: PageView(
         controller: pc,
         onPageChanged: setPaginaAtual,
-        children: [
+        children: const [
           TreinosApp(
             searchBar: false,
             titulo: "Meus Treinos",
