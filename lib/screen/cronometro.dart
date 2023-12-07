@@ -122,7 +122,7 @@ class _CronometroAppState extends State<CronometroApp> {
             segundos = 0;
           }
         });
-        if (minutos == 5 && segundos == 0 && milesegundos == 0) {
+        if (minutos == 30 && segundos == 0 && milesegundos == 0) {
           controlaBtn = false;
           pausaCronometro = true;
           enviar = true;
